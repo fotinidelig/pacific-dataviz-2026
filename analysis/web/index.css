@@ -1,0 +1,134 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #f0f0f0;
+  background: #141414;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.app {
+  width: min(960px, 100%);
+}
+
+.app-header {
+  margin-bottom: 1rem;
+}
+
+.app-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.app-header p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #a3a3a3;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.75rem 0 0.75rem;
+}
+
+.controls-label {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.controls-select {
+  appearance: none;
+  background: #141414;
+  color: #f0f0f0;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  min-width: 220px;
+  outline: none;
+}
+
+.controls-select:focus {
+  border-color: rgba(223, 247, 242, 0.7);
+  box-shadow: 0 0 0 3px rgba(223, 247, 242, 0.12);
+}
+
+.chart-shell {
+  width: 100%;
+  background: #1c1c1c;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.chart-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.axis-label {
+  font-size: 11px;
+  fill: #ffffff;
+}
+
+.tick-label {
+  font-size: 10px;
+  fill: rgba(255, 255, 255, 0.85);
+}
+
+.axis-line {
+  stroke: rgba(255, 255, 255, 0.7);
+}
+
+.axis-tick {
+  stroke: rgba(255, 255, 255, 0.5);
+}
+
+.bubble {
+  cursor: pointer;
+  transition: stroke-width 0.15s ease;
+}
+
+.bubble--dimmed {
+  opacity: 0.4;
+}
+
+.tooltip {
+  pointer-events: none;
+}
+
+.tooltip-bg {
+  fill: #2a2a2a;
+  stroke: rgba(255, 255, 255, 0.15);
+}
+
+.tooltip-text {
+  fill: #fff;
+  font-size: 11px;
+}
+
+.legend-label {
+  font-size: 10px;
+  fill: rgba(255, 255, 255, 0.9);
+}
+
+.legend-value {
+  font-size: 9px;
+  fill: rgba(255, 255, 255, 0.6);
+}

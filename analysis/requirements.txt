@@ -1,0 +1,12 @@
+# Core analysis — extend as the project grows
+pandas
+jupyter
+requests
+matplotlib
+pypalletes
+draw-arrow
+
+uv
+marimo
+bs4
+lxml
