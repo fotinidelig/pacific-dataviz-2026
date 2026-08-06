@@ -24,12 +24,15 @@ pip install -r requirements.txt
 
 ### Web (Vite)
 
-The `web/` directory will be a Vite project (React + TypeScript). Initialize when ready:
-
 ```bash
-npm create vite@latest web -- --template react-ts
-cd web && npm install && npm install d3
+cd web
+npm install
+npm run dev
 ```
+
+Stack: Vite, React, TypeScript, D3, Tailwind CSS v4, Motion.
+
+Processed data is available via the `@data` alias (points to `data/processed/`).
 
 ## Data
 

@@ -228,13 +228,14 @@ def _(sns):
 def _(data_agg, font, mo, plt, sns):
     max_year = data_agg.TIME_PERIOD.max()
     min_year = data_agg.TIME_PERIOD.min()
-    def boxplot(start_year=min_year, end_year=max_year):
+    def boxplot(start_year=min_year, end_year=max_year, with_pitcairn=True):
         fig, ax = plt.subplots(figsize=(12,5))
 
         data = data_agg.copy()
         data["TIME_PERIOD"] = data["TIME_PERIOD"].astype(int)
         data = data[data["TIME_PERIOD"].between(int(start_year), int(end_year))]
-
+        if not with_pitcairn:
+            data = data[data.GEO_PICT != 'Pitcairn Islands']
         sns.boxplot(ax=ax, data=data, x='TIME_PERIOD', y='value')
         ax.axhline(y=0, color='darkred', linewidth=3, linestyle='--', zorder=0)
 
@@ -257,67 +258,124 @@ def _(data_agg, font, mo, plt, sns):
         show_value=True,
         full_width=True,
     )
-    return boxplot, max_year, min_year, year_range
+
+    with_pitcairn = mo.ui.dropdown(
+        options={'Include': True, 'Exclude': False},
+        value='Include',
+        label='Pitcairn Islands',
+    )
+
+    return boxplot, max_year, min_year, with_pitcairn, year_range
 
 
 @app.cell
-def _(boxplot, mo, year_range):
+def _(boxplot, mo, with_pitcairn, year_range):
     start_year, end_year = year_range.value
-    fig = boxplot(start_year=start_year, end_year=end_year)
+    fig = boxplot(start_year=start_year, end_year=end_year, with_pitcairn=with_pitcairn.value)
 
-    mo.vstack([year_range, mo.as_html(fig)])
+    mo.vstack([
+        mo.hstack([year_range, with_pitcairn], justify='start', gap=1),
+        mo.as_html(fig),
+    ])
     return
 
 
 @app.cell
 def _(data_agg, font, load_cmap, math, max_year, min_year, mo, np, plt):
-    def lineplot(start_year=min_year):
-        fig, ax = plt.subplots(figsize=(11,7))
+    def lineplot(start_year=min_year, end_year=max_year, with_pitcairn=True):
+        fig, ax = plt.subplots(figsize=(11, 7))
         colors = load_cmap("te_aa_no_areois").colors
 
         data = data_agg.copy()
-        # data = data[data.REF_AREA != 'Guam']
         data["TIME_PERIOD"] = data["TIME_PERIOD"].astype(int)
-        data = data[data['TIME_PERIOD'] >= start_year].sort_values(
-                ['GEO_PICT', 'TIME_PERIOD']
+        data = data[data["TIME_PERIOD"].between(int(start_year), int(end_year))].sort_values(
+            ["GEO_PICT", "TIME_PERIOD"]
+        )
+        if not with_pitcairn:
+            data = data[data.GEO_PICT != "Pitcairn Islands"]
+
+        yearly = (
+            data.groupby("TIME_PERIOD")["value"]
+            .agg(
+                median="median",
+                q1=lambda s: s.quantile(0.25),
+                q3=lambda s: s.quantile(0.75),
             )
-        countries = sorted(data['GEO_PICT'].dropna().unique())
+            .reset_index()
+            .sort_values("TIME_PERIOD")
+        )
+        years = yearly["TIME_PERIOD"]
+        median = yearly["median"]
+        lower = yearly["q1"]
+        upper = yearly["q3"]
+
+        # IQR band: middle 50% of countries each year (background)
+        ax.fill_between(
+            years,
+            lower,
+            upper,
+            color="#6b7280",
+            alpha=0.18,
+            linewidth=0,
+            zorder=1,
+            label="IQR (25th–75th)",
+        )
+
+        countries = sorted(data["GEO_PICT"].dropna().unique())
         color_by_country = {
             country: colors[i % len(colors)] for i, country in enumerate(countries)
         }
 
-        for country, grp in data.groupby('GEO_PICT'):
-            if country == 'Pitcairn Islands':
-                continue
+        for country, grp in data.groupby("GEO_PICT"):
             ax.plot(
-                grp['TIME_PERIOD'],
-                grp['value'],
+                grp["TIME_PERIOD"],
+                grp["value"],
                 color=color_by_country[country],
-                linewidth=1.2,
+                linewidth=1.1,
+                alpha=0.55,
                 label=country,
+                zorder=2,
             )
-        ax.axhline(y=0, color='darkred', linewidth=3, linestyle='--', zorder=0)
-        ax.grid(alpha=0.4)
-        step = math.ceil((max_year + 1 - start_year) / 5)
+
+        # Median trend line
+        ax.plot(
+            years,
+            median,
+            color="#111827",
+            linewidth=2.6,
+            zorder=4,
+            label="Regional median",
+        )
+
+        ax.axhline(y=0, color="darkred", linewidth=2.5, linestyle="--", zorder=0)
+        ax.grid(alpha=0.35)
+        step = math.ceil((end_year + 1 - start_year) / 5)
         ticks = start_year + np.arange(0, 5) * step
         ax.set_xticks(ticks)
-        ax.set_xlim([start_year, max_year + 1])
-        ax.spines[['top', 'right']].set_visible(False)
-        ax.set_xlabel('Year', font=font, size=12)
-        ax.set_ylabel('Population growth rate (%)', font=font, size=12)
+        ax.set_xlim([start_year, end_year + 1])
+        ax.spines[["top", "right"]].set_visible(False)
+        ax.set_xlabel("Year", font=font, size=12)
+        ax.set_ylabel("Population growth rate (%)", font=font, size=12)
 
         fig.suptitle(
-            f'Population growth rate in % from {start_year} to {max_year}',
+            f"Population growth rate in % from {start_year} to {end_year}",
             font=font,
             size=20,
         )
+
         handles, labels = ax.get_legend_handles_labels()
+        priority = {"Regional median", "IQR (25th–75th)"}
+        ordered = sorted(
+            zip(handles, labels),
+            key=lambda hl: (0 if hl[1] in priority else 1, hl[1]),
+        )
+        handles, labels = zip(*ordered) if ordered else ([], [])
         fig.legend(
             handles,
             labels,
-            loc='center left',
+            loc="center left",
             bbox_to_anchor=(1.01, 0.5),
-            fontsize='small',
+            fontsize="small",
             frameon=False,
         )
         fig.tight_layout()
@@ -332,13 +390,20 @@ def _(data_agg, font, load_cmap, math, max_year, min_year, mo, np, plt):
         show_value=True,
         full_width=True,
     )
-    return lineplot, total_start_year
+    return (lineplot,)
 
 
 @app.cell
-def _(lineplot, mo, total_start_year):
-    fig_total = lineplot(start_year=total_start_year.value)
-    mo.vstack([total_start_year, mo.as_html(fig_total)])
+def _(lineplot, mo, with_pitcairn, year_range):
+    fig_total = lineplot(
+        start_year=year_range.value[0],
+        end_year=year_range.value[1],    
+        with_pitcairn=with_pitcairn.value,
+    )
+    mo.vstack([
+        mo.hstack([year_range, with_pitcairn], justify='start', gap=1),
+        mo.as_html(fig_total),
+    ])
     return
 
 
@@ -426,12 +491,12 @@ def _(
     np,
     plt,
 ):
-    def lineplot_by_age_group(start_year=min_year):
+    def lineplot_by_age_group(start_year=min_year, end_year=max_year):
         fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(14, 9), sharex=True, sharey=True)
         colors = load_cmap("te_aa_no_areois").colors
         axes = axes.flatten()
 
-        step = math.ceil((max_year + 1 - start_year) / 5)
+        step = math.ceil((end_year + 1 - start_year) / 5)
         ticks = start_year + np.arange(0, 5) * step
 
         # Stable country -> color mapping across all panels
@@ -442,39 +507,79 @@ def _(
 
         for ax, title in zip(axes, AGE_GROUPS.keys()):
             data = data_age[
-                (data_age['age_group'] == title)
-                & (data_age['TIME_PERIOD'] >= start_year)
+                (data_age["age_group"] == title)
+                & (data_age["TIME_PERIOD"] >= start_year)
+                & (data_age["TIME_PERIOD"] <= end_year)
             ].copy()
 
-            for country, grp in data.groupby('GEO_PICT'):
-                ax.plot(
-                    grp['TIME_PERIOD'],
-                    grp['value'],
-                    color=color_by_country[country],
-                    linewidth=1.2,
-                    label=country,
+            yearly = (
+                data.groupby("TIME_PERIOD")["value"]
+                .agg(
+                    median="median",
+                    q1=lambda s: s.quantile(0.25),
+                    q3=lambda s: s.quantile(0.75),
                 )
-            ax.axhline(y=0, color='darkred', linewidth=3, linestyle='--', zorder=0)
+                .reset_index()
+                .sort_values("TIME_PERIOD")
+            )
+
+            ax.fill_between(
+                yearly["TIME_PERIOD"],
+                yearly["q1"],
+                yearly["q3"],
+                color="#6b7280",
+                alpha=0.18,
+                linewidth=0,
+                zorder=1,
+                label="IQR (25th–75th)",
+            )
+
+            for country, grp in data.groupby("GEO_PICT"):
+                ax.plot(
+                    grp["TIME_PERIOD"],
+                    grp["value"],
+                    color=color_by_country[country],
+                    linewidth=1.1,
+                    alpha=0.55,
+                    label=country,
+                    zorder=2,
+                )
+
+            ax.plot(
+                yearly["TIME_PERIOD"],
+                yearly["median"],
+                color="#111827",
+                linewidth=2.4,
+                zorder=4,
+                label="Regional median",
+            )
+            ax.axhline(y=0, color="darkred", linewidth=2.5, linestyle="--", zorder=0)
 
             ax.set_title(title, font=font, size=13)
-            ax.grid(alpha=0.4)
+            ax.grid(alpha=0.35)
             ax.set_xticks(ticks)
-            ax.set_xlim([start_year, max_year + 1])
-            ax.spines[['top', 'right']].set_visible(False)
-            ax.set_xlabel('Year', font=font, size=11)
-            ax.set_ylabel('Population growth rate (%)', font=font, size=11)
+            ax.set_xlim([start_year, end_year + 1])
+            ax.spines[["top", "right"]].set_visible(False)
+            ax.set_xlabel("Year", font=font, size=11)
+            ax.set_ylabel("Population growth rate (%)", font=font, size=11)
 
         handles, labels = axes[0].get_legend_handles_labels()
+        priority = {"Regional median", "IQR (25th–75th)"}
+        ordered = sorted(
+            zip(handles, labels),
+            key=lambda hl: (0 if hl[1] in priority else 1, hl[1]),
+        )
+        handles, labels = zip(*ordered) if ordered else ([], [])
         fig.legend(
             handles,
             labels,
-            loc='center left',
+            loc="center left",
             bbox_to_anchor=(1.01, 0.5),
-            fontsize='small',
+            fontsize="small",
             frameon=False,
         )
         fig.suptitle(
-            f'Population growth rate by age group from {start_year} to {max_year}',
+            f'Population growth rate by age group from {start_year} to {end_year}',
             font=font,
             size=18,
             y=1.02,
@@ -491,14 +596,13 @@ def _(
         show_value=True,
         full_width=True,
     )
-    return age_start_year, lineplot_by_age_group
+    return (lineplot_by_age_group,)
 
 
 @app.cell
-def _(age_start_year, lineplot_by_age_group, mo):
-    fig_age = lineplot_by_age_group(start_year=age_start_year.value)
-    mo.vstack([age_start_year, mo.as_html(fig_age)])
-
+def _(lineplot_by_age_group, mo, year_range):
+    fig_age = lineplot_by_age_group(start_year=year_range.value[0], end_year=year_range.value[1])
+    mo.vstack([year_range, mo.as_html(fig_age)])
     return
 
 
@@ -508,11 +612,17 @@ def _(mo):
     #### Notes
 
     - We have an outlier, Pitcairn Islands, that seems to shift a lot throughout the years especially up to 2005.
-    - It seems like on 2024 the population growth reached an ultimate low - why ?
-    - After roughly 2000, more countries seem to have very low rates (mostly negative).
-    - The age group with the worst growth rate are the young adults between 20-40 years old.
-    - The best age group are the elderly, which shows the aging population on the islands.
+    - It seems like on **2024** the population growth reached an ultimate low - why ?
+    - After roughly **2000**, more countries seem to have very low rates (mostly negative).
+    - The age group with the **worst growth rate** are the **young adults** between 20-40 years old.
+    - The **best** age group are the **elderly**, which shows the aging population on the islands.
+    - **Pitcairn Islands** do not provide data for age groups, only aggregated
     """)
+    return
+
+
+@app.cell
+def _():
     return
 
 

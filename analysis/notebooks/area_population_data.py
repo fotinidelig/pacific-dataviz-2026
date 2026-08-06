@@ -15,6 +15,7 @@ def _():
     from highlight_text import ax_text
     from pyfonts import load_google_font, set_default_font
     from pypalettes import load_cmap
+    import numpy as np
     return pd, sdmx
 
 
@@ -74,6 +75,7 @@ def _(data, pd):
     )
 
     population = pd.concat([population, new_rows], ignore_index=True)
+    population.to_csv('data/processed/population_23_24_25.csv')
     # population = population.replace('Micronesia, Fed. Sts.', 'Federated States of Micronesia')
     return pacific_countries, population
 
@@ -108,13 +110,18 @@ def _(land_population):
 
 @app.cell
 def _(land_population):
-    land_population.to_json('data/processed/land_population.json')
+    land_population.to_json('data/processed/land_population.json', orient='values')
     return
 
 
 @app.cell
-def _():
+def _(pacific_countries, pd):
+    pop_data = pd.read_csv('data/raw/population.csv')
+    entity_names = list(pacific_countries.values()) + ['Micronesia (country)']
+    pop_data = pop_data[pop_data['Entity'].isin(entity_names)].reset_index(drop=True)
+    pop_data.to_csv('data/processed/population_pacific_all_years.csv')
     return
+
 
 
 if __name__ == "__main__":

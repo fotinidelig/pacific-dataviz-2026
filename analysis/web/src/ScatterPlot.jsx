@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import { extent } from "d3-array";
 import { scaleSqrt } from "d3-scale";
+import { useDimensions } from "./use-dimensions";
 
 const MARGIN = { top: 24, right: 24, bottom: 48, left: 64 };
 const LAND_COLOR_LIGHT = "#dff7f2";
@@ -29,27 +30,6 @@ function formatAxis(value) {
   if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}M`;
   if (value >= 1_000) return `${(value / 1_000).toFixed(0)}k`;
   return String(value);
-}
-
-function useContainerSize(ref) {
-  const [size, setSize] = useState({ width: 640, height: 420 });
-
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return undefined;
-
-    const observer = new ResizeObserver(([entry]) => {
-      const { width } = entry.contentRect;
-      if (width > 0) {
-        setSize({ width, height: Math.max(360, width * 0.62) });
-      }
-    });
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [ref]);
-
-  return size;
 }
 
 function AxisTicks({ scale, axis }) {
@@ -129,15 +109,18 @@ function Legend({ landExtent, populationExtent, sizeScale, colorScale, x, y }) {
   );
 }
 
-export default function ScatterPlot({ data, selectedCode = null }) {
-  const containerRef = useRef(null);
-  const { width, height } = useContainerSize(containerRef);
+export default function ScatterPlot({
+  width,
+  height,
+  data,
+  selectedCode = null,
+}) {
   const [hoveredCode, setHoveredCode] = useState(null);
 
   const points = useMemo(() => data.map(parseRow), [data]);
 
-  const innerWidth = width - MARGIN.left - MARGIN.right;
-  const innerHeight = height - MARGIN.top - MARGIN.bottom;
+  const innerWidth = Math.max(0, (width ?? 0) - MARGIN.left - MARGIN.right);
+  const innerHeight = Math.max(0, (height ?? 0) - MARGIN.top - MARGIN.bottom);
 
   const landExtent = useMemo(() => extent(points, (d) => d.landArea), [points]);
   const populationExtent = useMemo(
@@ -171,94 +154,113 @@ export default function ScatterPlot({ data, selectedCode = null }) {
   const hovered = points.find((d) => d.code === activeCode) ?? null;
 
   return (
-    <div className="chart-shell" ref={containerRef}>
-      <svg
-        className="chart-svg"
-        viewBox={`0 0 ${width} ${height}`}
-        role="img"
-        aria-label="Scatter plot of Pacific island land area and population"
-      >
-        <g transform={`translate(${MARGIN.left}, ${MARGIN.top})`}>
-          <line className="axis-line" x2={innerWidth} y1={innerHeight} y2={innerHeight} />
-          <line className="axis-line" y2={innerHeight} />
+    <svg
+      className="chart-svg"
+      width="100%"
+      height="100%"
+      overflow="visible"
+      role="img"
+      aria-label="Scatter plot of Pacific island land area and population"
+    >
+      <g transform={`translate(${MARGIN.left}, ${MARGIN.top})`}>
+        <line className="axis-line" x2={innerWidth} y1={innerHeight} y2={innerHeight} />
+        <line className="axis-line" y2={innerHeight} />
 
-          <g transform={`translate(0, ${innerHeight})`}>
-            <AxisTicks scale={scales.x} axis="x" />
-          </g>
-          <AxisTicks scale={scales.y} axis="y" />
-
-          <text
-            className="axis-label"
-            x={innerWidth / 2}
-            y={innerHeight + 40}
-            textAnchor="middle"
-          >
-            Land area (km²)
-          </text>
-          <text
-            className="axis-label"
-            transform={`translate(-44, ${innerHeight / 2}) rotate(-90)`}
-            textAnchor="middle"
-          >
-            Population
-          </text>
-
-          {points.map((d) => {
-            const cx = scales.x(d.landArea);
-            const cy = scales.y(d.population);
-            const r = scales.size(d.population);
-            const isActive = activeCode === d.code;
-            const hasPinned = Boolean(selectedCode) && hoveredCode == null;
-            const shouldDim = (hoveredCode != null || hasPinned) && !isActive;
-
-            return (
-              <circle
-                key={d.code}
-                className={`bubble${shouldDim ? " bubble--dimmed" : ""}`}
-                cx={cx}
-                cy={cy}
-                r={r}
-                fill={scales.color(d.landArea)}
-                stroke={isActive ? "#ffffff" : "#0f766e"}
-                strokeWidth={isActive ? 1.5 : 1}
-                onMouseEnter={() => setHoveredCode(d.code)}
-                onMouseLeave={() => setHoveredCode(null)}
-              />
-            );
-          })}
-
-          {hovered && (
-            <g className="tooltip" transform={`translate(${scales.x(hovered.landArea)}, ${scales.y(hovered.population)})`}>
-              <rect
-                className="tooltip-bg"
-                x={14}
-                y={-42}
-                width={168}
-                height={52}
-                rx={4}
-              />
-              <text className="tooltip-text" x={22} y={-24} fontWeight="600">
-                {hovered.country}
-              </text>
-              <text className="tooltip-text" x={22} y={-8}>
-                {formatArea(hovered.landArea)}
-              </text>
-              <text className="tooltip-text" x={22} y={6}>
-                {formatPopulation(hovered.population)} people
-              </text>
-            </g>
-          )}
-
-          <Legend
-            landExtent={landExtent}
-            populationExtent={populationExtent}
-            sizeScale={scales.size}
-            colorScale={scales.color}
-            x={innerWidth - 210}
-            y={innerHeight - 100}
-          />
+        <g transform={`translate(0, ${innerHeight})`}>
+          <AxisTicks scale={scales.x} axis="x" />
         </g>
-      </svg>
+        <AxisTicks scale={scales.y} axis="y" />
+
+        <text
+          className="axis-label"
+          x={innerWidth / 2}
+          y={innerHeight + 40}
+          textAnchor="middle"
+        >
+          Land area (km²)
+        </text>
+        <text
+          className="axis-label"
+          transform={`translate(-44, ${innerHeight / 2}) rotate(-90)`}
+          textAnchor="middle"
+        >
+          Population
+        </text>
+
+        {points.map((d) => {
+          const cx = scales.x(d.landArea);
+          const cy = scales.y(d.population);
+          const r = scales.size(d.population);
+          const isActive = activeCode === d.code;
+          const hasPinned = Boolean(selectedCode) && hoveredCode == null;
+          const shouldDim = (hoveredCode != null || hasPinned) && !isActive;
+
+          return (
+            <circle
+              key={d.code}
+              className={`bubble${shouldDim ? " bubble--dimmed" : ""}`}
+              cx={cx}
+              cy={cy}
+              r={r}
+              fill={scales.color(d.landArea)}
+              stroke={isActive ? "#ffffff" : "#0f766e"}
+              strokeWidth={isActive ? 1.5 : 1}
+              onMouseEnter={() => setHoveredCode(d.code)}
+              onMouseLeave={() => setHoveredCode(null)}
+            />
+          );
+        })}
+
+        {hovered && (
+          <g
+            className="tooltip"
+            transform={`translate(${scales.x(hovered.landArea)}, ${scales.y(hovered.population)})`}
+          >
+            <rect
+              className="tooltip-bg"
+              x={14}
+              y={-42}
+              width={168}
+              height={52}
+              rx={4}
+            />
+            <text className="tooltip-text" x={22} y={-24} fontWeight="600">
+              {hovered.country}
+            </text>
+            <text className="tooltip-text" x={22} y={-8}>
+              {formatArea(hovered.landArea)}
+            </text>
+            <text className="tooltip-text" x={22} y={6}>
+              {formatPopulation(hovered.population)} people
+            </text>
+          </g>
+        )}
+
+        <Legend
+          landExtent={landExtent}
+          populationExtent={populationExtent}
+          sizeScale={scales.size}
+          colorScale={scales.color}
+          x={innerWidth - 210}
+          y={innerHeight - 100}
+        />
+      </g>
+    </svg>
+  );
+}
+
+export function ResponsiveScatterPlot({ data, selectedCode = null }) {
+  const containerRef = useRef(null);
+  const { width, height } = useDimensions(containerRef);
+
+  return (
+    <div ref={containerRef} className="chart-shell">
+      <ScatterPlot
+        width={width}
+        height={height}
+        data={data}
+        selectedCode={selectedCode}
+      />
     </div>
   );
 }

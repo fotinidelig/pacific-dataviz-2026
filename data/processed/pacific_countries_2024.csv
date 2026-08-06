@@ -1,0 +1,23 @@
+REF_AREA,country,red_list_index,ssta,st_anom,sla,land_area,eez_area,eez_latitude,eez_longitude,eez_part,eez_crs,population,export_hs,export_hs_name,export_hs_value,exports_value,export_class,exporter_order,exporters_total,number_of_islands,atolls
+AS,American Samoa,0.81,0.7,0.8,0.1,200.0,406038,-13.85484,-169.06347,American Samoa,EPSG:4326,46765.0,2301,animal meal and pellets,13M,33.9M,local_resource,56.0,124.0,7,2.0
+CK,Cook Islands,0.78,0.7,0.6,0.1,240.0,1969814,-15.01891,-161.30341,Cook Islands,EPSG:4326,13729.0,0303,Non-fillet frozen fish,11.1M,34.3M,local_resource,87.0,178.0,15,1.0
+FJ,Fiji,0.74,0.6,0.6,0.1,18270.0,1303022,-17.94847,93.67735,Fiji,EPSG:4326,928784.0,2201,Water,271M,1.21B,local_resource,4.0,192.0,330,0.0
+FM,Federated States of Micronesia,0.66,0.8,0.8,0.1,700.0,3013629,6.76843,150.32248,Micronesia,EPSG:4326,113683.0,0303,Non-fillet frozen fish,318M,330M,local_resource,23.0,178.0,607,1.0
+GU,Guam,0.42,0.6,0.6,0.1,540.0,208784,12.92958,144.00261,Guam,EPSG:4326,167777.0,XV,Metals,13.5M,25.6M,scrap_recycling,161.0,226.0,1,0.0
+KI,Kiribati,0.77,0.8,0.9,0.1,810.0,3441229,-3.82154,-154.72634,Line Group,EPSG:4326,134518.0,0303,Non-fillet frozen fish,91.5M,109M,local_resource,52.0,178.0,33,32.0
+MH,Marshall Islands,0.84,0.7,0.8,0.1,180.0,2004305,10.15136,167.48547,Marshall Islands,EPSG:4326,37548.0,0303,Non-fillet frozen fish,76.1M,1.07B,local_resource,55.0,178.0,34,29.0
+MP,Northern Mariana Islands,0.61,0.7,0.6,0.1,460.0,764117,18.2866,145.73933,Northern Mariana Islands,EPSG:4326,44278.0,XV,Metals,1.54M,2.91M,scrap_recycling,196.0,226.0,14,0.0
+NC,New Caledonia,0.67,0.7,0.6,0.1,18280.0,1198283,-21.01871,163.20377,New Caledonia,EPSG:4326,292639.0,7202,Ferroalloys,692M,1.37B,local_resource,11.0,127.0,135,1.0
+NR,Nauru,0.83,1.0,1.1,0.1,20.0,309283,-0.59113,166.12396,Nauru,EPSG:4326,11947.0,0303,Non-fillet frozen fish,153M,202M,local_resource,38.0,178.0,1,0.0
+NU,Niue,0.81,0.6,0.6,0.1,260.0,318407,-19.52315,-169.33138,Niue,EPSG:4326,1819.0,,,,7.03M,uncertain,,,1,0.0
+PF,French Polynesia,0.68,0.4,0.7,0.1,3471.0,4778401,-18.73634,-144.00327,French Polynesia,EPSG:4326,281807.0,7101,Pearls,93.4M,189M,local_resource,4.0,102.0,121,87.0
+PG,Papua New Guinea,0.87,0.9,1.0,0.1,452860.0,2862403,-5.45663,150.71973,Papua New Guinea,EPSG:4326,10576502.0,2711,Petroleum Gas,5.36B,13.9B,local_resource,18.0,152.0,600,1.0
+PN,Pitcairn Islands,0.72,,-0.1,,47.0,842291,-24.60623,-127.42131,Pitcairn,EPSG:4326,,84,Machinery,329K,906K,reexport,217.0,226.0,4,1.0
+PW,Palau,0.83,0.8,0.9,0.1,460.0,615371,6.44393,133.0695,Palau,EPSG:4326,17695.0,03,Live Fish,526K,19.7M,uncertain,170.0,210.0,340,1.0
+SB,Solomon Islands,0.77,0.9,0.9,0.1,27990.0,1633806,-10.04465,163.68539,Solomon Islands,EPSG:4326,819198.0,4403,Rough Wood,291M,679M,local_resource,11.0,151.0,1000,1.0
+TK,Tokelau,0.84,0.8,0.8,0.1,10.0,320756,-8.63257,-172.08495,Tokelau,EPSG:4326,2506.0,8444, Insulated Wire,5.26M,36M,reexport,102.0,225.0,3,3.0
+TO,Tonga,0.75,0.6,0.6,0.1,720.0,666812,-20.22175,-174.76586,Tonga,EPSG:4326,104175.0,0714,Cassava,4.15M,23.9M,local_resource,39.0,158.0,171,
+TV,Tuvalu,0.84,0.9,0.9,0.1,30.0,753175,-7.81254,74.28785,Tuvalu,EPSG:4326,9646.0,0303,Non-fillet frozen fish,59.2M,80.2M,local_resource,58.0,178.0,9,6.0
+VU,Vanuatu,0.73,0.7,0.7,0.2,12190.0,635761,-16.58523,168.55743,Vanuatu,EPSG:4326,327777.0,0303,Non-fillet frozen fish,123M,322M,local_resource,44.0,178.0,83,
+WF,Wallis and Futuna,0.85,0.7,0.7,0.1,142.0,262926,-12.75492,-176.81123,Wallis and Futuna,EPSG:4326,11277.0,XXI,Arts and Antiques,22.3K,345K,reexport,192.0,222.0,3,0.0
+WS,Samoa,0.77,0.8,0.8,0.1,2780.0,133334,-13.29687,-172.75372,Samoa,EPSG:4326,218019.0,8544,Insulated Wire,16.3M,74.5M,uncertain,91.0,225.0,10,0.0

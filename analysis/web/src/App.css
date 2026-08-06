@@ -1,0 +1,97 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 80vh;
+  background-color: #D6D6D6;
+}
+
+
+/* @keyframes gradient {
+    0% {
+        background-position: 0%;
+    }
+    50% {
+        background-position: 100%;
+    }
+    100% {
+        background-position: 0%;
+    }
+} */
+
+.page-buttons {
+  display: flex;
+  flex: 0 0 10%;    
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0rem 3rem;
+  margin-bottom: 2rem;
+}
+
+.page-content {
+    flex: 1 1 auto;
+    display: flex;
+    width: 100%;
+    min-height: 0;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+.country-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 0.75rem 1rem 0.25rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.country-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.75rem 0.35rem 0.45rem;
+  /* border-radius: 999px; */
+  border: 3px solid color-mix(in srgb, var(--country-color) 55%, transparent);
+  /* background: color-mix(in srgb, var(--country-color) 18%, #141414); */
+  background: white;
+  color: black;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease, transform 0.15s ease;
+}
+
+.country-filter-btn:hover {
+  background: color-mix(in srgb, var(--country-color) 28%, white);
+  border-color: var(--country-color);
+  transform: translateY(-1px);
+}
+
+.country-filter-btn:focus-visible {
+  outline: 2px solid var(--country-color);
+  outline-offset: 2px;
+}
+
+.country-filter-btn--excluded {
+  opacity: 0.35;
+  text-decoration: line-through;
+  border-style: dashed;
+}
+
+.country-filter-swatch {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: var(--country-color);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--country-color) 60%, #000);
+  flex-shrink: 0;
+}
+
+.country-filter-label {
+  white-space: nowrap;
+}

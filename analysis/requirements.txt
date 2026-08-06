@@ -5,6 +5,8 @@ requests
 matplotlib
 pypalletes
 draw-arrow
+pyfonts
+highlight_text
 
 uv
 marimo

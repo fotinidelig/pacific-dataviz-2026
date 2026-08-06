@@ -1,0 +1,23 @@
+Country,HS,HS Name,HS Value,Order,Total Exporters,Exports Value,Year,export_class
+American Samoa,2301,animal meal and pellets,13M,56,124,33.9M,2024,local_resource
+Cook Islands,0303,Non-fillet frozen fish,11.1M,87,178,34.3M,2024,local_resource
+Federated States of Micronesia,0303,Non-fillet frozen fish,318M,23,178,330M,2024,local_resource
+Fiji,2201,Water,271M,4,192,1.21B,2024,local_resource
+French Polynesia,7101,Pearls,93.4M,4,102,189M,2024,local_resource
+Guam,XV,Metals,13.5M,161,226,25.6M,2024,scrap_recycling
+Kiribati,0303,Non-fillet frozen fish,91.5M,52,178,109M,2024,local_resource
+Marshall Islands,0303,Non-fillet frozen fish,76.1M,55,178,1.07B,2024,local_resource
+Nauru,0303,Non-fillet frozen fish,153M,38,178,202M,2024,local_resource
+New Caledonia,7202,Ferroalloys,692M,11,127,1.37B,2024,local_resource
+Niue,,,,,,7.03M,2024,uncertain
+Northern Mariana Islands,XV,Metals,1.54M,196,226,2.91M,2024,scrap_recycling
+Palau,03,Live Fish,526K,170,210,19.7M,2024,uncertain
+Papua New Guinea,2711,Petroleum Gas,5.36B,18,152,13.9B,2024,local_resource
+Pitcairn Islands,84,Machinery,329K,217,226,906K,2024,reexport
+Samoa,8544,Insulated Wire,16.3M,91,225,74.5M,2024,uncertain
+Solomon Islands,4403,Rough Wood,291M,11,151,679M,2024,local_resource
+Tokelau,8444, Insulated Wire,5.26M,102,225,36M,2024,reexport
+Tonga,0714,Cassava,4.15M,39,158,23.9M,2024,local_resource
+Tuvalu,0303,Non-fillet frozen fish,59.2M,58,178,80.2M,2024,local_resource
+Vanuatu,0303,Non-fillet frozen fish,123M,44,178,322M,2024,local_resource
+Wallis and Futuna,XXI,Arts and Antiques,22.3K,192,222,345K,2024,reexport
