@@ -191,6 +191,19 @@ def _(codes, countries, pd):
 
 @app.cell
 def _(codes, name_to_code, pd):
+    def parse_abbreviated_number(value):
+        """Convert strings like '13M', '329K', '1.21B' to absolute floats."""
+        if value is None or (isinstance(value, float) and pd.isna(value)):
+            return pd.NA
+        text = str(value).strip().upper().replace(",", "")
+        if text == "" or text == "NAN":
+            return pd.NA
+        multipliers = {"K": 1_000, "M": 1_000_000, "B": 1_000_000_000}
+        suffix = text[-1]
+        if suffix in multipliers:
+            return float(text[:-1]) * multipliers[suffix]
+        return float(text)
+
     exports = pd.read_csv("data/processed/country_export_data.csv")
     exports["REF_AREA"] = exports["Country"].map(name_to_code)
     exports = exports.rename(
@@ -204,6 +217,8 @@ def _(codes, name_to_code, pd):
             "Total Exporters": "exporters_total",
         }
     )
+    exports["export_hs_value"] = exports["export_hs_value"].map(parse_abbreviated_number)
+    exports["exports_value"] = exports["exports_value"].map(parse_abbreviated_number)
     exports = exports[
         [
             "REF_AREA",
