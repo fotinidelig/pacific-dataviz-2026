@@ -1,0 +1,967 @@
+GEO_PICT,TIME_PERIOD,value,REF_AREA,COUNTRY
+AS,1980,0.1,AS,American Samoa
+AS,1981,-0.1,AS,American Samoa
+AS,1982,0.0,AS,American Samoa
+AS,1983,-0.3,AS,American Samoa
+AS,1984,0.0,AS,American Samoa
+AS,1985,-0.2,AS,American Samoa
+AS,1986,-0.1,AS,American Samoa
+AS,1987,-0.1,AS,American Samoa
+AS,1988,0.1,AS,American Samoa
+AS,1989,-0.1,AS,American Samoa
+AS,1990,0.0,AS,American Samoa
+AS,1991,0.3,AS,American Samoa
+AS,1992,0.2,AS,American Samoa
+AS,1993,0.1,AS,American Samoa
+AS,1994,0.2,AS,American Samoa
+AS,1995,0.3,AS,American Samoa
+AS,1996,0.2,AS,American Samoa
+AS,1997,-0.1,AS,American Samoa
+AS,1998,-0.2,AS,American Samoa
+AS,1999,0.1,AS,American Samoa
+AS,2000,0.3,AS,American Samoa
+AS,2001,0.2,AS,American Samoa
+AS,2002,0.4,AS,American Samoa
+AS,2003,0.5,AS,American Samoa
+AS,2004,0.6,AS,American Samoa
+AS,2005,0.6,AS,American Samoa
+AS,2006,0.5,AS,American Samoa
+AS,2007,0.5,AS,American Samoa
+AS,2008,0.1,AS,American Samoa
+AS,2009,0.4,AS,American Samoa
+AS,2010,0.5,AS,American Samoa
+AS,2011,0.1,AS,American Samoa
+AS,2012,0.4,AS,American Samoa
+AS,2013,0.5,AS,American Samoa
+AS,2014,0.6,AS,American Samoa
+AS,2015,0.3,AS,American Samoa
+AS,2016,0.6,AS,American Samoa
+AS,2017,0.7,AS,American Samoa
+AS,2018,0.6,AS,American Samoa
+AS,2019,0.7,AS,American Samoa
+AS,2020,0.7,AS,American Samoa
+AS,2021,0.4,AS,American Samoa
+AS,2022,0.4,AS,American Samoa
+AS,2023,0.5,AS,American Samoa
+AS,2024,0.7,AS,American Samoa
+AS,2025,0.5,AS,American Samoa
+FM,1980,-0.1,FM,Federated States of Micronesia
+FM,1981,0.1,FM,Federated States of Micronesia
+FM,1982,-0.1,FM,Federated States of Micronesia
+FM,1983,-0.2,FM,Federated States of Micronesia
+FM,1984,0.1,FM,Federated States of Micronesia
+FM,1985,0.0,FM,Federated States of Micronesia
+FM,1986,0.0,FM,Federated States of Micronesia
+FM,1987,-0.1,FM,Federated States of Micronesia
+FM,1988,0.2,FM,Federated States of Micronesia
+FM,1989,0.1,FM,Federated States of Micronesia
+FM,1990,0.0,FM,Federated States of Micronesia
+FM,1991,-0.1,FM,Federated States of Micronesia
+FM,1992,-0.3,FM,Federated States of Micronesia
+FM,1993,-0.4,FM,Federated States of Micronesia
+FM,1994,0.0,FM,Federated States of Micronesia
+FM,1995,0.3,FM,Federated States of Micronesia
+FM,1996,0.4,FM,Federated States of Micronesia
+FM,1997,0.0,FM,Federated States of Micronesia
+FM,1998,0.1,FM,Federated States of Micronesia
+FM,1999,0.2,FM,Federated States of Micronesia
+FM,2000,0.2,FM,Federated States of Micronesia
+FM,2001,0.4,FM,Federated States of Micronesia
+FM,2002,0.3,FM,Federated States of Micronesia
+FM,2003,0.4,FM,Federated States of Micronesia
+FM,2004,0.3,FM,Federated States of Micronesia
+FM,2005,0.3,FM,Federated States of Micronesia
+FM,2006,0.3,FM,Federated States of Micronesia
+FM,2007,0.4,FM,Federated States of Micronesia
+FM,2008,0.3,FM,Federated States of Micronesia
+FM,2009,0.4,FM,Federated States of Micronesia
+FM,2010,0.4,FM,Federated States of Micronesia
+FM,2011,0.4,FM,Federated States of Micronesia
+FM,2012,0.4,FM,Federated States of Micronesia
+FM,2013,0.5,FM,Federated States of Micronesia
+FM,2014,0.6,FM,Federated States of Micronesia
+FM,2015,0.3,FM,Federated States of Micronesia
+FM,2016,0.6,FM,Federated States of Micronesia
+FM,2017,0.7,FM,Federated States of Micronesia
+FM,2018,0.6,FM,Federated States of Micronesia
+FM,2019,0.5,FM,Federated States of Micronesia
+FM,2020,0.7,FM,Federated States of Micronesia
+FM,2021,0.7,FM,Federated States of Micronesia
+FM,2022,0.6,FM,Federated States of Micronesia
+FM,2023,0.7,FM,Federated States of Micronesia
+FM,2024,0.8,FM,Federated States of Micronesia
+FM,2025,0.9,FM,Federated States of Micronesia
+WS,1980,0.2,WS,Samoa
+WS,1981,-0.1,WS,Samoa
+WS,1982,0.0,WS,Samoa
+WS,1983,-0.2,WS,Samoa
+WS,1984,0.0,WS,Samoa
+WS,1985,-0.2,WS,Samoa
+WS,1986,0.0,WS,Samoa
+WS,1987,0.0,WS,Samoa
+WS,1988,0.1,WS,Samoa
+WS,1989,-0.2,WS,Samoa
+WS,1990,0.1,WS,Samoa
+WS,1991,0.4,WS,Samoa
+WS,1992,0.2,WS,Samoa
+WS,1993,0.1,WS,Samoa
+WS,1994,0.3,WS,Samoa
+WS,1995,0.3,WS,Samoa
+WS,1996,0.1,WS,Samoa
+WS,1997,-0.1,WS,Samoa
+WS,1998,-0.2,WS,Samoa
+WS,1999,0.0,WS,Samoa
+WS,2000,0.2,WS,Samoa
+WS,2001,0.2,WS,Samoa
+WS,2002,0.4,WS,Samoa
+WS,2003,0.5,WS,Samoa
+WS,2004,0.5,WS,Samoa
+WS,2005,0.6,WS,Samoa
+WS,2006,0.5,WS,Samoa
+WS,2007,0.5,WS,Samoa
+WS,2008,0.1,WS,Samoa
+WS,2009,0.4,WS,Samoa
+WS,2010,0.4,WS,Samoa
+WS,2011,0.0,WS,Samoa
+WS,2012,0.4,WS,Samoa
+WS,2013,0.5,WS,Samoa
+WS,2014,0.6,WS,Samoa
+WS,2015,0.5,WS,Samoa
+WS,2016,0.6,WS,Samoa
+WS,2017,0.6,WS,Samoa
+WS,2018,0.6,WS,Samoa
+WS,2019,0.7,WS,Samoa
+WS,2020,0.6,WS,Samoa
+WS,2021,0.4,WS,Samoa
+WS,2022,0.3,WS,Samoa
+WS,2023,0.6,WS,Samoa
+WS,2024,0.8,WS,Samoa
+WS,2025,0.5,WS,Samoa
+PG,1980,-0.2,PG,Papua New Guinea
+PG,1981,0.1,PG,Papua New Guinea
+PG,1982,-0.4,PG,Papua New Guinea
+PG,1983,-0.2,PG,Papua New Guinea
+PG,1984,0.0,PG,Papua New Guinea
+PG,1985,0.0,PG,Papua New Guinea
+PG,1986,0.0,PG,Papua New Guinea
+PG,1987,-0.3,PG,Papua New Guinea
+PG,1988,0.2,PG,Papua New Guinea
+PG,1989,0.2,PG,Papua New Guinea
+PG,1990,0.0,PG,Papua New Guinea
+PG,1991,-0.1,PG,Papua New Guinea
+PG,1992,-0.4,PG,Papua New Guinea
+PG,1993,-0.6,PG,Papua New Guinea
+PG,1994,-0.1,PG,Papua New Guinea
+PG,1995,0.3,PG,Papua New Guinea
+PG,1996,0.5,PG,Papua New Guinea
+PG,1997,-0.2,PG,Papua New Guinea
+PG,1998,0.4,PG,Papua New Guinea
+PG,1999,0.2,PG,Papua New Guinea
+PG,2000,0.3,PG,Papua New Guinea
+PG,2001,0.4,PG,Papua New Guinea
+PG,2002,0.3,PG,Papua New Guinea
+PG,2003,0.4,PG,Papua New Guinea
+PG,2004,0.3,PG,Papua New Guinea
+PG,2005,0.4,PG,Papua New Guinea
+PG,2006,0.2,PG,Papua New Guinea
+PG,2007,0.5,PG,Papua New Guinea
+PG,2008,0.3,PG,Papua New Guinea
+PG,2009,0.4,PG,Papua New Guinea
+PG,2010,0.6,PG,Papua New Guinea
+PG,2011,0.4,PG,Papua New Guinea
+PG,2012,0.3,PG,Papua New Guinea
+PG,2013,0.4,PG,Papua New Guinea
+PG,2014,0.3,PG,Papua New Guinea
+PG,2015,0.1,PG,Papua New Guinea
+PG,2016,0.7,PG,Papua New Guinea
+PG,2017,0.7,PG,Papua New Guinea
+PG,2018,0.5,PG,Papua New Guinea
+PG,2019,0.3,PG,Papua New Guinea
+PG,2020,0.8,PG,Papua New Guinea
+PG,2021,0.6,PG,Papua New Guinea
+PG,2022,0.8,PG,Papua New Guinea
+PG,2023,0.6,PG,Papua New Guinea
+PG,2024,0.9,PG,Papua New Guinea
+PG,2025,1.1,PG,Papua New Guinea
+PW,1980,-0.3,PW,Palau
+PW,1981,0.1,PW,Palau
+PW,1982,-0.2,PW,Palau
+PW,1983,-0.2,PW,Palau
+PW,1984,0.0,PW,Palau
+PW,1985,0.0,PW,Palau
+PW,1986,-0.1,PW,Palau
+PW,1987,-0.1,PW,Palau
+PW,1988,0.3,PW,Palau
+PW,1989,0.2,PW,Palau
+PW,1990,-0.2,PW,Palau
+PW,1991,-0.4,PW,Palau
+PW,1992,-0.3,PW,Palau
+PW,1993,-0.4,PW,Palau
+PW,1994,-0.1,PW,Palau
+PW,1995,0.2,PW,Palau
+PW,1996,0.3,PW,Palau
+PW,1997,0.0,PW,Palau
+PW,1998,0.4,PW,Palau
+PW,1999,0.3,PW,Palau
+PW,2000,0.3,PW,Palau
+PW,2001,0.3,PW,Palau
+PW,2002,0.1,PW,Palau
+PW,2003,0.1,PW,Palau
+PW,2004,0.0,PW,Palau
+PW,2005,0.2,PW,Palau
+PW,2006,0.1,PW,Palau
+PW,2007,0.2,PW,Palau
+PW,2008,0.2,PW,Palau
+PW,2009,0.3,PW,Palau
+PW,2010,0.6,PW,Palau
+PW,2011,0.4,PW,Palau
+PW,2012,0.4,PW,Palau
+PW,2013,0.6,PW,Palau
+PW,2014,0.5,PW,Palau
+PW,2015,0.2,PW,Palau
+PW,2016,0.6,PW,Palau
+PW,2017,0.7,PW,Palau
+PW,2018,0.5,PW,Palau
+PW,2019,0.3,PW,Palau
+PW,2020,0.7,PW,Palau
+PW,2021,0.8,PW,Palau
+PW,2022,0.8,PW,Palau
+PW,2023,0.7,PW,Palau
+PW,2024,0.8,PW,Palau
+PW,2025,0.9,PW,Palau
+NU,1980,0.0,NU,Niue
+NU,1981,-0.1,NU,Niue
+NU,1982,-0.1,NU,Niue
+NU,1983,-0.3,NU,Niue
+NU,1984,0.0,NU,Niue
+NU,1985,-0.2,NU,Niue
+NU,1986,-0.4,NU,Niue
+NU,1987,-0.5,NU,Niue
+NU,1988,0.4,NU,Niue
+NU,1989,0.1,NU,Niue
+NU,1990,0.0,NU,Niue
+NU,1991,0.1,NU,Niue
+NU,1992,0.1,NU,Niue
+NU,1993,-0.2,NU,Niue
+NU,1994,-0.1,NU,Niue
+NU,1995,0.2,NU,Niue
+NU,1996,0.3,NU,Niue
+NU,1997,-0.2,NU,Niue
+NU,1998,-0.2,NU,Niue
+NU,1999,0.5,NU,Niue
+NU,2000,0.6,NU,Niue
+NU,2001,0.2,NU,Niue
+NU,2002,0.4,NU,Niue
+NU,2003,0.4,NU,Niue
+NU,2004,0.6,NU,Niue
+NU,2005,0.5,NU,Niue
+NU,2006,0.5,NU,Niue
+NU,2007,0.5,NU,Niue
+NU,2008,0.5,NU,Niue
+NU,2009,0.4,NU,Niue
+NU,2010,0.7,NU,Niue
+NU,2011,0.8,NU,Niue
+NU,2012,0.4,NU,Niue
+NU,2013,0.6,NU,Niue
+NU,2014,0.5,NU,Niue
+NU,2015,0.0,NU,Niue
+NU,2016,0.4,NU,Niue
+NU,2017,0.7,NU,Niue
+NU,2018,0.6,NU,Niue
+NU,2019,0.6,NU,Niue
+NU,2020,0.7,NU,Niue
+NU,2021,0.8,NU,Niue
+NU,2022,0.9,NU,Niue
+NU,2023,0.5,NU,Niue
+NU,2024,0.6,NU,Niue
+NU,2025,0.5,NU,Niue
+TV,1980,0.2,TV,Tuvalu
+TV,1981,-0.1,TV,Tuvalu
+TV,1982,0.1,TV,Tuvalu
+TV,1983,-0.2,TV,Tuvalu
+TV,1984,-0.2,TV,Tuvalu
+TV,1985,-0.2,TV,Tuvalu
+TV,1986,0.0,TV,Tuvalu
+TV,1987,0.1,TV,Tuvalu
+TV,1988,0.0,TV,Tuvalu
+TV,1989,-0.3,TV,Tuvalu
+TV,1990,0.3,TV,Tuvalu
+TV,1991,0.4,TV,Tuvalu
+TV,1992,0.2,TV,Tuvalu
+TV,1993,0.1,TV,Tuvalu
+TV,1994,0.3,TV,Tuvalu
+TV,1995,0.4,TV,Tuvalu
+TV,1996,0.1,TV,Tuvalu
+TV,1997,0.2,TV,Tuvalu
+TV,1998,-0.2,TV,Tuvalu
+TV,1999,-0.3,TV,Tuvalu
+TV,2000,-0.1,TV,Tuvalu
+TV,2001,0.2,TV,Tuvalu
+TV,2002,0.5,TV,Tuvalu
+TV,2003,0.6,TV,Tuvalu
+TV,2004,0.6,TV,Tuvalu
+TV,2005,0.5,TV,Tuvalu
+TV,2006,0.4,TV,Tuvalu
+TV,2007,0.4,TV,Tuvalu
+TV,2008,-0.2,TV,Tuvalu
+TV,2009,0.4,TV,Tuvalu
+TV,2010,0.2,TV,Tuvalu
+TV,2011,-0.2,TV,Tuvalu
+TV,2012,0.3,TV,Tuvalu
+TV,2013,0.4,TV,Tuvalu
+TV,2014,0.6,TV,Tuvalu
+TV,2015,0.6,TV,Tuvalu
+TV,2016,0.7,TV,Tuvalu
+TV,2017,0.5,TV,Tuvalu
+TV,2018,0.6,TV,Tuvalu
+TV,2019,0.8,TV,Tuvalu
+TV,2020,0.6,TV,Tuvalu
+TV,2021,0.2,TV,Tuvalu
+TV,2022,-0.1,TV,Tuvalu
+TV,2023,0.6,TV,Tuvalu
+TV,2024,0.9,TV,Tuvalu
+TV,2025,0.4,TV,Tuvalu
+KI,1980,0.2,KI,Kiribati
+KI,1981,-0.3,KI,Kiribati
+KI,1982,0.5,KI,Kiribati
+KI,1983,0.0,KI,Kiribati
+KI,1984,-0.4,KI,Kiribati
+KI,1985,-0.4,KI,Kiribati
+KI,1986,0.1,KI,Kiribati
+KI,1987,0.7,KI,Kiribati
+KI,1988,-0.3,KI,Kiribati
+KI,1989,-0.6,KI,Kiribati
+KI,1990,0.3,KI,Kiribati
+KI,1991,0.7,KI,Kiribati
+KI,1992,0.5,KI,Kiribati
+KI,1993,0.4,KI,Kiribati
+KI,1994,0.6,KI,Kiribati
+KI,1995,0.3,KI,Kiribati
+KI,1996,-0.2,KI,Kiribati
+KI,1997,0.6,KI,Kiribati
+KI,1998,-0.1,KI,Kiribati
+KI,1999,-0.8,KI,Kiribati
+KI,2000,-0.7,KI,Kiribati
+KI,2001,0.0,KI,Kiribati
+KI,2002,0.7,KI,Kiribati
+KI,2003,0.6,KI,Kiribati
+KI,2004,0.6,KI,Kiribati
+KI,2005,0.4,KI,Kiribati
+KI,2006,0.4,KI,Kiribati
+KI,2007,0.1,KI,Kiribati
+KI,2008,-0.6,KI,Kiribati
+KI,2009,0.4,KI,Kiribati
+KI,2010,-0.1,KI,Kiribati
+KI,2011,-0.7,KI,Kiribati
+KI,2012,0.0,KI,Kiribati
+KI,2013,0.1,KI,Kiribati
+KI,2014,0.5,KI,Kiribati
+KI,2015,1.1,KI,Kiribati
+KI,2016,0.7,KI,Kiribati
+KI,2017,0.2,KI,Kiribati
+KI,2018,0.4,KI,Kiribati
+KI,2019,0.8,KI,Kiribati
+KI,2020,0.2,KI,Kiribati
+KI,2021,-0.3,KI,Kiribati
+KI,2022,-0.6,KI,Kiribati
+KI,2023,0.7,KI,Kiribati
+KI,2024,0.8,KI,Kiribati
+KI,2025,0.1,KI,Kiribati
+NR,1980,0.3,NR,Nauru
+NR,1981,0.1,NR,Nauru
+NR,1982,0.2,NR,Nauru
+NR,1983,-0.2,NR,Nauru
+NR,1984,-0.3,NR,Nauru
+NR,1985,-0.2,NR,Nauru
+NR,1986,0.2,NR,Nauru
+NR,1987,0.1,NR,Nauru
+NR,1988,-0.1,NR,Nauru
+NR,1989,-0.3,NR,Nauru
+NR,1990,0.4,NR,Nauru
+NR,1991,0.5,NR,Nauru
+NR,1992,0.1,NR,Nauru
+NR,1993,0.1,NR,Nauru
+NR,1994,0.3,NR,Nauru
+NR,1995,0.4,NR,Nauru
+NR,1996,0.1,NR,Nauru
+NR,1997,0.2,NR,Nauru
+NR,1998,-0.4,NR,Nauru
+NR,1999,-0.5,NR,Nauru
+NR,2000,-0.4,NR,Nauru
+NR,2001,0.2,NR,Nauru
+NR,2002,0.6,NR,Nauru
+NR,2003,0.7,NR,Nauru
+NR,2004,0.7,NR,Nauru
+NR,2005,0.7,NR,Nauru
+NR,2006,0.5,NR,Nauru
+NR,2007,0.4,NR,Nauru
+NR,2008,-0.4,NR,Nauru
+NR,2009,0.4,NR,Nauru
+NR,2010,0.0,NR,Nauru
+NR,2011,-0.3,NR,Nauru
+NR,2012,0.1,NR,Nauru
+NR,2013,0.3,NR,Nauru
+NR,2014,0.8,NR,Nauru
+NR,2015,0.7,NR,Nauru
+NR,2016,0.6,NR,Nauru
+NR,2017,0.5,NR,Nauru
+NR,2018,0.8,NR,Nauru
+NR,2019,0.9,NR,Nauru
+NR,2020,0.6,NR,Nauru
+NR,2021,0.1,NR,Nauru
+NR,2022,-0.2,NR,Nauru
+NR,2023,0.7,NR,Nauru
+NR,2024,1.0,NR,Nauru
+NR,2025,0.3,NR,Nauru
+CK,1980,0.0,CK,Cook Islands
+CK,1981,-0.3,CK,Cook Islands
+CK,1982,0.0,CK,Cook Islands
+CK,1983,-0.3,CK,Cook Islands
+CK,1984,-0.1,CK,Cook Islands
+CK,1985,-0.3,CK,Cook Islands
+CK,1986,-0.2,CK,Cook Islands
+CK,1987,0.0,CK,Cook Islands
+CK,1988,0.2,CK,Cook Islands
+CK,1989,-0.2,CK,Cook Islands
+CK,1990,0.0,CK,Cook Islands
+CK,1991,0.3,CK,Cook Islands
+CK,1992,0.3,CK,Cook Islands
+CK,1993,0.1,CK,Cook Islands
+CK,1994,0.2,CK,Cook Islands
+CK,1995,0.3,CK,Cook Islands
+CK,1996,0.1,CK,Cook Islands
+CK,1997,0.0,CK,Cook Islands
+CK,1998,0.0,CK,Cook Islands
+CK,1999,0.1,CK,Cook Islands
+CK,2000,0.2,CK,Cook Islands
+CK,2001,0.2,CK,Cook Islands
+CK,2002,0.4,CK,Cook Islands
+CK,2003,0.5,CK,Cook Islands
+CK,2004,0.6,CK,Cook Islands
+CK,2005,0.5,CK,Cook Islands
+CK,2006,0.5,CK,Cook Islands
+CK,2007,0.5,CK,Cook Islands
+CK,2008,0.1,CK,Cook Islands
+CK,2009,0.5,CK,Cook Islands
+CK,2010,0.6,CK,Cook Islands
+CK,2011,0.1,CK,Cook Islands
+CK,2012,0.3,CK,Cook Islands
+CK,2013,0.5,CK,Cook Islands
+CK,2014,0.5,CK,Cook Islands
+CK,2015,0.4,CK,Cook Islands
+CK,2016,0.6,CK,Cook Islands
+CK,2017,0.6,CK,Cook Islands
+CK,2018,0.4,CK,Cook Islands
+CK,2019,0.7,CK,Cook Islands
+CK,2020,0.6,CK,Cook Islands
+CK,2021,0.4,CK,Cook Islands
+CK,2022,0.2,CK,Cook Islands
+CK,2023,0.5,CK,Cook Islands
+CK,2024,0.7,CK,Cook Islands
+CK,2025,0.5,CK,Cook Islands
+MP,1980,0.0,MP,Northern Mariana Islands
+MP,1981,0.1,MP,Northern Mariana Islands
+MP,1982,-0.2,MP,Northern Mariana Islands
+MP,1983,-0.1,MP,Northern Mariana Islands
+MP,1984,0.0,MP,Northern Mariana Islands
+MP,1985,-0.1,MP,Northern Mariana Islands
+MP,1986,-0.1,MP,Northern Mariana Islands
+MP,1987,0.0,MP,Northern Mariana Islands
+MP,1988,0.5,MP,Northern Mariana Islands
+MP,1989,0.1,MP,Northern Mariana Islands
+MP,1990,-0.2,MP,Northern Mariana Islands
+MP,1991,-0.1,MP,Northern Mariana Islands
+MP,1992,-0.3,MP,Northern Mariana Islands
+MP,1993,-0.3,MP,Northern Mariana Islands
+MP,1994,-0.1,MP,Northern Mariana Islands
+MP,1995,0.0,MP,Northern Mariana Islands
+MP,1996,0.1,MP,Northern Mariana Islands
+MP,1997,0.0,MP,Northern Mariana Islands
+MP,1998,0.4,MP,Northern Mariana Islands
+MP,1999,0.7,MP,Northern Mariana Islands
+MP,2000,0.4,MP,Northern Mariana Islands
+MP,2001,0.6,MP,Northern Mariana Islands
+MP,2002,0.3,MP,Northern Mariana Islands
+MP,2003,0.3,MP,Northern Mariana Islands
+MP,2004,0.1,MP,Northern Mariana Islands
+MP,2005,0.2,MP,Northern Mariana Islands
+MP,2006,0.1,MP,Northern Mariana Islands
+MP,2007,0.4,MP,Northern Mariana Islands
+MP,2008,0.6,MP,Northern Mariana Islands
+MP,2009,0.4,MP,Northern Mariana Islands
+MP,2010,0.2,MP,Northern Mariana Islands
+MP,2011,0.2,MP,Northern Mariana Islands
+MP,2012,0.2,MP,Northern Mariana Islands
+MP,2013,0.4,MP,Northern Mariana Islands
+MP,2014,0.3,MP,Northern Mariana Islands
+MP,2015,0.2,MP,Northern Mariana Islands
+MP,2016,0.6,MP,Northern Mariana Islands
+MP,2017,0.8,MP,Northern Mariana Islands
+MP,2018,0.7,MP,Northern Mariana Islands
+MP,2019,0.7,MP,Northern Mariana Islands
+MP,2020,0.8,MP,Northern Mariana Islands
+MP,2021,0.8,MP,Northern Mariana Islands
+MP,2022,0.7,MP,Northern Mariana Islands
+MP,2023,0.5,MP,Northern Mariana Islands
+MP,2024,0.7,MP,Northern Mariana Islands
+MP,2025,0.9,MP,Northern Mariana Islands
+FJ,1980,-0.1,FJ,Fiji
+FJ,1981,-0.1,FJ,Fiji
+FJ,1982,-0.3,FJ,Fiji
+FJ,1983,-0.3,FJ,Fiji
+FJ,1984,0.1,FJ,Fiji
+FJ,1985,-0.1,FJ,Fiji
+FJ,1986,-0.3,FJ,Fiji
+FJ,1987,-0.4,FJ,Fiji
+FJ,1988,0.4,FJ,Fiji
+FJ,1989,0.1,FJ,Fiji
+FJ,1990,0.1,FJ,Fiji
+FJ,1991,-0.2,FJ,Fiji
+FJ,1992,-0.2,FJ,Fiji
+FJ,1993,-0.4,FJ,Fiji
+FJ,1994,-0.4,FJ,Fiji
+FJ,1995,0.1,FJ,Fiji
+FJ,1996,0.2,FJ,Fiji
+FJ,1997,-0.2,FJ,Fiji
+FJ,1998,0.1,FJ,Fiji
+FJ,1999,0.3,FJ,Fiji
+FJ,2000,0.4,FJ,Fiji
+FJ,2001,0.3,FJ,Fiji
+FJ,2002,0.3,FJ,Fiji
+FJ,2003,0.2,FJ,Fiji
+FJ,2004,0.2,FJ,Fiji
+FJ,2005,0.3,FJ,Fiji
+FJ,2006,0.2,FJ,Fiji
+FJ,2007,0.4,FJ,Fiji
+FJ,2008,0.5,FJ,Fiji
+FJ,2009,0.2,FJ,Fiji
+FJ,2010,0.4,FJ,Fiji
+FJ,2011,0.6,FJ,Fiji
+FJ,2012,0.3,FJ,Fiji
+FJ,2013,0.5,FJ,Fiji
+FJ,2014,0.4,FJ,Fiji
+FJ,2015,-0.1,FJ,Fiji
+FJ,2016,0.5,FJ,Fiji
+FJ,2017,0.5,FJ,Fiji
+FJ,2018,0.4,FJ,Fiji
+FJ,2019,0.4,FJ,Fiji
+FJ,2020,0.5,FJ,Fiji
+FJ,2021,0.7,FJ,Fiji
+FJ,2022,1.1,FJ,Fiji
+FJ,2023,0.5,FJ,Fiji
+FJ,2024,0.6,FJ,Fiji
+FJ,2025,0.7,FJ,Fiji
+MH,1980,0.1,MH,Marshall Islands
+MH,1981,0.2,MH,Marshall Islands
+MH,1982,0.0,MH,Marshall Islands
+MH,1983,-0.3,MH,Marshall Islands
+MH,1984,0.1,MH,Marshall Islands
+MH,1985,0.0,MH,Marshall Islands
+MH,1986,0.1,MH,Marshall Islands
+MH,1987,-0.1,MH,Marshall Islands
+MH,1988,0.1,MH,Marshall Islands
+MH,1989,0.0,MH,Marshall Islands
+MH,1990,0.3,MH,Marshall Islands
+MH,1991,0.2,MH,Marshall Islands
+MH,1992,-0.1,MH,Marshall Islands
+MH,1993,-0.2,MH,Marshall Islands
+MH,1994,0.1,MH,Marshall Islands
+MH,1995,0.2,MH,Marshall Islands
+MH,1996,0.3,MH,Marshall Islands
+MH,1997,0.1,MH,Marshall Islands
+MH,1998,-0.3,MH,Marshall Islands
+MH,1999,-0.1,MH,Marshall Islands
+MH,2000,0.1,MH,Marshall Islands
+MH,2001,0.3,MH,Marshall Islands
+MH,2002,0.4,MH,Marshall Islands
+MH,2003,0.5,MH,Marshall Islands
+MH,2004,0.6,MH,Marshall Islands
+MH,2005,0.5,MH,Marshall Islands
+MH,2006,0.4,MH,Marshall Islands
+MH,2007,0.4,MH,Marshall Islands
+MH,2008,0.0,MH,Marshall Islands
+MH,2009,0.4,MH,Marshall Islands
+MH,2010,0.0,MH,Marshall Islands
+MH,2011,0.3,MH,Marshall Islands
+MH,2012,0.3,MH,Marshall Islands
+MH,2013,0.4,MH,Marshall Islands
+MH,2014,0.7,MH,Marshall Islands
+MH,2015,0.5,MH,Marshall Islands
+MH,2016,0.4,MH,Marshall Islands
+MH,2017,0.6,MH,Marshall Islands
+MH,2018,0.6,MH,Marshall Islands
+MH,2019,0.6,MH,Marshall Islands
+MH,2020,0.5,MH,Marshall Islands
+MH,2021,0.4,MH,Marshall Islands
+MH,2022,0.3,MH,Marshall Islands
+MH,2023,0.6,MH,Marshall Islands
+MH,2024,0.7,MH,Marshall Islands
+MH,2025,0.6,MH,Marshall Islands
+WF,1980,0.1,WF,Wallis and Futuna
+WF,1981,-0.1,WF,Wallis and Futuna
+WF,1982,0.0,WF,Wallis and Futuna
+WF,1983,-0.3,WF,Wallis and Futuna
+WF,1984,0.0,WF,Wallis and Futuna
+WF,1985,-0.2,WF,Wallis and Futuna
+WF,1986,-0.1,WF,Wallis and Futuna
+WF,1987,-0.1,WF,Wallis and Futuna
+WF,1988,0.0,WF,Wallis and Futuna
+WF,1989,-0.1,WF,Wallis and Futuna
+WF,1990,0.1,WF,Wallis and Futuna
+WF,1991,0.3,WF,Wallis and Futuna
+WF,1992,0.1,WF,Wallis and Futuna
+WF,1993,0.0,WF,Wallis and Futuna
+WF,1994,0.2,WF,Wallis and Futuna
+WF,1995,0.3,WF,Wallis and Futuna
+WF,1996,0.1,WF,Wallis and Futuna
+WF,1997,-0.1,WF,Wallis and Futuna
+WF,1998,-0.2,WF,Wallis and Futuna
+WF,1999,0.1,WF,Wallis and Futuna
+WF,2000,0.3,WF,Wallis and Futuna
+WF,2001,0.3,WF,Wallis and Futuna
+WF,2002,0.4,WF,Wallis and Futuna
+WF,2003,0.5,WF,Wallis and Futuna
+WF,2004,0.5,WF,Wallis and Futuna
+WF,2005,0.5,WF,Wallis and Futuna
+WF,2006,0.4,WF,Wallis and Futuna
+WF,2007,0.5,WF,Wallis and Futuna
+WF,2008,0.2,WF,Wallis and Futuna
+WF,2009,0.4,WF,Wallis and Futuna
+WF,2010,0.4,WF,Wallis and Futuna
+WF,2011,0.2,WF,Wallis and Futuna
+WF,2012,0.4,WF,Wallis and Futuna
+WF,2013,0.5,WF,Wallis and Futuna
+WF,2014,0.6,WF,Wallis and Futuna
+WF,2015,0.4,WF,Wallis and Futuna
+WF,2016,0.6,WF,Wallis and Futuna
+WF,2017,0.6,WF,Wallis and Futuna
+WF,2018,0.5,WF,Wallis and Futuna
+WF,2019,0.7,WF,Wallis and Futuna
+WF,2020,0.6,WF,Wallis and Futuna
+WF,2021,0.4,WF,Wallis and Futuna
+WF,2022,0.4,WF,Wallis and Futuna
+WF,2023,0.6,WF,Wallis and Futuna
+WF,2024,0.7,WF,Wallis and Futuna
+WF,2025,0.5,WF,Wallis and Futuna
+TK,1980,0.2,TK,Tokelau
+TK,1981,-0.2,TK,Tokelau
+TK,1982,0.1,TK,Tokelau
+TK,1983,-0.1,TK,Tokelau
+TK,1984,-0.2,TK,Tokelau
+TK,1985,-0.3,TK,Tokelau
+TK,1986,0.1,TK,Tokelau
+TK,1987,0.4,TK,Tokelau
+TK,1988,0.0,TK,Tokelau
+TK,1989,-0.4,TK,Tokelau
+TK,1990,0.2,TK,Tokelau
+TK,1991,0.5,TK,Tokelau
+TK,1992,0.4,TK,Tokelau
+TK,1993,0.3,TK,Tokelau
+TK,1994,0.5,TK,Tokelau
+TK,1995,0.4,TK,Tokelau
+TK,1996,0.0,TK,Tokelau
+TK,1997,0.2,TK,Tokelau
+TK,1998,-0.1,TK,Tokelau
+TK,1999,-0.4,TK,Tokelau
+TK,2000,-0.3,TK,Tokelau
+TK,2001,0.1,TK,Tokelau
+TK,2002,0.5,TK,Tokelau
+TK,2003,0.6,TK,Tokelau
+TK,2004,0.5,TK,Tokelau
+TK,2005,0.4,TK,Tokelau
+TK,2006,0.4,TK,Tokelau
+TK,2007,0.3,TK,Tokelau
+TK,2008,-0.3,TK,Tokelau
+TK,2009,0.5,TK,Tokelau
+TK,2010,0.2,TK,Tokelau
+TK,2011,-0.4,TK,Tokelau
+TK,2012,0.2,TK,Tokelau
+TK,2013,0.3,TK,Tokelau
+TK,2014,0.5,TK,Tokelau
+TK,2015,0.8,TK,Tokelau
+TK,2016,0.7,TK,Tokelau
+TK,2017,0.5,TK,Tokelau
+TK,2018,0.5,TK,Tokelau
+TK,2019,0.8,TK,Tokelau
+TK,2020,0.5,TK,Tokelau
+TK,2021,0.0,TK,Tokelau
+TK,2022,-0.2,TK,Tokelau
+TK,2023,0.6,TK,Tokelau
+TK,2024,0.8,TK,Tokelau
+TK,2025,0.4,TK,Tokelau
+SB,1980,-0.1,SB,Solomon Islands
+SB,1981,0.1,SB,Solomon Islands
+SB,1982,-0.2,SB,Solomon Islands
+SB,1983,-0.3,SB,Solomon Islands
+SB,1984,0.0,SB,Solomon Islands
+SB,1985,0.0,SB,Solomon Islands
+SB,1986,-0.1,SB,Solomon Islands
+SB,1987,-0.3,SB,Solomon Islands
+SB,1988,0.2,SB,Solomon Islands
+SB,1989,0.2,SB,Solomon Islands
+SB,1990,0.2,SB,Solomon Islands
+SB,1991,0.1,SB,Solomon Islands
+SB,1992,-0.3,SB,Solomon Islands
+SB,1993,-0.5,SB,Solomon Islands
+SB,1994,-0.1,SB,Solomon Islands
+SB,1995,0.3,SB,Solomon Islands
+SB,1996,0.3,SB,Solomon Islands
+SB,1997,-0.1,SB,Solomon Islands
+SB,1998,0.2,SB,Solomon Islands
+SB,1999,0.2,SB,Solomon Islands
+SB,2000,0.3,SB,Solomon Islands
+SB,2001,0.4,SB,Solomon Islands
+SB,2002,0.3,SB,Solomon Islands
+SB,2003,0.5,SB,Solomon Islands
+SB,2004,0.3,SB,Solomon Islands
+SB,2005,0.5,SB,Solomon Islands
+SB,2006,0.3,SB,Solomon Islands
+SB,2007,0.6,SB,Solomon Islands
+SB,2008,0.3,SB,Solomon Islands
+SB,2009,0.4,SB,Solomon Islands
+SB,2010,0.4,SB,Solomon Islands
+SB,2011,0.4,SB,Solomon Islands
+SB,2012,0.3,SB,Solomon Islands
+SB,2013,0.4,SB,Solomon Islands
+SB,2014,0.5,SB,Solomon Islands
+SB,2015,0.1,SB,Solomon Islands
+SB,2016,0.7,SB,Solomon Islands
+SB,2017,0.7,SB,Solomon Islands
+SB,2018,0.6,SB,Solomon Islands
+SB,2019,0.5,SB,Solomon Islands
+SB,2020,0.8,SB,Solomon Islands
+SB,2021,0.6,SB,Solomon Islands
+SB,2022,0.7,SB,Solomon Islands
+SB,2023,0.6,SB,Solomon Islands
+SB,2024,0.9,SB,Solomon Islands
+SB,2025,0.9,SB,Solomon Islands
+PF,1980,-0.1,PF,French Polynesia
+PF,1981,-0.3,PF,French Polynesia
+PF,1982,0.0,PF,French Polynesia
+PF,1983,-0.1,PF,French Polynesia
+PF,1984,0.0,PF,French Polynesia
+PF,1985,-0.1,PF,French Polynesia
+PF,1986,-0.1,PF,French Polynesia
+PF,1987,0.1,PF,French Polynesia
+PF,1988,0.2,PF,French Polynesia
+PF,1989,0.0,PF,French Polynesia
+PF,1990,-0.1,PF,French Polynesia
+PF,1991,0.2,PF,French Polynesia
+PF,1992,0.1,PF,French Polynesia
+PF,1993,-0.1,PF,French Polynesia
+PF,1994,0.2,PF,French Polynesia
+PF,1995,0.2,PF,French Polynesia
+PF,1996,0.0,PF,French Polynesia
+PF,1997,0.1,PF,French Polynesia
+PF,1998,0.2,PF,French Polynesia
+PF,1999,0.2,PF,French Polynesia
+PF,2000,0.2,PF,French Polynesia
+PF,2001,0.2,PF,French Polynesia
+PF,2002,0.4,PF,French Polynesia
+PF,2003,0.4,PF,French Polynesia
+PF,2004,0.4,PF,French Polynesia
+PF,2005,0.2,PF,French Polynesia
+PF,2006,0.4,PF,French Polynesia
+PF,2007,0.4,PF,French Polynesia
+PF,2008,0.2,PF,French Polynesia
+PF,2009,0.4,PF,French Polynesia
+PF,2010,0.3,PF,French Polynesia
+PF,2011,0.0,PF,French Polynesia
+PF,2012,0.3,PF,French Polynesia
+PF,2013,0.2,PF,French Polynesia
+PF,2014,0.1,PF,French Polynesia
+PF,2015,0.2,PF,French Polynesia
+PF,2016,0.7,PF,French Polynesia
+PF,2017,0.5,PF,French Polynesia
+PF,2018,0.3,PF,French Polynesia
+PF,2019,0.4,PF,French Polynesia
+PF,2020,0.5,PF,French Polynesia
+PF,2021,0.4,PF,French Polynesia
+PF,2022,0.1,PF,French Polynesia
+PF,2023,0.5,PF,French Polynesia
+PF,2024,0.4,PF,French Polynesia
+PF,2025,0.6,PF,French Polynesia
+TO,1980,0.0,TO,Tonga
+TO,1981,-0.1,TO,Tonga
+TO,1982,-0.2,TO,Tonga
+TO,1983,-0.3,TO,Tonga
+TO,1984,0.1,TO,Tonga
+TO,1985,-0.1,TO,Tonga
+TO,1986,-0.4,TO,Tonga
+TO,1987,-0.5,TO,Tonga
+TO,1988,0.4,TO,Tonga
+TO,1989,0.1,TO,Tonga
+TO,1990,0.0,TO,Tonga
+TO,1991,-0.1,TO,Tonga
+TO,1992,0.0,TO,Tonga
+TO,1993,-0.3,TO,Tonga
+TO,1994,-0.3,TO,Tonga
+TO,1995,0.2,TO,Tonga
+TO,1996,0.3,TO,Tonga
+TO,1997,-0.2,TO,Tonga
+TO,1998,0.0,TO,Tonga
+TO,1999,0.4,TO,Tonga
+TO,2000,0.5,TO,Tonga
+TO,2001,0.2,TO,Tonga
+TO,2002,0.3,TO,Tonga
+TO,2003,0.3,TO,Tonga
+TO,2004,0.4,TO,Tonga
+TO,2005,0.4,TO,Tonga
+TO,2006,0.3,TO,Tonga
+TO,2007,0.4,TO,Tonga
+TO,2008,0.6,TO,Tonga
+TO,2009,0.3,TO,Tonga
+TO,2010,0.6,TO,Tonga
+TO,2011,0.8,TO,Tonga
+TO,2012,0.4,TO,Tonga
+TO,2013,0.6,TO,Tonga
+TO,2014,0.4,TO,Tonga
+TO,2015,-0.1,TO,Tonga
+TO,2016,0.4,TO,Tonga
+TO,2017,0.6,TO,Tonga
+TO,2018,0.5,TO,Tonga
+TO,2019,0.5,TO,Tonga
+TO,2020,0.7,TO,Tonga
+TO,2021,0.8,TO,Tonga
+TO,2022,1.1,TO,Tonga
+TO,2023,0.5,TO,Tonga
+TO,2024,0.6,TO,Tonga
+TO,2025,0.6,TO,Tonga
+VU,1980,-0.2,VU,Vanuatu
+VU,1981,0.0,VU,Vanuatu
+VU,1982,-0.3,VU,Vanuatu
+VU,1983,-0.3,VU,Vanuatu
+VU,1984,0.1,VU,Vanuatu
+VU,1985,0.0,VU,Vanuatu
+VU,1986,-0.2,VU,Vanuatu
+VU,1987,-0.4,VU,Vanuatu
+VU,1988,0.3,VU,Vanuatu
+VU,1989,0.2,VU,Vanuatu
+VU,1990,0.2,VU,Vanuatu
+VU,1991,-0.3,VU,Vanuatu
+VU,1992,-0.4,VU,Vanuatu
+VU,1993,-0.6,VU,Vanuatu
+VU,1994,-0.5,VU,Vanuatu
+VU,1995,0.1,VU,Vanuatu
+VU,1996,0.2,VU,Vanuatu
+VU,1997,-0.2,VU,Vanuatu
+VU,1998,0.4,VU,Vanuatu
+VU,1999,0.4,VU,Vanuatu
+VU,2000,0.3,VU,Vanuatu
+VU,2001,0.4,VU,Vanuatu
+VU,2002,0.2,VU,Vanuatu
+VU,2003,0.2,VU,Vanuatu
+VU,2004,0.1,VU,Vanuatu
+VU,2005,0.3,VU,Vanuatu
+VU,2006,0.1,VU,Vanuatu
+VU,2007,0.4,VU,Vanuatu
+VU,2008,0.5,VU,Vanuatu
+VU,2009,0.2,VU,Vanuatu
+VU,2010,0.4,VU,Vanuatu
+VU,2011,0.5,VU,Vanuatu
+VU,2012,0.3,VU,Vanuatu
+VU,2013,0.4,VU,Vanuatu
+VU,2014,0.3,VU,Vanuatu
+VU,2015,-0.1,VU,Vanuatu
+VU,2016,0.6,VU,Vanuatu
+VU,2017,0.5,VU,Vanuatu
+VU,2018,0.4,VU,Vanuatu
+VU,2019,0.3,VU,Vanuatu
+VU,2020,0.5,VU,Vanuatu
+VU,2021,0.6,VU,Vanuatu
+VU,2022,1.1,VU,Vanuatu
+VU,2023,0.5,VU,Vanuatu
+VU,2024,0.7,VU,Vanuatu
+VU,2025,0.8,VU,Vanuatu
+NC,1980,-0.2,NC,New Caledonia
+NC,1981,0.0,NC,New Caledonia
+NC,1982,-0.5,NC,New Caledonia
+NC,1983,-0.1,NC,New Caledonia
+NC,1984,-0.1,NC,New Caledonia
+NC,1985,-0.1,NC,New Caledonia
+NC,1986,-0.1,NC,New Caledonia
+NC,1987,-0.2,NC,New Caledonia
+NC,1988,0.4,NC,New Caledonia
+NC,1989,0.1,NC,New Caledonia
+NC,1990,0.1,NC,New Caledonia
+NC,1991,-0.4,NC,New Caledonia
+NC,1992,-0.4,NC,New Caledonia
+NC,1993,-0.5,NC,New Caledonia
+NC,1994,-0.6,NC,New Caledonia
+NC,1995,0.1,NC,New Caledonia
+NC,1996,0.2,NC,New Caledonia
+NC,1997,-0.1,NC,New Caledonia
+NC,1998,0.8,NC,New Caledonia
+NC,1999,0.2,NC,New Caledonia
+NC,2000,0.0,NC,New Caledonia
+NC,2001,0.3,NC,New Caledonia
+NC,2002,0.2,NC,New Caledonia
+NC,2003,0.2,NC,New Caledonia
+NC,2004,0.1,NC,New Caledonia
+NC,2005,0.2,NC,New Caledonia
+NC,2006,0.0,NC,New Caledonia
+NC,2007,0.1,NC,New Caledonia
+NC,2008,0.3,NC,New Caledonia
+NC,2009,0.2,NC,New Caledonia
+NC,2010,0.4,NC,New Caledonia
+NC,2011,0.3,NC,New Caledonia
+NC,2012,0.0,NC,New Caledonia
+NC,2013,0.2,NC,New Caledonia
+NC,2014,0.1,NC,New Caledonia
+NC,2015,0.0,NC,New Caledonia
+NC,2016,0.7,NC,New Caledonia
+NC,2017,0.5,NC,New Caledonia
+NC,2018,0.3,NC,New Caledonia
+NC,2019,0.2,NC,New Caledonia
+NC,2020,0.5,NC,New Caledonia
+NC,2021,0.4,NC,New Caledonia
+NC,2022,0.9,NC,New Caledonia
+NC,2023,0.4,NC,New Caledonia
+NC,2024,0.7,NC,New Caledonia
+NC,2025,0.8,NC,New Caledonia
+GU,1980,-0.2,GU,Guam
+GU,1981,0.1,GU,Guam
+GU,1982,-0.2,GU,Guam
+GU,1983,-0.2,GU,Guam
+GU,1984,0.2,GU,Guam
+GU,1985,0.0,GU,Guam
+GU,1986,0.0,GU,Guam
+GU,1987,-0.1,GU,Guam
+GU,1988,0.3,GU,Guam
+GU,1989,0.2,GU,Guam
+GU,1990,-0.1,GU,Guam
+GU,1991,-0.2,GU,Guam
+GU,1992,-0.4,GU,Guam
+GU,1993,-0.4,GU,Guam
+GU,1994,0.0,GU,Guam
+GU,1995,0.2,GU,Guam
+GU,1996,0.4,GU,Guam
+GU,1997,0.1,GU,Guam
+GU,1998,0.1,GU,Guam
+GU,1999,0.4,GU,Guam
+GU,2000,0.4,GU,Guam
+GU,2001,0.5,GU,Guam
+GU,2002,0.3,GU,Guam
+GU,2003,0.3,GU,Guam
+GU,2004,0.2,GU,Guam
+GU,2005,0.2,GU,Guam
+GU,2006,0.2,GU,Guam
+GU,2007,0.4,GU,Guam
+GU,2008,0.5,GU,Guam
+GU,2009,0.4,GU,Guam
+GU,2010,0.3,GU,Guam
+GU,2011,0.5,GU,Guam
+GU,2012,0.4,GU,Guam
+GU,2013,0.5,GU,Guam
+GU,2014,0.5,GU,Guam
+GU,2015,0.2,GU,Guam
+GU,2016,0.4,GU,Guam
+GU,2017,0.8,GU,Guam
+GU,2018,0.6,GU,Guam
+GU,2019,0.6,GU,Guam
+GU,2020,0.7,GU,Guam
+GU,2021,0.8,GU,Guam
+GU,2022,0.7,GU,Guam
+GU,2023,0.6,GU,Guam
+GU,2024,0.6,GU,Guam
+GU,2025,0.9,GU,Guam

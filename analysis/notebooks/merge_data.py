@@ -9,7 +9,8 @@ def _():
     import marimo as mo
     import pandas as pd
     import sdmx
-    return mo, pd, sdmx
+    import numpy as np
+    return mo, np, pd, sdmx
 
 
 @app.cell(hide_code=True)
@@ -34,7 +35,7 @@ def _(mo):
 
 
 @app.cell
-def _(pd, sdmx):
+def _(sdmx):
     def load_pdh_data(key, keep_cols, source, params=None):
         spc = sdmx.Client("SPC")
         params = params or {}
@@ -301,6 +302,37 @@ def _(merged, mo):
 
 @app.cell
 def _(merged):
+    for col in merged.columns:
+        try:
+            print(col, "max:", merged[col].max(), "min:", merged[col].min())
+        except:
+            continue
+    return
+
+
+@app.cell
+def _(merged, np):
+    n_islands = merged[merged.number_of_islands > 1].sort_values(by='number_of_islands', ascending=False).number_of_islands.values
+    n_islands_log = np.round(np.log(n_islands))
+    merged['log_number_of_islands'] = np.round(np.log(merged['number_of_islands'])).astype(int)
+    merged[['number_of_islands', 'log_number_of_islands']]
+    return
+
+
+@app.cell
+def _(merged, np):
+    pop = merged.sort_values(by='population', ascending=False).population.values
+    pop_log = np.round(np.log(pop))
+    print(pop)
+    print(pop_log)
+    # merged['log_number_of_islands'] = np.round(np.log(merged['number_of_islands'])).astype(int)
+    # print(np.log(15))
+    # merged[['number_of_islands', 'log_number_of_islands']]
+    return
+
+
+@app.cell
+def _(merged):
     merged
     return
 
@@ -308,6 +340,11 @@ def _(merged):
 @app.cell
 def _(merged):
     merged.to_csv("data/processed/pacific_countries_2024.csv", index=False)
+    return
+
+
+@app.cell
+def _():
     return
 
 

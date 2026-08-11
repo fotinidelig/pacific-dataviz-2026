@@ -49,7 +49,8 @@ def _(sdmx):
     data = spc.data('DF_CLIMATE_CHANGE', key=key, params=params)
     df = sdmx.to_pandas(data)
     df = df.reset_index()[keep_cols]
-
+    df.TIME_PERIOD = df.TIME_PERIOD.astype(int)
+    df['REF_AREA'] = df.GEO_PICT
     # Replace country codes with real names
     df['GEO_PICT'] = df['GEO_PICT'].replace({
         'TK': 'Tokelau',
@@ -81,6 +82,35 @@ def _(sdmx):
 @app.cell
 def _(df):
     df
+    return
+
+
+@app.cell
+def _(df):
+    countries = {'TK': 'Tokelau',
+        'GU': 'Guam',
+        'PG': 'Papua New Guinea',
+        'PF': 'French Polynesia',
+        'FM': 'Federated States of Micronesia',
+        'PW': 'Palau',
+        'VU': 'Vanuatu',
+        'TV': 'Tuvalu',
+        'PN': 'Pitcairn Islands',
+        'MP': 'Northern Mariana Islands',
+        'WF': 'Wallis and Futuna',
+        'SB': 'Solomon Islands',
+        'MH': 'Marshall Islands',
+        'KI': 'Kiribati',
+        'FJ': 'Fiji',
+        'WS': 'Samoa',
+        'NC': 'New Caledonia',
+        'NU': 'Niue',
+        'CK': 'Cook Islands',
+        'TO': 'Tonga',
+        'NR': 'Nauru',
+        'AS': 'American Samoa',}
+
+    print(set(countries.values())-set(df.GEO_PICT.unique()))
     return
 
 
@@ -258,7 +288,7 @@ def _(ax_text, df, drawarrow, font, load_cmap, plt, sns):
                 linewidth=0,
                 legend=False,
             )
-    
+
         ax.grid()
 
         # ax.set_yticks([-0.2, -0.1, 0, 0.1, 0.2])
@@ -270,15 +300,15 @@ def _(ax_text, df, drawarrow, font, load_cmap, plt, sns):
         ax.set_yticklabels(ax.get_yticklabels(), font=font)
         ax.set_xticklabels(ax.get_xticklabels(), font=font)
         ax.spines[["top", "right"]].set_visible(False)
-    
+
         ax_text(s='After 2020 all countries experience\nat least <1 cm> of anomaly', 
                 x=(2023-start_date)/2, y=0.17, color='black', ax=ax, size=12, font=font,
                highlight_textprops=[{'color': 'darkred'}])
-    
+
         drawarrow.ax_arrow(ax=ax, tail_position=[(2023-start_date)/2+1, .14], 
                            head_position=[(2023-start_date)/2, .106], color='black', 
                            fill_head=False)
-        
+
         # ax.set_xlim([1993, 2030])
 
         fig.suptitle(f'Sea Level Anomalies from {start_date} to 2023', font=font, 
@@ -288,6 +318,18 @@ def _(ax_text, df, drawarrow, font, load_cmap, plt, sns):
         return fig
 
     swarmplot(start_date = 2015)
+    return
+
+
+@app.cell
+def _(df):
+    df.to_csv('data/processed/seal_level_anomaly.csv',  index=False)
+    return
+
+
+@app.cell
+def _(df):
+    df.value.unique().max()
     return
 
 

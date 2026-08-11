@@ -71,6 +71,7 @@ def _(sdmx):
     df = sdmx.to_pandas(data)
     df = df.reset_index()[keep_cols]
     df["TIME_PERIOD"] = df["TIME_PERIOD"].astype(int)
+    df['REF_AREA'] = df.GEO_PICT
 
     country_map = {
         "TK": "Tokelau",
@@ -97,13 +98,41 @@ def _(sdmx):
         "AS": "American Samoa",
     }
     df["COUNTRY"] = df["GEO_PICT"].map(country_map)
-    df["REF_AREA"] = df["GEO_PICT"]
     return (df,)
 
 
 @app.cell
 def _(df):
     df
+    return
+
+
+@app.cell
+def _(df):
+    countries = {'TK': 'Tokelau',
+        'GU': 'Guam',
+        'PG': 'Papua New Guinea',
+        'PF': 'French Polynesia',
+        'FM': 'Federated States of Micronesia',
+        'PW': 'Palau',
+        'VU': 'Vanuatu',
+        'TV': 'Tuvalu',
+        'PN': 'Pitcairn Islands',
+        'MP': 'Northern Mariana Islands',
+        'WF': 'Wallis and Futuna',
+        'SB': 'Solomon Islands',
+        'MH': 'Marshall Islands',
+        'KI': 'Kiribati',
+        'FJ': 'Fiji',
+        'WS': 'Samoa',
+        'NC': 'New Caledonia',
+        'NU': 'Niue',
+        'CK': 'Cook Islands',
+        'TO': 'Tonga',
+        'NR': 'Nauru',
+        'AS': 'American Samoa',}
+
+    print(set(countries.values())-set(df.COUNTRY.unique()))
     return
 
 
@@ -568,6 +597,18 @@ def _(abs_max, ax_text, ccrs, eez_st, latest_year, plt, projection, sm):
 @app.cell
 def _(eez_st):
     eez_st[["COUNTRY", "REF_AREA", "TIME_PERIOD", "value", "color"]]
+    return
+
+
+@app.cell
+def _(df):
+    df.to_csv('data/processed/surface_temperature_anomaly.csv',  index=False)
+    return
+
+
+@app.cell
+def _(df):
+    df.value.min(), df.value.max()
     return
 
 

@@ -41,12 +41,13 @@ def _(sdmx):
 
     key = dict(CLIMATE_CHANGE_INDICATORS='SST_ANOM')
     keep_cols = ['GEO_PICT', 'TIME_PERIOD', 'value']
-    params = dict(startPeriod='1980', endPeriod='2027')
+    params = dict(startPeriod='1980', endPeriod='2025')
 
     data = spc.data('DF_CLIMATE_CHANGE', key=key, params=params)
     df = sdmx.to_pandas(data)
     df = df.reset_index()[keep_cols]
     df.TIME_PERIOD = df.TIME_PERIOD.astype('int')
+    df['REF_AREA'] = df.GEO_PICT
 
     df['COUNTRY'] = df['GEO_PICT'].replace({
             'TK': 'Tokelau',
@@ -73,6 +74,41 @@ def _(sdmx):
             'AS': 'American Samoa',
         })
     return (df,)
+
+
+@app.cell
+def _(df):
+    df.TIME_PERIOD.unique()
+    return
+
+
+@app.cell
+def _(df):
+    countries = {'TK': 'Tokelau',
+        'GU': 'Guam',
+        'PG': 'Papua New Guinea',
+        'PF': 'French Polynesia',
+        'FM': 'Federated States of Micronesia',
+        'PW': 'Palau',
+        'VU': 'Vanuatu',
+        'TV': 'Tuvalu',
+        'PN': 'Pitcairn Islands',
+        'MP': 'Northern Mariana Islands',
+        'WF': 'Wallis and Futuna',
+        'SB': 'Solomon Islands',
+        'MH': 'Marshall Islands',
+        'KI': 'Kiribati',
+        'FJ': 'Fiji',
+        'WS': 'Samoa',
+        'NC': 'New Caledonia',
+        'NU': 'Niue',
+        'CK': 'Cook Islands',
+        'TO': 'Tonga',
+        'NR': 'Nauru',
+        'AS': 'American Samoa',}
+
+    print(set(countries.values())-set(df.COUNTRY.unique()))
+    return
 
 
 @app.cell
@@ -322,9 +358,26 @@ def _(lineplot, mo, with_pitcairn, year_range):
 
 
 @app.cell
+def _(df):
+    df.to_csv('data/processed/sea_surface_temperature_anomaly.csv',  index=False)
+    return
+
+
+@app.cell
+def _(df):
+    df.value.min(), df.value.max()
+    return
+
+
+@app.cell
 def _():
     import marimo as mo
     return (mo,)
+
+
+@app.cell
+def _():
+    return
 
 
 if __name__ == "__main__":

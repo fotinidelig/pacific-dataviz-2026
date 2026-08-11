@@ -30,7 +30,7 @@ npm install
 npm run dev
 ```
 
-Stack: Vite, React, TypeScript, D3, Tailwind CSS v4, Motion.
+Stack: Vite, React, D3, Tailwind CSS v4, Motion.
 
 Processed data is available via the `@data` alias (points to `data/processed/`).
 

@@ -21,7 +21,8 @@
     "exporter_order": 56.0,
     "exporters_total": 124.0,
     "number_of_islands": 7,
-    "atolls": 2.0
+    "atolls": 2.0,
+    "log_number_of_islands": 2
   },
   {
     "REF_AREA": "CK",
@@ -45,7 +46,8 @@
     "exporter_order": 87.0,
     "exporters_total": 178.0,
     "number_of_islands": 15,
-    "atolls": 1.0
+    "atolls": 1.0,
+    "log_number_of_islands": 3
   },
   {
     "REF_AREA": "FJ",
@@ -69,7 +71,8 @@
     "exporter_order": 4.0,
     "exporters_total": 192.0,
     "number_of_islands": 330,
-    "atolls": 0.0
+    "atolls": 0.0,
+    "log_number_of_islands": 6
   },
   {
     "REF_AREA": "FM",
@@ -93,7 +96,8 @@
     "exporter_order": 23.0,
     "exporters_total": 178.0,
     "number_of_islands": 607,
-    "atolls": 1.0
+    "atolls": 1.0,
+    "log_number_of_islands": 6
   },
   {
     "REF_AREA": "GU",
@@ -117,7 +121,8 @@
     "exporter_order": 161.0,
     "exporters_total": 226.0,
     "number_of_islands": 1,
-    "atolls": 0.0
+    "atolls": 0.0,
+    "log_number_of_islands": 0
   },
   {
     "REF_AREA": "KI",
@@ -141,7 +146,8 @@
     "exporter_order": 52.0,
     "exporters_total": 178.0,
     "number_of_islands": 33,
-    "atolls": 32.0
+    "atolls": 32.0,
+    "log_number_of_islands": 3
   },
   {
     "REF_AREA": "MH",
@@ -165,7 +171,8 @@
     "exporter_order": 55.0,
     "exporters_total": 178.0,
     "number_of_islands": 34,
-    "atolls": 29.0
+    "atolls": 29.0,
+    "log_number_of_islands": 4
   },
   {
     "REF_AREA": "MP",
@@ -189,7 +196,8 @@
     "exporter_order": 196.0,
     "exporters_total": 226.0,
     "number_of_islands": 14,
-    "atolls": 0.0
+    "atolls": 0.0,
+    "log_number_of_islands": 3
   },
   {
     "REF_AREA": "NC",
@@ -213,7 +221,8 @@
     "exporter_order": 11.0,
     "exporters_total": 127.0,
     "number_of_islands": 135,
-    "atolls": 1.0
+    "atolls": 1.0,
+    "log_number_of_islands": 5
   },
   {
     "REF_AREA": "NR",
@@ -237,7 +246,8 @@
     "exporter_order": 38.0,
     "exporters_total": 178.0,
     "number_of_islands": 1,
-    "atolls": 0.0
+    "atolls": 0.0,
+    "log_number_of_islands": 0
   },
   {
     "REF_AREA": "NU",
@@ -261,7 +271,8 @@
     "exporter_order": null,
     "exporters_total": null,
     "number_of_islands": 1,
-    "atolls": 0.0
+    "atolls": 0.0,
+    "log_number_of_islands": 0
   },
   {
     "REF_AREA": "PF",
@@ -285,7 +296,8 @@
     "exporter_order": 4.0,
     "exporters_total": 102.0,
     "number_of_islands": 121,
-    "atolls": 87.0
+    "atolls": 87.0,
+    "log_number_of_islands": 5
   },
   {
     "REF_AREA": "PG",
@@ -309,7 +321,8 @@
     "exporter_order": 18.0,
     "exporters_total": 152.0,
     "number_of_islands": 600,
-    "atolls": 1.0
+    "atolls": 1.0,
+    "log_number_of_islands": 6
   },
   {
     "REF_AREA": "PN",
@@ -324,7 +337,7 @@
     "eez_longitude": -127.42131,
     "eez_part": "Pitcairn",
     "eez_crs": "EPSG:4326",
-    "population": null,
+    "population": 50.0,
     "export_hs": "84",
     "export_hs_name": "Machinery",
     "export_hs_value": 329000.0,
@@ -333,7 +346,8 @@
     "exporter_order": 217.0,
     "exporters_total": 226.0,
     "number_of_islands": 4,
-    "atolls": 1.0
+    "atolls": 1.0,
+    "log_number_of_islands": 1
   },
   {
     "REF_AREA": "PW",
@@ -357,7 +371,8 @@
     "exporter_order": 170.0,
     "exporters_total": 210.0,
     "number_of_islands": 340,
-    "atolls": 1.0
+    "atolls": 1.0,
+    "log_number_of_islands": 6
   },
   {
     "REF_AREA": "SB",
@@ -381,7 +396,8 @@
     "exporter_order": 11.0,
     "exporters_total": 151.0,
     "number_of_islands": 1000,
-    "atolls": 1.0
+    "atolls": 1.0,
+    "log_number_of_islands": 7
   },
   {
     "REF_AREA": "TK",
@@ -405,7 +421,8 @@
     "exporter_order": 102.0,
     "exporters_total": 225.0,
     "number_of_islands": 3,
-    "atolls": 3.0
+    "atolls": 3.0,
+    "log_number_of_islands": 1
   },
   {
     "REF_AREA": "TO",
@@ -429,7 +446,8 @@
     "exporter_order": 39.0,
     "exporters_total": 158.0,
     "number_of_islands": 171,
-    "atolls": null
+    "atolls": null,
+    "log_number_of_islands": 5
   },
   {
     "REF_AREA": "TV",
@@ -453,7 +471,8 @@
     "exporter_order": 58.0,
     "exporters_total": 178.0,
     "number_of_islands": 9,
-    "atolls": 6.0
+    "atolls": 6.0,
+    "log_number_of_islands": 2
   },
   {
     "REF_AREA": "VU",
@@ -477,7 +496,8 @@
     "exporter_order": 44.0,
     "exporters_total": 178.0,
     "number_of_islands": 83,
-    "atolls": null
+    "atolls": null,
+    "log_number_of_islands": 4
   },
   {
     "REF_AREA": "WF",
@@ -501,7 +521,8 @@
     "exporter_order": 192.0,
     "exporters_total": 222.0,
     "number_of_islands": 3,
-    "atolls": 0.0
+    "atolls": 0.0,
+    "log_number_of_islands": 1
   },
   {
     "REF_AREA": "WS",
@@ -525,6 +546,7 @@
     "exporter_order": 91.0,
     "exporters_total": 225.0,
     "number_of_islands": 10,
-    "atolls": 0.0
+    "atolls": 0.0,
+    "log_number_of_islands": 2
   }
 ]

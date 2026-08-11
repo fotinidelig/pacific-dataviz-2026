@@ -1,0 +1,38 @@
+/**
+ * Typography utilities — variables are set from theme/typography.ts via applyTypographyTheme().
+ * Titles/headers use Averia Serif Libre; everything else uses Krub.
+ */
+.text-header {
+  font-family: var(--font-family-special);
+  font-size: var(--font-size-header);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.text-subheader {
+  font-family: var(--font-family-main);
+  font-size: var(--font-size-subheader);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.text-body {
+  font-family: var(--font-family-main);
+  font-size: var(--font-size-body);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.text-body_small {
+  font-family: var(--font-family-main);
+  font-size: var(--font-size-body_small);
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.text-axis {
+  font-family: var(--font-family-main);
+  font-size: var(--font-size-axis);
+  font-weight: 400;
+  line-height: 1;
+}
