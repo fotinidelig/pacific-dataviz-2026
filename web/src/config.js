@@ -17,8 +17,10 @@ export const EEZ_MIN_R = 30;
 export const EEZ_MAX_R = 130;
 
 /** Gap between sea-level anomaly rings (px). */
-export const SLA_RING_GAP = 5;
+export const SLA_RING_GAP = 4;
 
 /** Climate year slider (overlap of anomaly CSVs from 1995). */
 export const YEAR_MIN = 1995;
 export const YEAR_MAX = 2024;
+
+export const MAX_BOATS = 6;

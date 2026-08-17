@@ -5,29 +5,20 @@ import { extent, max } from "d3-array";
 import { interpolateRgb } from "d3-interpolate";
 import { csvParse } from "d3-dsv";
 import { colors } from "./theme";
+import {motion, useAnimation} from "motion/react";
+import { fontType } from "./theme/typography.js";
+import { boatCoords } from "./boatCoords.js";
+import { islandsCoords } from "./islandsCoords.js";
+import boat from "./assets/boat_blue.svg";
+
 import {
   MAP_MARGIN,
   BUBBLE_MIN_R,
   BUBBLE_MAX_R,
   EEZ_MIN_R,
   EEZ_MAX_R,
+  MAX_BOATS,
 } from "./config.js";
-
-function IslandsCoords({ x, y, r1, r2, num_islands}) {
-  if (num_islands <= 1) return [];
-  const coords = [];
-  const offset = Math.random() * 2 * Math.PI;
-  for (let i = 0; i < num_islands; i++) {
-    // outer radius is 60% of the eez radius for a more compact layout
-    const r = r1*1.05 + (r2*.6 - r1*1.05) * Math.sqrt(Math.random());
-    const angle = offset + i * (2 * Math.PI) / num_islands;
-    coords.push({
-      x: x + r * Math.cos(angle),
-      y: y + r * Math.sin(angle),
-    });
-  }
-  return coords;
-}
 
 export default function LightIslandsSvg({
   width,
@@ -102,6 +93,14 @@ export default function LightIslandsSvg({
       .domain([0, max(data, (d) => d.eez_area)])
       .range([EEZ_MIN_R, EEZ_MAX_R]);
 
+      const boatExtent = extent(
+          data.filter((d) => d.exports_value != null && d.exports_value > 0),
+          (d) => d.exports_value,
+        );
+      const boatRScale = scaleLog()
+        .domain(boatExtent)
+        .range([1, MAX_BOATS]);
+
     // Log population → sand (low) … blue #2B5F8A (high). Matches np.log exploration.
     const popExtent = extent(
       data.filter((d) => d.population != null && d.population > 0),
@@ -122,16 +121,28 @@ export default function LightIslandsSvg({
         d.population != null && d.population > 0
           ? popColor(d.population)
           : colors.sand,
-      islandsCoords: IslandsCoords({
+      boatCoords: boatCoords({
+        x: xScale(toMapLon(d.map_longitude)),
+        y: yScale(d.map_latitude),
+        r1: rScale(d.land_area),
+        r2: eezRScale(d.eez_area),
+        num_boats: boatRScale(d.exports_value),
+        maxBoats: MAX_BOATS,
+        refArea: d.REF_AREA,
+      }),
+      islandsCoords: islandsCoords({
         x: xScale(toMapLon(d.map_longitude)),
         y: yScale(d.map_latitude),
         r1: rScale(d.land_area),
         r2: eezRScale(d.eez_area),
         num_islands: d.log_number_of_islands,
+        seed: d.REF_AREA,
       }),
     }));
   }, [data, width, height]);
+
   if (!points) return null;
+  
   return (
     <div className="relative h-full w-full" >
       <svg width={width} height={height} className="bubbles">
@@ -144,6 +155,18 @@ export default function LightIslandsSvg({
         </radialGradient>
         </defs>
         {points.map((d) => {
+          const saturation = selectedId && selectedId === d.REF_AREA ? 1 :
+          !selectedId ? 1 : 0.35;
+          const boatPositions = d.boatCoords.map((b, i) => (
+            <image 
+              key={`boat-${d.REF_AREA}-${i}`}
+              href={boat}
+              width={7}
+              // height={16}
+              transform={`translate(${b.x}, ${b.y}) rotate(${b.rotation + 90}) translate(-9, -20)`}
+              style={{ pointerEvents: "none" }}
+            />
+          ));
           const islandCircles = d.islandsCoords.map((c) => (
             <circle className="eez-islands"
               key={`islands-${d.REF_AREA}-${c.x}-${c.y}`}
@@ -162,10 +185,10 @@ export default function LightIslandsSvg({
                 cy={d.y}
                 r={d.eez_r}
                 fill="url(#eez-sea)"
-                // stroke={colors.tealLight}
-                style={{ pointerEvents: "none" }}
+                style={{ pointerEvents: "none", filter: `saturate(${saturation})` }}
               />
               {islandCircles}
+              {boatPositions}
             </g>
           );
         })}
@@ -208,6 +231,7 @@ export default function LightIslandsSvg({
             textAnchor="middle"
             dominantBaseline="central"
             className="pointer-events-none text-axis fill-navy"
+            style={{ fontFamily: fontType.special }}
           >
             {d.REF_AREA}
           </text>

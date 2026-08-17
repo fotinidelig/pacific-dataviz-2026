@@ -267,10 +267,10 @@ def _(
 
     merged = country_table
     for df in [
-    red_list_idx,
-    ssta,
-    st_anom,
-    sla,
+        red_list_idx,
+        ssta,
+        st_anom,
+        sla,
         land_area,
         eez_area,
         eez_centroids,
@@ -340,6 +340,27 @@ def _(merged):
 @app.cell
 def _(merged):
     merged.to_csv("data/processed/pacific_countries_2024.csv", index=False)
+    return
+
+
+@app.cell
+def _(merged):
+    merged.export_hs_name.unique()
+    return
+
+
+@app.cell
+def _(merged):
+    merged.export_hs_value.min(), merged.export_hs_value.max() 
+    return
+
+
+@app.cell
+def _(merged, np):
+    print(merged.exports_value.min(), merged.exports_value.max())
+    exports_total = merged.sort_values(by='exports_value', ascending=False).exports_value.values
+    exports_total_log = np.round(np.log(exports_total))
+    print(exports_total_log, exports_total_log.max(), exports_total_log.min())
     return
 
 

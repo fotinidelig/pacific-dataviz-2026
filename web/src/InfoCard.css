@@ -8,7 +8,10 @@
   border-radius: 14px;
   background-color: var(--color-sand);
   color: var(--color-navy);
-  box-shadow: 0 0 24px 0 color-mix(in srgb, var(--color-teal-light) 70%, transparent);
+  --info-card-accent: var(--color-teal);
+  --info-card-shadow: var(--color-teal-light);
+  box-shadow: 0 0 24px 0
+    color-mix(in srgb, var(--info-card-shadow) 70%, transparent);
 }
 
 .info-card__header {
@@ -31,6 +34,8 @@
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
+  border-color: var(--info-card-accent);
+  border-width: 1px;
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-navy) 12%, transparent);
 }
 
@@ -61,7 +66,7 @@
 .info-card__rule {
   height: 1px;
   margin: 0.85rem 0 0.9rem;
-  background-color: var(--color-teal);
+  background-color: var(--info-card-accent);
 }
 
 .info-card__stats {

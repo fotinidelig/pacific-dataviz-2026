@@ -5,6 +5,7 @@ import { interpolateRgb } from "d3-interpolate";
 import { extent, max } from "d3-array";
 import { csvParse } from "d3-dsv";
 import { colors } from "./theme";
+import { fontType } from "./theme/typography.js";
 import {
   MAP_MARGIN,
   BUBBLE_MIN_R,
@@ -13,6 +14,7 @@ import {
   EEZ_MAX_R,
   SLA_RING_GAP,
 } from "./config.js";
+import { islandsCoords } from "./islandsCoords.js";
 
 /** 0.1 anomaly ≈ 1 cm ≈ one ring (−0.2 → 2 inward, +0.2 → 2 outward). */
 function slaRingCount(sla) {
@@ -25,9 +27,9 @@ function slaRingRadii(islandR, sla) {
   if (n === 0) return [];
   const radii = [];
   for (let i = 1; i <= n; i++) {
-    // Negative: rings inside the island (outer → inner).
-    // Positive: rings outside the island (inner → outer).
-    radii.push(sla < 0 ? islandR - i * SLA_RING_GAP : islandR + i * SLA_RING_GAP);
+    // Negative: rings outside the island (outer → inner).
+    // Positive: rings inside the island (inner → outer).
+    radii.push(sla < 0 ? islandR + i * SLA_RING_GAP : islandR - i * SLA_RING_GAP);
   }
   return radii.filter((r) => r > 0);
 }
@@ -44,8 +46,19 @@ export default function DarkIslandsSvg({
   year,
   pdhByArea,
   tempDomain,
+  selectedId = null,
+  onSelectCountry,
 }) {
   const [data, setData] = useState(null);
+
+  const handleIslandClick = (country) => {
+    if (!onSelectCountry) return;
+    if (selectedId != null && country.REF_AREA === selectedId) {
+      onSelectCountry(null);
+      return;
+    }
+    onSelectCountry(country);
+  };
 
   useEffect(() => {
     Promise.all([
@@ -86,8 +99,8 @@ export default function DarkIslandsSvg({
       .clamp(true);
   }, [tempDomain]);
 
-  const points = useMemo(() => {
-    if (!data || !width || !height || !tempColor) return null;
+  const layout = useMemo(() => {
+    if (!data || !width || !height) return null;
 
     const MARGIN = MAP_MARGIN;
     const innerHeight = height - MARGIN.top - MARGIN.bottom;
@@ -109,30 +122,52 @@ export default function DarkIslandsSvg({
       .domain([0, max(data, (d) => d.eez_area)])
       .range([EEZ_MIN_R, EEZ_MAX_R]);
 
+    // Layout + island dots only — not climate (year changes must not reshuffle dots).
     return data.map((d) => {
+      const r = rScale(d.land_area);
+      const eez_r = eezRScale(d.eez_area);
+      const x = xScale(toMapLon(d.map_longitude));
+      const y = yScale(d.map_latitude);
+      return {
+        ...d,
+        x,
+        y,
+        r,
+        eez_r,
+        islandsCoords: islandsCoords({
+          x,
+          y,
+          r1: r,
+          r2: eez_r,
+          num_islands: d.log_number_of_islands,
+          seed: d.REF_AREA,
+        }),
+      };
+    });
+  }, [data, width, height]);
+
+  const points = useMemo(() => {
+    if (!layout || !tempColor) return null;
+
+    return layout.map((d) => {
       const climate = pdhByArea?.[d.REF_AREA] ?? {
         sla: null,
         ssta: null,
         st_anom: null,
       };
-      const r = rScale(d.land_area);
       return {
         ...d,
         ...climate,
-        x: xScale(toMapLon(d.map_longitude)),
-        y: yScale(d.map_latitude),
-        r,
-        eez_r: eezRScale(d.eez_area),
         fill:
           climate.st_anom != null
             ? tempColor(climate.st_anom)
             : colors.sand,
         sstaColor:
           climate.ssta != null ? tempColor(climate.ssta) : null,
-        slaRadii: slaRingRadii(r, climate.sla),
+        slaRadii: slaRingRadii(d.r, climate.sla),
       };
     });
-  }, [data, width, height, pdhByArea, tempColor]);
+  }, [layout, pdhByArea, tempColor]);
 
   if (!points) return null;
 
@@ -155,30 +190,57 @@ export default function DarkIslandsSvg({
           )}
         </defs>
 
-        {/* Sea-surface temperature halo (behind islands) */}
-        {points.map(
-          (d) =>
-            d.sstaColor && (
-              <circle
-                key={`ssta-${d.REF_AREA}`}
-                cx={d.x}
-                cy={d.y}
-                r={d.eez_r}
-                fill={`url(#ssta-grad-${d.REF_AREA})`}
-                style={{ pointerEvents: "none" }}
-              />
-            ),
-        )}
+        {/* Sea-surface temperature halo + island-count dots (behind land) */}
+        {points.map((d) => {
+          const saturation =
+            selectedId && selectedId === d.REF_AREA
+              ? 1
+              : !selectedId
+                ? 1
+                : 0.35;
+          return (
+            <g key={`ssta-group-${d.REF_AREA}`}>
+              {d.sstaColor && (
+                <circle
+                  cx={d.x}
+                  cy={d.y}
+                  r={d.eez_r}
+                  fill={`url(#ssta-grad-${d.REF_AREA})`}
+                  style={{
+                    pointerEvents: "none",
+                    filter: `saturate(${saturation})`,
+                  }}
+                />
+              )}
+              {d.islandsCoords.map((c) => (
+                <circle
+                  className="eez-islands"
+                  key={`islands-${d.REF_AREA}-${c.x}-${c.y}`}
+                  cx={c.x}
+                  cy={c.y}
+                  r={3}
+                  fill={colors.sand}
+                  stroke="white"
+                  strokeWidth={0.5}
+                  style={{ pointerEvents: "none" }}
+                />
+              ))}
+            </g>
+          );
+        })}
 
         {/* Island fill = surface temperature anomaly */}
         {points.map((d) => (
           <g key={`${d.REF_AREA}-dark-land`}>
             <circle
+              className="islands"
               cx={d.x}
               cy={d.y}
               r={d.r}
               fill={d.fill}
               fillOpacity={0.95}
+              onClick={() => handleIslandClick(d)}
+              style={{ cursor: "pointer" }}
             />
             {d.slaRadii.map((ringR, i) => (
               <circle
@@ -199,6 +261,7 @@ export default function DarkIslandsSvg({
               dominantBaseline="central"
               className="pointer-events-none text-axis"
               fill={colors.sand}
+              style={{ fontFamily: fontType.special }}
             >
               {d.REF_AREA}
             </text>
@@ -209,7 +272,13 @@ export default function DarkIslandsSvg({
   );
 }
 
-export function ResponsiveDarkIslandsSvg({ year, pdhByArea, tempDomain }) {
+export function ResponsiveDarkIslandsSvg({
+  year,
+  pdhByArea,
+  tempDomain,
+  selectedId = null,
+  onSelectCountry,
+}) {
   const wrapperRef = useRef(null);
   const { width, height } = useDimensions(wrapperRef);
 
@@ -221,6 +290,8 @@ export function ResponsiveDarkIslandsSvg({ year, pdhByArea, tempDomain }) {
         year={year}
         pdhByArea={pdhByArea}
         tempDomain={tempDomain}
+        selectedId={selectedId}
+        onSelectCountry={onSelectCountry}
       />
     </div>
   );
