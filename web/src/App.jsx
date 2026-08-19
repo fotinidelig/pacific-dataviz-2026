@@ -3,6 +3,7 @@ import { ResponsiveLightIslandsSvg } from './LightIslandsSvg.jsx'
 import { ResponsiveDarkIslandsSvg } from './DarkIslandsSvg.jsx'
 import ThemeWipe from './ThemeWipe.jsx'
 import InfoCard, { buildLightRows, buildDarkRows } from './InfoCard.jsx'
+import InfoPanel from './InfoPanel.jsx'
 import YearSlider from './YearSlider.jsx'
 import {
   loadPdhClimateYear,
@@ -94,6 +95,8 @@ function App() {
       if (event.target.closest?.('.year-slider')) return
       if (event.target.closest?.('.islands')) return
       if (event.target.closest?.('.theme-wipe__handle')) return
+      if (event.target.closest?.('.info-panel')) return
+      if (event.target.closest?.('.info-panel__toggle')) return
       setSelected(null)
       setSelectedSource(null)
     }
@@ -165,6 +168,7 @@ function App() {
             setSelectedSource(null)
           }} />
         )}
+        <InfoPanel />
       </div>
     </main>
   )

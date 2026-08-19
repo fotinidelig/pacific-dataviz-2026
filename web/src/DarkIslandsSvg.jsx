@@ -5,6 +5,7 @@ import { interpolateRgb } from "d3-interpolate";
 import { extent, max } from "d3-array";
 import { csvParse } from "d3-dsv";
 import { colors } from "./theme";
+import { motion } from "motion/react";
 import { fontType } from "./theme/typography.js";
 import {
   MAP_MARGIN,
@@ -15,6 +16,9 @@ import {
   SLA_RING_GAP,
 } from "./config.js";
 import { islandsCoords } from "./islandsCoords.js";
+import CountryTooltip from "./CountryTooltip.jsx";
+
+const HIGHLIGHT_SPRING = { type: "spring", stiffness: 160, damping: 24, mass: 0.7 };
 
 /** 0.1 anomaly ≈ 1 cm ≈ one ring (−0.2 → 2 inward, +0.2 → 2 outward). */
 function slaRingCount(sla) {
@@ -50,6 +54,7 @@ export default function DarkIslandsSvg({
   onSelectCountry,
 }) {
   const [data, setData] = useState(null);
+  const [hovered, setHovered] = useState(null);
 
   const handleIslandClick = (country) => {
     if (!onSelectCountry) return;
@@ -92,9 +97,12 @@ export default function DarkIslandsSvg({
 
   const tempColor = useMemo(() => {
     if (!tempDomain) return null;
+    const [d0, d1] = tempDomain;
+    // Diverging around 0: cool ← sand → warm (symmetric extent so ± map evenly).
+    const extent = Math.max(Math.abs(d0), Math.abs(d1));
     return scaleLinear()
-      .domain(tempDomain)
-      .range([colors.tealLight, colors.darkRed])
+      .domain([-extent, 0, extent])
+      .range([colors.tealLight, colors.teal, colors.darkRed])
       .interpolate(interpolateRgb)
       .clamp(true);
   }, [tempDomain]);
@@ -192,24 +200,25 @@ export default function DarkIslandsSvg({
 
         {/* Sea-surface temperature halo + island-count dots (behind land) */}
         {points.map((d) => {
-          const saturation =
-            selectedId && selectedId === d.REF_AREA
-              ? 1
-              : !selectedId
-                ? 1
-                : 0.35;
+          const highlight =
+            !selectedId || selectedId === d.REF_AREA ? 1 : 0.35;
           return (
-            <g key={`ssta-group-${d.REF_AREA}`}>
+            <motion.g
+              key={`ssta-group-${d.REF_AREA}`}
+              initial={false}
+              animate={{
+                opacity: highlight,
+                filter: `saturate(${highlight})`,
+              }}
+              transition={HIGHLIGHT_SPRING}
+              style={{ pointerEvents: "none" }}
+            >
               {d.sstaColor && (
                 <circle
                   cx={d.x}
                   cy={d.y}
                   r={d.eez_r}
                   fill={`url(#ssta-grad-${d.REF_AREA})`}
-                  style={{
-                    pointerEvents: "none",
-                    filter: `saturate(${saturation})`,
-                  }}
                 />
               )}
               {d.islandsCoords.map((c) => (
@@ -222,16 +231,26 @@ export default function DarkIslandsSvg({
                   fill={colors.sand}
                   stroke="white"
                   strokeWidth={0.5}
-                  style={{ pointerEvents: "none" }}
                 />
               ))}
-            </g>
+            </motion.g>
           );
         })}
 
         {/* Island fill = surface temperature anomaly */}
-        {points.map((d) => (
-          <g key={`${d.REF_AREA}-dark-land`}>
+        {points.map((d) => {
+          const highlight =
+            !selectedId || selectedId === d.REF_AREA ? 1 : 0.35;
+          return (
+          <motion.g
+            key={`${d.REF_AREA}-dark-land`}
+            initial={false}
+            animate={{
+              opacity: highlight,
+              filter: `saturate(${highlight})`,
+            }}
+            transition={HIGHLIGHT_SPRING}
+          >
             <circle
               className="islands"
               cx={d.x}
@@ -239,6 +258,14 @@ export default function DarkIslandsSvg({
               r={d.r}
               fill={d.fill}
               fillOpacity={0.95}
+              onMouseEnter={() =>
+                setHovered({
+                  country: d.country,
+                  x: d.x,
+                  y: d.y - d.r,
+                })
+              }
+              onMouseLeave={() => setHovered(null)}
               onClick={() => handleIslandClick(d)}
               style={{ cursor: "pointer" }}
             />
@@ -265,9 +292,18 @@ export default function DarkIslandsSvg({
             >
               {d.REF_AREA}
             </text>
-          </g>
-        ))}
+          </motion.g>
+          );
+        })}
       </svg>
+      {hovered && (
+        <CountryTooltip
+          country={hovered.country}
+          x={hovered.x}
+          y={hovered.y}
+          theme="dark"
+        />
+      )}
     </div>
   );
 }

@@ -103,3 +103,6 @@ main {
 .bubbles .atolls {
   filter: drop-shadow(0 0 3px #ffffffda);
 }
+.atolls {
+  filter: drop-shadow(0 0 3px #ffffffda);
+}

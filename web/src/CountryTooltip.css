@@ -1,0 +1,22 @@
+.country-tooltip {
+  position: absolute;
+  z-index: 15;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 10px));
+  padding: 0.4rem 0.75rem;
+  border-radius: 10px;
+  background-color: var(--color-sand);
+  color: var(--color-navy);
+  font-family: var(--font-family-special);
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.2;
+  white-space: nowrap;
+  --tooltip-glow: var(--color-teal-light);
+  box-shadow: 0 0 20px 4px
+    color-mix(in srgb, var(--tooltip-glow) 70%, transparent);
+}
+
+.country-tooltip--dark {
+  --tooltip-glow: var(--color-light-red);
+}

@@ -24,3 +24,6 @@ export const YEAR_MIN = 1995;
 export const YEAR_MAX = 2024;
 
 export const MAX_BOATS = 6;
+export const MAX_ISLANDS = 7;
+
+export const LEGEND_NOTES_SPACE = 9;

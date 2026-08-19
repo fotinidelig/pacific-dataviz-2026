@@ -3,7 +3,7 @@
  * CSS consumes values via applyTypographyTheme() (called from main.jsx).
  * SVG/chart components import fontType, fontSize, and fontWeight directly.
  *
- * main    — Krub: body, body_small, axes, small headings
+ * main    — Krub: body, legend_small, axes, small headings
  * special — Averia Serif Libre: titles and major headings
  *
  * Sizes are rem multipliers of the root font-size (typically 16px → body = 1rem).
@@ -12,14 +12,14 @@
 // using 1.25 ratio
 export const fontSize = {
   axis: 0.64, // ~10.24px
-  body_small: 0.8, // ~12.8px
+  legend_small: 0.55, // ~12.8px
   body: 1, // ~16px
   subheader: 1.953, // ~32px
   header: 3.815, // ~61px
 }
 
 export const fontWeight = {
-  body_small: 400,
+  legend_small: 400,
   body: 400,
   subheader: 600,
   header: 400,
@@ -37,7 +37,7 @@ export const fontFamilyVar = {
 
 const fontSizeVar = {
   axis: '--font-size-axis',
-  body_small: '--font-size-body_small',
+  legend_small: '--font-size-legend_small',
   body: '--font-size-body',
   subheader: '--font-size-subheader',
   header: '--font-size-header',

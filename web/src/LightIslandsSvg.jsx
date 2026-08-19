@@ -5,10 +5,11 @@ import { extent, max } from "d3-array";
 import { interpolateRgb } from "d3-interpolate";
 import { csvParse } from "d3-dsv";
 import { colors } from "./theme";
-import {motion, useAnimation} from "motion/react";
+import { motion } from "motion/react";
 import { fontType } from "./theme/typography.js";
 import { boatCoords } from "./boatCoords.js";
 import { islandsCoords } from "./islandsCoords.js";
+import CountryTooltip from "./CountryTooltip.jsx";
 import boat from "./assets/boat_blue.svg";
 
 import {
@@ -18,7 +19,10 @@ import {
   EEZ_MIN_R,
   EEZ_MAX_R,
   MAX_BOATS,
+  MAX_ISLANDS,
 } from "./config.js";
+
+const HIGHLIGHT_SPRING = { type: "spring", stiffness: 160, damping: 24, mass: 0.7 };
 
 export default function LightIslandsSvg({
   width,
@@ -93,14 +97,19 @@ export default function LightIslandsSvg({
       .domain([0, max(data, (d) => d.eez_area)])
       .range([EEZ_MIN_R, EEZ_MAX_R]);
 
-      const boatExtent = extent(
-          data.filter((d) => d.exports_value != null && d.exports_value > 0),
-          (d) => d.exports_value,
-        );
-      const boatRScale = scaleLog()
-        .domain(boatExtent)
-        .range([1, MAX_BOATS]);
+    const boatExtent = extent(
+        data.filter((d) => d.exports_value != null && d.exports_value > 0),
+        (d) => d.exports_value,
+      );
+    const boatScale = scaleLog()
+      .domain(boatExtent)
+      .range([1, MAX_BOATS]);
 
+    const islandsExtent = extent(data, (d) => d.number_of_islands);
+    const islandsScale = scaleLog()
+      .domain(islandsExtent)
+      .range([0, MAX_ISLANDS]);
+  
     // Log population → sand (low) … blue #2B5F8A (high). Matches np.log exploration.
     const popExtent = extent(
       data.filter((d) => d.population != null && d.population > 0),
@@ -126,7 +135,7 @@ export default function LightIslandsSvg({
         y: yScale(d.map_latitude),
         r1: rScale(d.land_area),
         r2: eezRScale(d.eez_area),
-        num_boats: boatRScale(d.exports_value),
+        num_boats: boatScale(d.exports_value),
         maxBoats: MAX_BOATS,
         refArea: d.REF_AREA,
       }),
@@ -135,7 +144,7 @@ export default function LightIslandsSvg({
         y: yScale(d.map_latitude),
         r1: rScale(d.land_area),
         r2: eezRScale(d.eez_area),
-        num_islands: d.log_number_of_islands,
+        num_islands: islandsScale(d.number_of_islands),
         seed: d.REF_AREA,
       }),
     }));
@@ -155,14 +164,13 @@ export default function LightIslandsSvg({
         </radialGradient>
         </defs>
         {points.map((d) => {
-          const saturation = selectedId && selectedId === d.REF_AREA ? 1 :
-          !selectedId ? 1 : 0.35;
+          const highlight =
+            !selectedId || selectedId === d.REF_AREA ? 1 : 0.35;
           const boatPositions = d.boatCoords.map((b, i) => (
             <image 
               key={`boat-${d.REF_AREA}-${i}`}
               href={boat}
               width={7}
-              // height={16}
               transform={`translate(${b.x}, ${b.y}) rotate(${b.rotation + 90}) translate(-9, -20)`}
               style={{ pointerEvents: "none" }}
             />
@@ -179,21 +187,40 @@ export default function LightIslandsSvg({
             />
           ));
           return (
-            <g key={`${d.REF_AREA}-eez`}>
+            <motion.g
+              key={`${d.REF_AREA}-eez`}
+              initial={false}
+              animate={{
+                opacity: highlight,
+                filter: `saturate(${highlight})`,
+              }}
+              transition={HIGHLIGHT_SPRING}
+              style={{ pointerEvents: "none" }}
+            >
               <circle className="eez"
                 cx={d.x}
                 cy={d.y}
                 r={d.eez_r}
                 fill="url(#eez-sea)"
-                style={{ pointerEvents: "none", filter: `saturate(${saturation})` }}
               />
               {islandCircles}
               {boatPositions}
-            </g>
+            </motion.g>
           );
         })}
-        {points.map((d) => (
-          <g key={`${d.REF_AREA}-land`}>
+        {points.map((d) => {
+          const highlight =
+            !selectedId || selectedId === d.REF_AREA ? 1 : 0.35;
+          return (
+          <motion.g
+            key={`${d.REF_AREA}-land`}
+            initial={false}
+            animate={{
+              opacity: highlight,
+              filter: `saturate(${highlight})`,
+            }}
+            transition={HIGHLIGHT_SPRING}
+          >
             <circle className="islands"
               cx={d.x}
               cy={d.y}
@@ -216,13 +243,14 @@ export default function LightIslandsSvg({
                 className="atolls"
                 cx={d.x - d.r * 0.3 + 4}
                 cy={d.y}
-                r={d.r * 0.7}
+                r={d.r*0.6}
                 fill={colors.tealLight}
                 pointerEvents="none"
               />
             )}
-          </g>
-        ))}
+          </motion.g>
+          );
+        })}
         {points.map((d) => (
           <text
             key={`label-${d.REF_AREA}`}
@@ -238,13 +266,12 @@ export default function LightIslandsSvg({
         ))}
       </svg>
       {hovered && (
-        <div
-          role="tooltip"
-          className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full rounded bg-navy px-3 py-2 text-sm font-medium text-sand shadow-sm"
-          style={{ left: hovered.x, top: hovered.y - 8 }}
-        >
-          {hovered.country}
-        </div>
+        <CountryTooltip
+          country={hovered.country}
+          x={hovered.x}
+          y={hovered.y}
+          theme="light"
+        />
       )}
     </div>
   );
