@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { motion } from "motion/react";
 
 /**
  * Live light/dark wipe (same idea as daisyUI Diff, without the dependency).
@@ -49,7 +50,9 @@ export default function ThemeWipe({ light, dark, onSplitChange }) {
   const pointsRight = "13.5 9.5 18 14 13.5 18.5";
   const showLeftArrow = split >= 0.5;
   // Negative = left, positive = right (overrides CSS default).
-  const arrowNudgeX = showLeftArrow ? "-11px" : "11px";
+  const nudge = showLeftArrow ? -11 : 11;
+  const breath = showLeftArrow ? -16 : 16; // a few px further out
+  
 
   return (
     <div ref={containerRef} className="theme-wipe">
@@ -87,20 +90,25 @@ export default function ThemeWipe({ light, dark, onSplitChange }) {
           }
         }}
       >
-        <svg
+        <motion.svg
           className="theme-wipe__arrow"
           viewBox="0 0 28 28"
           width="28"
           height="28"
           aria-hidden="true"
-          style={{ "--arrow-nudge-x": arrowNudgeX, 
-            "--color":"var(--color-navy)"}}
+          style={{"--color":"var(--color-navy)"}}
+          animate={{ x: [nudge, breath, nudge] }}
+          transition={{
+            duration: 1.6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
         >
           <polyline
             points={showLeftArrow ? pointsLeft : pointsRight}
             fill="none"
           />
-        </svg>
+        </motion.svg>
       </div>
     </div>
   );

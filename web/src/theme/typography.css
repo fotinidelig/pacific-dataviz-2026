@@ -1,6 +1,6 @@
 /**
  * Typography utilities — variables are set from theme/typography.ts via applyTypographyTheme().
- * Titles/headers use Averia Serif Libre; everything else uses Krub.
+ * Titles/headers use the active special font (see typography.js); everything else uses Krub.
  */
 .text-header {
   font-family: var(--font-family-special);

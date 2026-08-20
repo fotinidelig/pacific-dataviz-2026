@@ -17,6 +17,20 @@ main {
   box-shadow: 0 0 20px 0 var(--color-light-red);
 }
 
+.map-title-container {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  width: 50%;
+  height: 50%;
+  text-align: right;
+  pointer-events: none; /* don't block map hover/click underneath */
+}
+
+.map-title-container.dark {
+  color: var(--color-dark-red);
+}
+
 /* --- Light / dark wipe --- */
 .theme-wipe {
   position: relative;
@@ -83,9 +97,6 @@ main {
   z-index: 1;
   overflow: visible;
   flex-shrink: 0;
-  /* Nudge: negative = left, positive = right */
-  --arrow-nudge-x: -11px;
-  transform: translateX(var(--arrow-nudge-x));
   filter: drop-shadow(0 0 5px color-mix(in srgb, var(--color, #fff) 90%, transparent));
 }
 

@@ -4,10 +4,21 @@
  * SVG/chart components import fontType, fontSize, and fontWeight directly.
  *
  * main    — Krub: body, legend_small, axes, small headings
- * special — Averia Serif Libre: titles and major headings
+ * special — display font for titles / major headings (pick one below)
  *
  * Sizes are rem multipliers of the root font-size (typically 16px → body = 1rem).
  */
+
+/** Display font options — all loaded in index.html. Change `activeSpecialFont` to switch. */
+export const specialFonts = {
+  arima: 'Arima, serif',
+  rufina: 'Rufina, serif',
+  bree: '"Bree Serif", serif',
+  averia: '"Averia Serif Libre", serif',
+}
+
+/** @type {keyof typeof specialFonts} */
+export const activeSpecialFont = 'bree'
 
 // using 1.25 ratio
 export const fontSize = {
@@ -21,13 +32,13 @@ export const fontSize = {
 export const fontWeight = {
   legend_small: 400,
   body: 400,
-  subheader: 600,
+  subheader: 400,
   header: 400,
 }
 
 export const fontType = {
   main: 'Krub, sans-serif',
-  special: '"Averia Serif Libre", serif',
+  special: specialFonts[activeSpecialFont],
 }
 
 export const fontFamilyVar = {

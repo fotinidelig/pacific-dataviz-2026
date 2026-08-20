@@ -3,7 +3,7 @@
   bottom: 1.25rem;
   left: 1.25rem;
   z-index: 20;
-  width: min(20rem, calc(100% - 2.5rem));
+  width: min(22rem, calc(100% - 2.5rem));
   padding: 1rem 1.1rem 1.1rem;
   border-radius: 14px;
   background-color: var(--color-sand);

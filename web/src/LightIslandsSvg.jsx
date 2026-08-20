@@ -23,6 +23,8 @@ import {
 } from "./config.js";
 
 const HIGHLIGHT_SPRING = { type: "spring", stiffness: 160, damping: 24, mass: 0.7 };
+const ENTRANCE_STAGGER = 0.05; // seconds between countries
+const ENTRANCE_DURATION = 0.9;
 
 export default function LightIslandsSvg({
   width,
@@ -32,6 +34,7 @@ export default function LightIslandsSvg({
 }) {
   const [hovered, setHovered] = useState(null);
   const [data, setData] = useState(null);
+  const [intro, setIntro] = useState(true);
 
   const handleIslandClick = (country) => {
     if (!onSelectCountry) return;
@@ -105,7 +108,10 @@ export default function LightIslandsSvg({
       .domain(boatExtent)
       .range([1, MAX_BOATS]);
 
-    const islandsExtent = extent(data, (d) => d.number_of_islands);
+    const islandsExtent = extent(
+      data.filter((d) => d.number_of_islands != null && d.number_of_islands > 0),
+      (d) => d.number_of_islands,
+    );
     const islandsScale = scaleLog()
       .domain(islandsExtent)
       .range([0, MAX_ISLANDS]);
@@ -144,16 +150,30 @@ export default function LightIslandsSvg({
         y: yScale(d.map_latitude),
         r1: rScale(d.land_area),
         r2: eezRScale(d.eez_area),
-        num_islands: islandsScale(d.number_of_islands),
+        num_islands:
+          d.number_of_islands != null && d.number_of_islands > 0
+            ? Math.round(islandsScale(d.number_of_islands))
+            : 0,
         seed: d.REF_AREA,
       }),
     }));
   }, [data, width, height]);
 
+  useEffect(() => {
+    if (!points?.length) return;
+    const ms = (points.length * ENTRANCE_STAGGER + ENTRANCE_DURATION) * 1000;
+    const id = setTimeout(() => setIntro(false), ms);
+    return () => clearTimeout(id);
+  }, [points]);
+
   if (!points) return null;
   
   return (
     <div className="relative h-full w-full" >
+      <div className="map-title-container">
+          <h2 className="map-title-header text-header">Pacific Island Countries</h2>
+          <p className="map-title-subheader text-subheader ">Explore our islands...</p>
+      </div>
       <svg width={width} height={height} className="bubbles">
         <defs>
         <radialGradient id="eez-sea">
@@ -162,108 +182,132 @@ export default function LightIslandsSvg({
             <stop offset="75%" stopColor={colors.tealLight} stopOpacity={0.5}/>
             <stop offset="100%" stopColor={colors.tealLight} stopOpacity={0}/>
         </radialGradient>
+        <filter id="eez-wave-glow" x="-40%" y="-50%" width="180%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="1.75" />
+        </filter>
         </defs>
-        {points.map((d) => {
+        {[...points]
+          .sort((a, b) => b.eez_r - a.eez_r)
+          .map((d, i) => {
           const highlight =
             !selectedId || selectedId === d.REF_AREA ? 1 : 0.35;
-          const boatPositions = d.boatCoords.map((b, i) => (
-            <image 
-              key={`boat-${d.REF_AREA}-${i}`}
-              href={boat}
-              width={7}
-              transform={`translate(${b.x}, ${b.y}) rotate(${b.rotation + 90}) translate(-9, -20)`}
-              style={{ pointerEvents: "none" }}
-            />
-          ));
-          const islandCircles = d.islandsCoords.map((c) => (
-            <circle className="eez-islands"
-              key={`islands-${d.REF_AREA}-${c.x}-${c.y}`}
-              cx={c.x}
-              cy={c.y}
-              r={3}
-              fill={colors.sand}
-              stroke='white'
-              strokeWidth={0.5}
-            />
-          ));
           return (
             <motion.g
-              key={`${d.REF_AREA}-eez`}
-              initial={false}
+              key={d.REF_AREA}
+              initial={{ opacity: 0 }}
               animate={{
                 opacity: highlight,
                 filter: `saturate(${highlight})`,
               }}
-              transition={HIGHLIGHT_SPRING}
-              style={{ pointerEvents: "none" }}
-            >
-              <circle className="eez"
+              transition={
+                intro
+                  ? {
+                      duration: ENTRANCE_DURATION,
+                      ease: "easeOut",
+                      delay: i * ENTRANCE_STAGGER,
+                    }
+                  : HIGHLIGHT_SPRING
+              }
+            >              
+            <circle
+                className="eez"
                 cx={d.x}
                 cy={d.y}
                 r={d.eez_r}
                 fill="url(#eez-sea)"
+                style={{ pointerEvents: "none" }}
               />
-              {islandCircles}
-              {boatPositions}
+              {[0, 1, 2].map((wave) => {
+                const countryDelay = i * 0.35;
+                return (
+                <motion.circle
+                  key={`eez-wave-${d.REF_AREA}-${wave}`}
+                  className="eez-wave"
+                  cx={d.x}
+                  cy={d.y}
+                  fill="none"
+                  stroke={colors.tealLight}
+                  filter="url(#eez-wave-glow)"
+                  initial={{ r: d.r, opacity: 0, strokeWidth: 2 }}
+                    animate={{
+                      r: [d.r, d.r, d.eez_r * 0.9],
+                      opacity: [0, 0.5, 0],
+                      strokeWidth: [2, 2, 0.5],
+                    }}
+                    transition={{
+                      duration: 3,
+                      ease: "easeOut",
+                      times: [0, 0.12, 1],
+                      repeat: Infinity,
+                      repeatDelay: 0.3,
+                      delay: countryDelay + wave * 0.8,
+                    }}
+                  style={{ pointerEvents: "none" }}
+                />)
+              })}
+              {d.islandsCoords.map((c) => (
+                <circle
+                  className="eez-islands"
+                  key={`islands-${d.REF_AREA}-${c.x}-${c.y}`}
+                  cx={c.x}
+                  cy={c.y}
+                  r={3}
+                  fill={colors.sand}
+                  stroke="white"
+                  strokeWidth={0.5}
+                  style={{ pointerEvents: "none" }}
+                />
+              ))}
+              {d.boatCoords.map((b, i) => (
+                <image
+                  key={`boat-${d.REF_AREA}-${i}`}
+                  href={boat}
+                  width={7}
+                  transform={`translate(${b.x}, ${b.y}) rotate(${b.rotation + 90}) translate(-9, -20)`}
+                  style={{ pointerEvents: "none" }}
+                />
+              ))}
+              <circle
+                className="islands"
+                cx={d.x}
+                cy={d.y}
+                r={d.r}
+                fill={d.fill}
+                fillOpacity={0.85}
+                onMouseEnter={() =>
+                  setHovered({
+                    country: d.country,
+                    x: d.x,
+                    y: d.y - d.r,
+                  })
+                }
+                onMouseLeave={() => setHovered(null)}
+                onClick={() => handleIslandClick(d)}
+                style={{ cursor: "pointer" }}
+              />
+              {d.atolls > 0 && (
+                <circle
+                  className="atolls"
+                  cx={d.x - d.r * 0.3 + 4}
+                  cy={d.y}
+                  r={d.r * 0.6}
+                  fill={colors.tealLight}
+                  pointerEvents="none"
+                />
+              )}
+              <text
+                x={d.x}
+                y={d.y}
+                textAnchor="middle"
+                dominantBaseline="central"
+                className="pointer-events-none text-axis fill-navy"
+                style={{ fontFamily: fontType.special }}
+              >
+                {d.REF_AREA}
+              </text>
             </motion.g>
           );
         })}
-        {points.map((d) => {
-          const highlight =
-            !selectedId || selectedId === d.REF_AREA ? 1 : 0.35;
-          return (
-          <motion.g
-            key={`${d.REF_AREA}-land`}
-            initial={false}
-            animate={{
-              opacity: highlight,
-              filter: `saturate(${highlight})`,
-            }}
-            transition={HIGHLIGHT_SPRING}
-          >
-            <circle className="islands"
-              cx={d.x}
-              cy={d.y}
-              r={d.r}
-              fill={d.fill}
-              fillOpacity={0.85}
-              onMouseEnter={() =>
-                setHovered({
-                  country: d.country,
-                  x: d.x,
-                  y: d.y - d.r,
-                })
-              }
-              onMouseLeave={() => setHovered(null)}
-              onClick={() => handleIslandClick(d)}
-              style={{ cursor: "pointer" }}
-            />
-            {d.atolls > 0 && (
-              <circle
-                className="atolls"
-                cx={d.x - d.r * 0.3 + 4}
-                cy={d.y}
-                r={d.r*0.6}
-                fill={colors.tealLight}
-                pointerEvents="none"
-              />
-            )}
-          </motion.g>
-          );
-        })}
-        {points.map((d) => (
-          <text
-            key={`label-${d.REF_AREA}`}
-            x={d.x}
-            y={d.y}
-            textAnchor="middle"
-            dominantBaseline="central"
-            className="pointer-events-none text-axis fill-navy"
-            style={{ fontFamily: fontType.special }}
-          >
-            {d.REF_AREA}
-          </text>
-        ))}
       </svg>
       {hovered && (
         <CountryTooltip

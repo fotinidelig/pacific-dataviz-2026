@@ -8,22 +8,22 @@ import { LEGEND_NOTES_SPACE } from "./config";
 const SOURCE_ROWS = [
   {
     source: "Pacific Data Hub",
-    attribute: "Land area",
+    attribute: "Land area (2023)",
     href: "https://stats.pacificdata.org/",
   },
   {
     source: "pacificdata.org",
-    attribute: "EEZ area",
-    href: "https://pacificdata.org/",
+    attribute: "EEZ area (2022)",
+    href: "https://pacificdata.org/data/dataset/pacific-island-region-spatial-data48d9036d-04cb-4cb0-8aa8-b16197985b6a",
   },
   {
     source: "worldometers.info",
-    attribute: "Population",
+    attribute: "Population (2024)",
     href: "https://www.worldometers.info/world-population/population-by-country/",
   },
   {
     source: "OEC",
-    attribute: "Exports",
+    attribute: "Exports (2024)",
     href: "https://oec.world/en",
   },
   {

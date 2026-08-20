@@ -18,7 +18,8 @@
   --color-mustard: var(--color-mustard);
 
   --font-sans: Krub, sans-serif;
-  --font-serif: 'Averia Serif Libre', serif;
+  /* Keep in sync with activeSpecialFont in theme/typography.js */
+  --font-serif: var(--font-family-special, Arima, serif);
 }
 
 *,

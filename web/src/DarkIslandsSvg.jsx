@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { useDimensions } from "./use-dimensions.jsx";
-import { scaleLinear, scaleSqrt } from "d3-scale";
+import { scaleLinear, scaleSqrt, scaleLog } from "d3-scale";
 import { interpolateRgb } from "d3-interpolate";
 import { extent, max } from "d3-array";
 import { csvParse } from "d3-dsv";
@@ -14,11 +14,14 @@ import {
   EEZ_MIN_R,
   EEZ_MAX_R,
   SLA_RING_GAP,
+  MAX_ISLANDS,
 } from "./config.js";
 import { islandsCoords } from "./islandsCoords.js";
 import CountryTooltip from "./CountryTooltip.jsx";
 
 const HIGHLIGHT_SPRING = { type: "spring", stiffness: 160, damping: 24, mass: 0.7 };
+const ENTRANCE_STAGGER = 0.05;
+const ENTRANCE_DURATION = 0.85;
 
 /** 0.1 anomaly ≈ 1 cm ≈ one ring (−0.2 → 2 inward, +0.2 → 2 outward). */
 function slaRingCount(sla) {
@@ -55,6 +58,7 @@ export default function DarkIslandsSvg({
 }) {
   const [data, setData] = useState(null);
   const [hovered, setHovered] = useState(null);
+  const [intro, setIntro] = useState(true);
 
   const handleIslandClick = (country) => {
     if (!onSelectCountry) return;
@@ -130,12 +134,24 @@ export default function DarkIslandsSvg({
       .domain([0, max(data, (d) => d.eez_area)])
       .range([EEZ_MIN_R, EEZ_MAX_R]);
 
+    const islandsExtent = extent(
+      data.filter((d) => d.number_of_islands != null && d.number_of_islands > 0),
+      (d) => d.number_of_islands,
+    );
+    const islandsScale = scaleLog()
+      .domain(islandsExtent)
+      .range([0, MAX_ISLANDS]);
+
     // Layout + island dots only — not climate (year changes must not reshuffle dots).
     return data.map((d) => {
       const r = rScale(d.land_area);
       const eez_r = eezRScale(d.eez_area);
       const x = xScale(toMapLon(d.map_longitude));
       const y = yScale(d.map_latitude);
+      const numIslands =
+        d.number_of_islands != null && d.number_of_islands > 0
+          ? Math.round(islandsScale(d.number_of_islands))
+          : 0;
       return {
         ...d,
         x,
@@ -147,7 +163,7 @@ export default function DarkIslandsSvg({
           y,
           r1: r,
           r2: eez_r,
-          num_islands: d.log_number_of_islands,
+          num_islands: numIslands,
           seed: d.REF_AREA,
         }),
       };
@@ -177,12 +193,26 @@ export default function DarkIslandsSvg({
     });
   }, [layout, pdhByArea, tempColor]);
 
+  useEffect(() => {
+    if (!points?.length) return;
+    const ms = (points.length * ENTRANCE_STAGGER + ENTRANCE_DURATION) * 1000;
+    const id = setTimeout(() => setIntro(false), ms);
+    return () => clearTimeout(id);
+  }, [points]);
+
   if (!points) return null;
 
   return (
     <div className="h-full w-full" style={{ backgroundColor: colors.sand }}>
+      <div className="map-title-container dark">
+          <h2 className="map-title-header text-header">Pacific Island Countries</h2>
+          <p className="map-title-subheader text-subheader ">...but consider our needs.</p>
+      </div>
       <svg width={width} height={height} className="bubbles-dark">
         <defs>
+          <filter id="eez-wave-glow-dark" x="-40%" y="-50%" width="180%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.75" />
+          </filter>
           {points.map(
             (d) =>
               d.sstaColor && (
@@ -198,20 +228,28 @@ export default function DarkIslandsSvg({
           )}
         </defs>
 
-        {/* Sea-surface temperature halo + island-count dots (behind land) */}
-        {points.map((d) => {
+        {[...points]
+          .sort((a, b) => b.eez_r - a.eez_r)
+          .map((d, i) => {
           const highlight =
             !selectedId || selectedId === d.REF_AREA ? 1 : 0.35;
           return (
             <motion.g
-              key={`ssta-group-${d.REF_AREA}`}
-              initial={false}
+              key={d.REF_AREA}
+              initial={{ opacity: 0 }}
               animate={{
                 opacity: highlight,
                 filter: `saturate(${highlight})`,
               }}
-              transition={HIGHLIGHT_SPRING}
-              style={{ pointerEvents: "none" }}
+              transition={
+                intro
+                  ? {
+                      duration: ENTRANCE_DURATION,
+                      ease: "easeOut",
+                      delay: i * ENTRANCE_STAGGER,
+                    }
+                  : HIGHLIGHT_SPRING
+              }
             >
               {d.sstaColor && (
                 <circle
@@ -219,8 +257,38 @@ export default function DarkIslandsSvg({
                   cy={d.y}
                   r={d.eez_r}
                   fill={`url(#ssta-grad-${d.REF_AREA})`}
+                  style={{ pointerEvents: "none" }}
                 />
               )}
+              {[0, 1, 2].map((wave) => {
+                const countryDelay = i * 0.35;
+                return (
+                  <motion.circle
+                    key={`eez-wave-${d.REF_AREA}-${wave}`}
+                    className="eez-wave"
+                    cx={d.x}
+                    cy={d.y}
+                    fill="none"
+                    stroke={d.sstaColor ?? colors.tealLight}
+                    filter="url(#eez-wave-glow-dark)"
+                    initial={{ r: d.r, opacity: 0, strokeWidth: 2 }}
+                    animate={{
+                      r: [d.r, d.r, d.eez_r * 0.9],
+                      opacity: [0, 0.5, 0],
+                      strokeWidth: [2, 2, 0.5],
+                    }}
+                    transition={{
+                      duration: 3,
+                      ease: "easeOut",
+                      times: [0, 0.12, 1],
+                      repeat: Infinity,
+                      repeatDelay: 0.3,
+                      delay: countryDelay + wave * 0.8,
+                    }}
+                    style={{ pointerEvents: "none" }}
+                  />
+                );
+              })}
               {d.islandsCoords.map((c) => (
                 <circle
                   className="eez-islands"
@@ -231,68 +299,51 @@ export default function DarkIslandsSvg({
                   fill={colors.sand}
                   stroke="white"
                   strokeWidth={0.5}
+                  style={{ pointerEvents: "none" }}
                 />
               ))}
-            </motion.g>
-          );
-        })}
-
-        {/* Island fill = surface temperature anomaly */}
-        {points.map((d) => {
-          const highlight =
-            !selectedId || selectedId === d.REF_AREA ? 1 : 0.35;
-          return (
-          <motion.g
-            key={`${d.REF_AREA}-dark-land`}
-            initial={false}
-            animate={{
-              opacity: highlight,
-              filter: `saturate(${highlight})`,
-            }}
-            transition={HIGHLIGHT_SPRING}
-          >
-            <circle
-              className="islands"
-              cx={d.x}
-              cy={d.y}
-              r={d.r}
-              fill={d.fill}
-              fillOpacity={0.95}
-              onMouseEnter={() =>
-                setHovered({
-                  country: d.country,
-                  x: d.x,
-                  y: d.y - d.r,
-                })
-              }
-              onMouseLeave={() => setHovered(null)}
-              onClick={() => handleIslandClick(d)}
-              style={{ cursor: "pointer" }}
-            />
-            {d.slaRadii.map((ringR, i) => (
               <circle
-                key={`sla-${d.REF_AREA}-${i}`}
+                className="islands"
                 cx={d.x}
                 cy={d.y}
-                r={ringR}
-                fill="none"
-                stroke={colors.mustard}
-                strokeWidth={1.75}
-                style={{ pointerEvents: "none" }}
+                r={d.r}
+                fill={d.fill}
+                fillOpacity={0.95}
+                onMouseEnter={() =>
+                  setHovered({
+                    country: d.country,
+                    x: d.x,
+                    y: d.y - d.r,
+                  })
+                }
+                onMouseLeave={() => setHovered(null)}
+                onClick={() => handleIslandClick(d)}
+                style={{ cursor: "pointer" }}
               />
-            ))}
-            <text
-              x={d.x}
-              y={d.y}
-              textAnchor="middle"
-              dominantBaseline="central"
-              className="pointer-events-none text-axis"
-              fill={colors.sand}
-              style={{ fontFamily: fontType.special }}
-            >
-              {d.REF_AREA}
-            </text>
-          </motion.g>
+              {d.slaRadii.map((ringR, i) => (
+                <circle
+                  key={`sla-${d.REF_AREA}-${i}`}
+                  cx={d.x}
+                  cy={d.y}
+                  r={ringR}
+                  fill="none"
+                  stroke={colors.mustard}
+                  strokeWidth={1.75}
+                  style={{ pointerEvents: "none" }}
+                />
+              ))}
+              <text
+                x={d.x}
+                y={d.y}
+                textAnchor="middle"
+                dominantBaseline="central"
+                className="pointer-events-none text-axis"
+                fill={colors.sand}
+                style={{ fontFamily: fontType.special }}
+              >
+                {d.REF_AREA}
+              </text>
+            </motion.g>
           );
         })}
       </svg>

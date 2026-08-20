@@ -6,7 +6,7 @@
  */
 
 /** Map layout margins (same for light & dark so wipe marks stay aligned). */
-export const MAP_MARGIN = { top: 70, right: 70, bottom: 70, left: 70 };
+export const MAP_MARGIN = { top: 100, right: 70, bottom: 70, left: 70 };
 
 /** Land bubble radius range (px) — scaleSqrt of land_area. */
 export const BUBBLE_MIN_R = 15;
