@@ -31,6 +31,14 @@ main {
   color: var(--color-dark-red);
 }
 
+.map-title-header {
+  text-shadow: 0 5px 10px var(--color-teal-light);
+}
+
+.map-title-subheader {
+  margin-top: 10px;
+}
+
 /* --- Light / dark wipe --- */
 .theme-wipe {
   position: relative;

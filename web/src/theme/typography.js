@@ -25,8 +25,8 @@ export const fontSize = {
   axis: 0.64, // ~10.24px
   legend_small: 0.55, // ~12.8px
   body: 1, // ~16px
-  subheader: 1.953, // ~32px
-  header: 3.815, // ~61px
+  subheader: 1.563, // ~25px
+  header: 3.125, // ~50px
 }
 
 export const fontWeight = {

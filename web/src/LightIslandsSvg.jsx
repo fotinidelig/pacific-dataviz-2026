@@ -11,6 +11,7 @@ import { boatCoords } from "./boatCoords.js";
 import { islandsCoords } from "./islandsCoords.js";
 import CountryTooltip from "./CountryTooltip.jsx";
 import boat from "./assets/boat_blue.svg";
+import MapTitle from "./MapTitle.jsx";
 
 import {
   MAP_MARGIN,
@@ -170,10 +171,10 @@ export default function LightIslandsSvg({
   
   return (
     <div className="relative h-full w-full" >
-      <div className="map-title-container">
-          <h2 className="map-title-header text-header">Pacific Island Countries</h2>
-          <p className="map-title-subheader text-subheader ">Explore our islands...</p>
-      </div>
+      <MapTitle
+        title="A Picture of the Pacific Islands"
+        subtitle="The islands as the world counts them..."
+      />
       <svg width={width} height={height} className="bubbles">
         <defs>
         <radialGradient id="eez-sea">

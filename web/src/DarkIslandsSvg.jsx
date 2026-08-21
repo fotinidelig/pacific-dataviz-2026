@@ -18,6 +18,7 @@ import {
 } from "./config.js";
 import { islandsCoords } from "./islandsCoords.js";
 import CountryTooltip from "./CountryTooltip.jsx";
+import MapTitle from "./MapTitle.jsx";
 
 const HIGHLIGHT_SPRING = { type: "spring", stiffness: 160, damping: 24, mass: 0.7 };
 const ENTRANCE_STAGGER = 0.05;
@@ -204,10 +205,11 @@ export default function DarkIslandsSvg({
 
   return (
     <div className="h-full w-full" style={{ backgroundColor: colors.sand }}>
-      <div className="map-title-container dark">
-          <h2 className="map-title-header text-header">Pacific Island Countries</h2>
-          <p className="map-title-subheader text-subheader ">...but consider our needs.</p>
-      </div>
+      <MapTitle
+        dark
+        title="A Picture of the Pacific Islands"
+        subtitle="...the climate as they face it."
+      />
       <svg width={width} height={height} className="bubbles-dark">
         <defs>
           <filter id="eez-wave-glow-dark" x="-40%" y="-50%" width="180%" height="200%">

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "motion/react";
 import "./InfoPanel.css";
 import infoIcon from "./assets/info-icon-svgrepo-com.svg";
 import { colors } from "./theme";
@@ -43,16 +44,34 @@ export default function InfoPanel() {
 
   return (
     <>
-      <button
+      <motion.button
         type="button"
         className="info-panel__toggle"
         aria-label={open ? "Close info" : "Open info"}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
         style={{ zIndex: open ? 0 : 30 }}
+        initial={{ scale: 1 }}
+        animate={{ scale: [1,1.14] }}
+        transition={
+          open
+            ? { type: "spring", stiffness: 260, damping: 22 }
+            : {
+                type: "spring",
+                stiffness: 50,
+                damping: 12,
+                mass: 1,
+                repeat: Infinity,
+                repeatType: "mirror",
+              }
+        }
+        whileHover={{
+          scale: 1.2,
+          transition: { type: "spring", stiffness: 320, damping: 18 },
+        }}
       >
         <img src={infoIcon} alt="Info" />
-      </button>
+      </motion.button>
 
       <aside
         className={`info-panel${open ? " info-panel--open" : ""}`}

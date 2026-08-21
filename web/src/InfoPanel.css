@@ -9,7 +9,6 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
-  transition: transform 200ms ease;
 }
 
 .info-panel__toggle img {
@@ -18,9 +17,9 @@
   height: 90%;
 }
 
-.info-panel__toggle:hover,
 .info-panel__toggle:focus-visible {
-  transform: scale(1.12);
+  outline: 2px solid var(--color-navy);
+  outline-offset: 2px;
 }
 
 .info-panel {
