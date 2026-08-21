@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import "./InfoPanel.css";
 import infoIcon from "./assets/info-icon-svgrepo-com.svg";
@@ -41,6 +41,19 @@ const SOURCE_ROWS = [
 
 export default function InfoPanel() {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const onPointerDown = (event) => {
+      if (event.target.closest?.(".info-panel")) return;
+      if (event.target.closest?.(".info-panel__toggle")) return;
+      setOpen(false);
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [open]);
 
   return (
     <>

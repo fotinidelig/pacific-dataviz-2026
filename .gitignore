@@ -21,3 +21,8 @@ web/dist/
 # Data (if added later — prefer APIs for large sources)
 data/raw/
 data/interim/
+
+# Affinity Designer
+*.aff
+*.afdesign
+*.afpalette

@@ -21,8 +21,8 @@
 
 .story-card__close {
   position: absolute;
-  top: 0.55rem;
-  right: 0.55rem;
+  top: 0.2rem;
+  right: 0.3rem;
   border: none;
   background: transparent;
   color: inherit;
