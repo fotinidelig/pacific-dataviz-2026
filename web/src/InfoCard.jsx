@@ -49,10 +49,10 @@ export function buildDarkRows(country, year) {
       label: "Surface temperature anomaly",
       value: formatValue(country.st_anom, "celsius"),
     },
-    {
-      label: "Red List Index",
-      value: formatValue(country.red_list_index, "anomaly"),
-    },
+    // {
+    //   label: "Red List Index",
+    //   value: formatValue(country.red_list_index, "anomaly"),
+    // },
     {
       label: "Sea level anomaly",
       value: formatValue(country.sla, "cm"),
