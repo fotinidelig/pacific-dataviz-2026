@@ -266,65 +266,107 @@ def _(df, font, load_cmap, plt):
 
 @app.cell
 def _(ax_text, df, drawarrow, font, load_cmap, plt, sns):
-    def swarmplot(start_date = 2005):
-        fig, ax = plt.subplots(figsize=(11,8))
+    def swarmplot(start_date=2005):
+        fig, ax = plt.subplots(figsize=(11, 8))
         colors = load_cmap("te_aa_no_areois").colors
 
         data = df.copy()
         data["TIME_PERIOD"] = data["TIME_PERIOD"].astype(int)
-        data = data.sort_values(by='TIME_PERIOD', ascending=True)
+        data = data.sort_values(by="TIME_PERIOD", ascending=True)
         data = data[data.TIME_PERIOD >= start_date]
+        years = sorted(data.TIME_PERIOD.unique())
+
         sns.stripplot(
-                ax=ax,
-                data=data,
-                x="TIME_PERIOD",
-                y="value",
-                hue="GEO_PICT",
-                orient="v",
-                jitter=0.2,
-                dodge=False,
-                size=5,
-                alpha=1,
-                linewidth=0,
-                legend=False,
-            )
+            ax=ax,
+            data=data,
+            x="TIME_PERIOD",
+            y="value",
+            hue="GEO_PICT",
+            orient="v",
+            jitter=0.2,
+            dodge=False,
+            size=5,
+            alpha=1,
+            linewidth=0,
+            legend=False,
+            order=years,
+        )
+
+        # Median fits discrete SLA steps (−0.2…0.2) better than mean
+        yearly_median = (
+            data.groupby("TIME_PERIOD")["value"].median().reindex(years)
+        )
+        x_pos = list(range(len(years)))
+        ax.plot(
+            x_pos,
+            yearly_median.values,
+            color="#111827",
+            linewidth=2.4,
+            zorder=5,
+            solid_capstyle="round",
+        )
+        ax.scatter(
+            x_pos,
+            yearly_median.values,
+            color="#111827",
+            s=28,
+            zorder=6,
+        )
+        ax_text(
+            s="Regional median",
+            x=x_pos[-1] + 0.35,
+            y=float(yearly_median.values[-1]),
+            color="#111827",
+            ax=ax,
+            size=11,
+            font=font,
+            va="center",
+        )
 
         ax.grid()
-
-        # ax.set_yticks([-0.2, -0.1, 0, 0.1, 0.2])
-        # stripplot converts time-period to categories (1st, 2nd, ...) so we have to set 
-        # integer xticks
-        n_ticks = data.TIME_PERIOD.max() - start_date
-        # ax.set_xticks(list(range(n_ticks))[::2])
 
         ax.set_yticklabels(ax.get_yticklabels(), font=font)
         ax.set_xticklabels(ax.get_xticklabels(), font=font)
         ax.spines[["top", "right"]].set_visible(False)
 
-        ax_text(s='After 2020 all countries experience\nat least <1 cm> of anomaly', 
-                x=(2023-start_date)/2, y=0.17, color='black', ax=ax, size=12, font=font,
-               highlight_textprops=[{'color': 'darkred'}])
+        ax_text(
+            s="After 2020 all countries experience\nat least <1 cm> of anomaly",
+            x=(2023 - start_date) / 2,
+            y=0.17,
+            color="black",
+            ax=ax,
+            size=12,
+            font=font,
+            highlight_textprops=[{"color": "darkred"}],
+        )
 
-        drawarrow.ax_arrow(ax=ax, tail_position=[(2023-start_date)/2+1, .14], 
-                           head_position=[(2023-start_date)/2, .106], color='black', 
-                           fill_head=False)
+        drawarrow.ax_arrow(
+            ax=ax,
+            tail_position=[(2023 - start_date) / 2 + 1, 0.14],
+            head_position=[(2023 - start_date) / 2, 0.106],
+            color="black",
+            fill_head=False,
+        )
 
-        # ax.set_xlim([1993, 2030])
-
-        fig.suptitle(f'Sea Level Anomalies from {start_date} to 2023', font=font, 
-                     size=20)
-        ax.set_xlabel('Year', font=font, size=12)
-        ax.set_ylabel('Sea Level Anomaly', font=font, size=12)
+        fig.suptitle(
+            f"Sea Level Anomalies from {start_date} to 2023",
+            font=font,
+            size=20,
+        )
+        ax.set_xlabel("Year", font=font, size=12)
+        ax.set_ylabel("Sea Level Anomaly", font=font, size=12)
         return fig
 
-    swarmplot(start_date = 2015)
+    swarmplot(start_date=2010)
     return
 
 
-@app.cell
-def _(df):
-    df.to_csv('data/processed/seal_level_anomaly.csv',  index=False)
-    return
+app._unparsable_cell(
+    r"""
+        df.to_csv('data/processed/seal_level_anomaly.csv',  index=False)
+    """,
+    name="_"
+)
 
 
 @app.cell

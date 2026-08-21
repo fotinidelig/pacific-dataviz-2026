@@ -5,7 +5,7 @@ import { interpolateRgb } from "d3-interpolate";
 import { extent, max } from "d3-array";
 import { csvParse } from "d3-dsv";
 import { colors } from "./theme";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { fontType } from "./theme/typography.js";
 import {
   MAP_MARGIN,
@@ -19,10 +19,13 @@ import {
 import { islandsCoords } from "./islandsCoords.js";
 import CountryTooltip from "./CountryTooltip.jsx";
 import MapTitle from "./MapTitle.jsx";
+import StoryCard from "./StoryCard.jsx";
+import storyPointsData from "./assets/story_points.json";
 
 const HIGHLIGHT_SPRING = { type: "spring", stiffness: 160, damping: 24, mass: 0.7 };
 const ENTRANCE_STAGGER = 0.05;
 const ENTRANCE_DURATION = 0.85;
+const STORY_POINTS = storyPointsData.storyPoints;
 
 /** 0.1 anomaly ≈ 1 cm ≈ one ring (−0.2 → 2 inward, +0.2 → 2 outward). */
 function slaRingCount(sla) {
@@ -60,6 +63,19 @@ export default function DarkIslandsSvg({
   const [data, setData] = useState(null);
   const [hovered, setHovered] = useState(null);
   const [intro, setIntro] = useState(true);
+  const [storyOpen, setStoryOpen] = useState(true);
+
+  const activeStory = useMemo(
+    () => STORY_POINTS.find((p) => p.year === year) ?? null,
+    [year],
+  );
+
+  // Re-show the card whenever the slider year changes (× only hides until then)
+  useEffect(() => {
+    setStoryOpen(true);
+  }, [year]);
+
+  const showStory = activeStory != null && storyOpen;
 
   const handleIslandClick = (country) => {
     if (!onSelectCountry) return;
@@ -204,12 +220,23 @@ export default function DarkIslandsSvg({
   if (!points) return null;
 
   return (
-    <div className="h-full w-full" style={{ backgroundColor: colors.sand }}>
+    <div className="relative h-full w-full" style={{ backgroundColor: colors.sand }}>
       <MapTitle
         dark
-        title="A Picture of the Pacific Islands"
+        title="a picture of the pacific islands"
         subtitle="...the climate as they face it."
       />
+      <AnimatePresence mode="wait">
+        {showStory && (
+          <StoryCard
+            key={activeStory.year}
+            dark
+            onClose={() => setStoryOpen(false)}
+          >
+            <p>{activeStory.description}</p>
+          </StoryCard>
+        )}
+      </AnimatePresence>
       <svg width={width} height={height} className="bubbles-dark">
         <defs>
           <filter id="eez-wave-glow-dark" x="-40%" y="-50%" width="180%" height="200%">

@@ -364,8 +364,85 @@ def _(df):
 
 
 @app.cell
-def _(df):
-    df.value.min(), df.value.max()
+def _(df, font, load_cmap, math, max_year, min_year, plt, with_pitcairn):
+    def lineplot_mean_only(start_year=min_year, end_year=max_year, with_pitcairn=True):
+        fig, ax = plt.subplots(figsize=(11, 7))
+        colors = load_cmap("te_aa_no_areois").colors
+
+        data = df.copy()
+        data["TIME_PERIOD"] = data["TIME_PERIOD"].astype(int)
+        data = data[data["TIME_PERIOD"].between(int(start_year), int(end_year))].sort_values(
+            ["GEO_PICT", "TIME_PERIOD"]
+        )
+        if not with_pitcairn:
+            data = data[data.GEO_PICT != "Pitcairn Islands"]
+
+        yearly = (
+            data.groupby("TIME_PERIOD")["value"]
+            .agg(
+                median="median",
+                q1=lambda s: s.quantile(0.25),
+                q3=lambda s: s.quantile(0.75),
+            )
+            .reset_index()
+            .sort_values("TIME_PERIOD")
+        )
+        years = yearly["TIME_PERIOD"]
+        median = yearly["median"]
+
+        countries = sorted(data["COUNTRY"].dropna().unique())
+        color_by_country = {
+            country: colors[i % len(colors)] for i, country in enumerate(countries)
+        }
+
+        # Median trend line
+        ax.plot(
+            years,
+            median,
+            color="#111827",
+            linewidth=2.6,
+            zorder=4,
+            label="Regional median",
+        )
+
+        ax.axhline(y=0, color="darkred", linewidth=2.5, linestyle="--", zorder=0)
+        step = math.ceil((end_year + 1 - start_year) / 5)
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax.set_xlim([start_year, end_year + 1])
+        ax.spines[["top", "right"]].set_visible(False)
+
+        fig.suptitle(
+            f"Sea surface temperature anomalies (°C) from {start_year} to {end_year}",
+            font=font,
+            size=20,
+        )
+
+        # Put median / IQR first in the legend, then countries
+        handles, labels = ax.get_legend_handles_labels()
+        priority = {"Regional median", "IQR (25th–75th)"}
+        ordered = sorted(
+            zip(handles, labels),
+            key=lambda hl: (0 if hl[1] in priority else 1, hl[1]),
+        )
+        handles, labels = zip(*ordered) if ordered else ([], [])
+        fig.legend(
+            handles,
+            labels,
+            loc="center left",
+            bbox_to_anchor=(1.01, 0.5),
+            fontsize="small",
+            frameon=False,
+        )
+        fig.tight_layout()
+        return fig
+    mean=lineplot_mean_only(
+        start_year=1990,
+        end_year=2024,    
+        with_pitcairn=with_pitcairn.value,
+    )
+
+    mean.savefig("mean_sea_surface.svg", bbox_inches='tight')
     return
 
 
@@ -373,6 +450,20 @@ def _(df):
 def _():
     import marimo as mo
     return (mo,)
+
+
+@app.cell
+def _(df):
+    # idxmax() → index of the max row per country; .loc pulls year + value
+    df_till_2024 = df[df['TIME_PERIOD']<2025]
+    max_per_country = (
+        df_till_2024.loc[df_till_2024.groupby("COUNTRY")["value"].idxmax(), ["COUNTRY", "TIME_PERIOD", "value"]]
+        .rename(columns={"TIME_PERIOD": "year", "value": "max_anomaly"})
+        .sort_values("max_anomaly", ascending=False)
+        .reset_index(drop=True)
+    )
+    max_per_country
+    return
 
 
 @app.cell

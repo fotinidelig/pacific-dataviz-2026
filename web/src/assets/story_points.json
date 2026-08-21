@@ -1,0 +1,20 @@
+{
+    "storyPoints": [
+    {
+        "year": 2017,
+        "description": "Since 2017, all islands are experiencing a sea level rise of at least 1cm."
+    },
+    {
+        "year": 1997,
+        "description": "1997 was the last year to see an average surface temperature anomaly of 0°C (over all islands)."
+    },
+    {
+        "year":2024,
+        "description": "The islands were burning in 2024. All but one country (Pitcairn Islands) experienced increased surface temperatures."
+    },
+    {
+        "year":2015,
+        "description": "Kiribati reached a 1.2°C surface temperature increase in 2015. Vanuatu followed in 2022 with 1.2°C as well."
+    }
+    ]
+}

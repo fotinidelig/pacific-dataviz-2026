@@ -5,13 +5,15 @@ import { extent, max } from "d3-array";
 import { interpolateRgb } from "d3-interpolate";
 import { csvParse } from "d3-dsv";
 import { colors } from "./theme";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { fontType } from "./theme/typography.js";
 import { boatCoords } from "./boatCoords.js";
 import { islandsCoords } from "./islandsCoords.js";
 import CountryTooltip from "./CountryTooltip.jsx";
 import boat from "./assets/boat_blue.svg";
 import MapTitle from "./MapTitle.jsx";
+import StoryCard from "./StoryCard.jsx";
+import { formatValue } from "./InfoCard.jsx";
 
 import {
   MAP_MARGIN,
@@ -26,6 +28,8 @@ import {
 const HIGHLIGHT_SPRING = { type: "spring", stiffness: 160, damping: 24, mass: 0.7 };
 const ENTRANCE_STAGGER = 0.05; // seconds between countries
 const ENTRANCE_DURATION = 0.9;
+const SPECIES_HREF =
+  "https://www.fws.gov/office/pacific-islands-fish-and-wildlife/species";
 
 export default function LightIslandsSvg({
   width,
@@ -36,6 +40,8 @@ export default function LightIslandsSvg({
   const [hovered, setHovered] = useState(null);
   const [data, setData] = useState(null);
   const [intro, setIntro] = useState(true);
+  const [storyReady, setStoryReady] = useState(false);
+  const [storyOpen, setStoryOpen] = useState(true);
 
   const handleIslandClick = (country) => {
     if (!onSelectCountry) return;
@@ -115,7 +121,7 @@ export default function LightIslandsSvg({
     );
     const islandsScale = scaleLog()
       .domain(islandsExtent)
-      .range([0, MAX_ISLANDS]);
+      .range([1, MAX_ISLANDS]);
   
     // Log population → sand (low) … blue #2B5F8A (high). Matches np.log exploration.
     const popExtent = extent(
@@ -163,18 +169,46 @@ export default function LightIslandsSvg({
   useEffect(() => {
     if (!points?.length) return;
     const ms = (points.length * ENTRANCE_STAGGER + ENTRANCE_DURATION) * 1000;
-    const id = setTimeout(() => setIntro(false), ms);
+    const id = setTimeout(() => {
+      setIntro(false);
+      setStoryReady(true);
+    }, ms);
     return () => clearTimeout(id);
   }, [points]);
+
+  const totals = useMemo(() => {
+    if (!data?.length) return null;
+    let land = 0;
+    let exportsTotal = 0;
+    for (const d of data) {
+      land += d.land_area ?? 0;
+      exportsTotal += d.exports_value ?? 0;
+    }
+    return { land, exportsTotal };
+  }, [data]);
 
   if (!points) return null;
   
   return (
     <div className="relative h-full w-full" >
       <MapTitle
-        title="A Picture of the Pacific Islands"
-        subtitle="The islands as the world counts them..."
+        title="a picture of the pacific islands"
+        subtitle="the islands as the world counts them..."
       />
+      <AnimatePresence>
+        {storyReady && storyOpen && totals && (
+          <StoryCard key="light-story" onClose={() => setStoryOpen(false)}>
+            <p>
+              With a total area of {formatValue(totals.land, "area")}, hundreds of{" "}
+              <a href={SPECIES_HREF} target="_blank" rel="noreferrer">
+                endemic species
+              </a>
+              , and {formatValue(totals.exportsTotal, "currency")} of exports only
+              in 2024, the pacific islands present a precious part of our world.
+            </p>
+          </StoryCard>
+        )}
+      </AnimatePresence>
       <svg width={width} height={height} className="bubbles">
         <defs>
         <radialGradient id="eez-sea">

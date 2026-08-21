@@ -365,6 +365,85 @@ def _(lineplot, mo, year_range):
 
 
 @app.cell
+def _(df, font, load_cmap, math, max_year, min_year, np, plt):
+    def lineplot_mean_only(start_year=min_year, end_year=max_year):
+        fig, ax = plt.subplots(figsize=(11, 7))
+        colors = load_cmap("te_aa_no_areois").colors
+
+        data = (
+            df.copy()
+            .query("@start_year <= TIME_PERIOD <= @end_year")
+            .sort_values(["COUNTRY", "TIME_PERIOD"])
+        )
+
+        yearly = (
+            data.groupby("TIME_PERIOD")["value"]
+            .agg(
+                mean="mean",
+                q1=lambda s: s.quantile(0.25),
+                q3=lambda s: s.quantile(0.75),
+            )
+            .reset_index()
+            .sort_values("TIME_PERIOD")
+        )
+        years = yearly["TIME_PERIOD"]
+        mean = yearly["mean"]
+
+        countries = sorted(data["COUNTRY"].dropna().unique())
+        color_by_country = {
+            country: colors[i % len(colors)] for i, country in enumerate(countries)
+        }
+
+        ax.plot(
+            years,
+            mean,
+            color="#111827",
+            linewidth=2.6,
+            zorder=4,
+            label="Regional mean",
+        )
+
+        ax.axhline(y=0, color="darkred", linewidth=2.5, linestyle="--", zorder=0)
+        step = max(1, math.ceil((end_year + 1 - start_year) / 5))
+        ticks = start_year + np.arange(0, 5) * step
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax.set_xlim([start_year, end_year + 1])
+        ax.spines[["top", "right"]].set_visible(False)
+
+        fig.suptitle(
+            f"Mean surface temperature anomalies (°C) from {start_year} to {end_year}",
+            font=font,
+            size=20,
+        )
+
+        handles, labels = ax.get_legend_handles_labels()
+        priority = {"Regional mean", "IQR (25th–75th)"}
+        ordered = sorted(
+            zip(handles, labels),
+            key=lambda hl: (0 if hl[1] in priority else 1, hl[1]),
+        )
+        handles, labels = zip(*ordered) if ordered else ([], [])
+        fig.legend(
+            handles,
+            labels,
+            loc="center left",
+            bbox_to_anchor=(1.01, 0.5),
+            fontsize="small",
+            frameon=False,
+        )
+        fig.tight_layout()
+        return fig
+    mean=lineplot_mean_only(
+        start_year=1990,
+        end_year=2024,
+    )
+
+    mean.savefig("mean_surface.svg", bbox_inches='tight')
+    return
+
+
+@app.cell
 def _(ax_text, df, fig_text, font, load_cmap, max_year, min_year, np, plt):
     def lineplot_labeled(x_min=None):
         if x_min is None:
@@ -481,7 +560,7 @@ def _(ax_text, df, fig_text, font, load_cmap, max_year, min_year, np, plt):
         ax.set_ylabel("Temperature anomaly (°C)", font=font, size=12)
         return fig
 
-    lineplot_labeled(2005)
+    lineplot_labeled(1990)
     return
 
 
@@ -623,6 +702,31 @@ def _(mo):
     - How do surface temperature anomalies relate to rainfall patterns
       (`rainfall_anomalies_analysis.py`)?
     """)
+    return
+
+
+@app.cell
+def _(df):
+    # idxmax() → index of the max row per country; .loc pulls year + value
+    df_till_2024 = df[df['TIME_PERIOD']<2025]
+    max_per_country = (
+        df_till_2024.loc[df_till_2024.groupby("COUNTRY")["value"].idxmax(), ["COUNTRY", "TIME_PERIOD", "value"]]
+        .rename(columns={"TIME_PERIOD": "year", "value": "max_anomaly"})
+        .sort_values("max_anomaly", ascending=False)
+        .reset_index(drop=True)
+    )
+    max_per_country
+    return
+
+
+@app.cell
+def _(df):
+    df[df['TIME_PERIOD']==2024]
+    return
+
+
+@app.cell
+def _():
     return
 
 

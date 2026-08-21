@@ -92,6 +92,7 @@ function App() {
 
     const onPointerDown = (event) => {
       if (event.target.closest?.('.info-card')) return
+      if (event.target.closest?.('.story-card')) return
       if (event.target.closest?.('.year-slider')) return
       if (event.target.closest?.('.islands')) return
       if (event.target.closest?.('.theme-wipe__handle')) return

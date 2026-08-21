@@ -1,0 +1,68 @@
+.story-card {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  z-index: 10; /* InfoCard is z-index 20 — covers this when open */
+  width: min(22rem, calc(100% - 2.5rem));
+  padding: 1rem 1.1rem 1.1rem;
+  border-radius: 14px;
+  color: var(--color-navy);
+  background-color: color-mix(in srgb, var(--color-sand) 55%, transparent);
+  box-shadow: 0 0 20px 0
+    color-mix(in srgb, var(--color-teal-light) 55%, transparent);
+  pointer-events: auto;
+}
+
+.story-card--dark {
+  color: var(--color-dark-red);
+  box-shadow: 0 0 20px 0
+    color-mix(in srgb, var(--color-light-red) 55%, transparent);
+}
+
+.story-card__close {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.55;
+  padding: 0.1rem 0.25rem;
+}
+
+.story-card__close:hover {
+  opacity: 1;
+}
+
+.story-card__title {
+  margin: 0 1.5rem 0.55rem 0;
+  color: inherit;
+}
+
+.story-card__body {
+  margin: 0;
+  color: inherit;
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+.story-card__body p {
+  margin: 0;
+}
+
+.story-card__body p + p {
+  margin-top: 0.55rem;
+}
+
+.story-card__body a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.story-card__body a:hover {
+  opacity: 0.75;
+}
