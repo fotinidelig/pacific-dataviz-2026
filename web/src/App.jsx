@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { ResponsiveLightIslandsSvg } from './LightIslandsSvg.jsx'
 import { ResponsiveDarkIslandsSvg } from './DarkIslandsSvg.jsx'
 import ThemeWipe from './ThemeWipe.jsx'
-import InfoCard, { buildLightRows, buildDarkRows } from './InfoCard.jsx'
+import InfoCard, { buildLightRows, buildDarkRows, DARK_CARD_FOOTNOTES } from './InfoCard.jsx'
 import InfoPanel from './InfoPanel.jsx'
 import YearSlider from './YearSlider.jsx'
 import {
@@ -11,7 +11,10 @@ import {
 } from './LoadPDHData.jsx'
 import { YEAR_MIN, YEAR_MAX } from './config.js'
 import { colors } from './theme'
+import storyPointsData from './assets/story_points.json'
 import './App.css'
+
+const STORY_MARKER_YEARS = storyPointsData.storyPoints.map((p) => p.year)
 
 function App() {
   const [selected, setSelected] = useState(null)
@@ -113,6 +116,7 @@ function App() {
         title: selected.country,
         flagCode: selected.REF_AREA,
         rows: buildDarkRows(selected, year),
+        footnotes: DARK_CARD_FOOTNOTES,
         accentColor: colors.darkRed,
         shadowColor: colors.lightRed,
       }
@@ -159,6 +163,7 @@ function App() {
                 onChange={setYear}
                 min={YEAR_MIN}
                 max={YEAR_MAX}
+                markerYears={STORY_MARKER_YEARS}
               />
             </div>
           }
@@ -169,7 +174,7 @@ function App() {
             setSelectedSource(null)
           }} />
         )}
-        <InfoPanel />
+        <InfoPanel dark={darkMode} />
       </div>
     </main>
   )

@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import "./InfoPanel.css";
-import infoIcon from "./assets/info-icon-svgrepo-com.svg";
 import { colors } from "./theme";
 import boat from "./assets/boat_blue.svg";
 import { LEGEND_NOTES_SPACE } from "./config";
@@ -10,7 +9,7 @@ const SOURCE_ROWS = [
   {
     source: "Pacific Data Hub",
     attribute: "Land area (2023)",
-    href: "https://stats.pacificdata.org/",
+    href: "https://stats.pacificdata.org/vis?lc=en&df[ds]=SPC2&df[id]=DF_LAND_USE&df[ag]=SPC&df[vs]=1.0&dq=A..&pd=2016,&to[TIME_PERIOD]=false",
   },
   {
     source: "pacificdata.org",
@@ -29,18 +28,35 @@ const SOURCE_ROWS = [
   },
   {
     source: "Pacific Data Hub",
-    attribute: "Sea / surface temperature & sea level",
-    href: "https://stats.pacificdata.org/",
+    attribute: "Sea level anomaly",
+    href: "https://stats.pacificdata.org/vis?lc=en&df[ds]=SPC2&df[id]=DF_CLIMATE_CHANGE&df[ag]=SPC&df[vs]=1.0&av=true&dq=A.SEA_LVL.&pd=,&to[TIME_PERIOD]=false",
   },
   {
-    source: "Google Maps scraping",
-    attribute: "Country positioning",
+    source: "Pacific Data Hub",
+    attribute: "Sea surface temperature",
+    href: "https://stats.pacificdata.org/vis?lc=en&df[ds]=SPC2&df[id]=DF_CLIMATE_CHANGE&df[ag]=SPC&df[vs]=1.0&av=true&dq=A.SST_ANOM.&pd=,&to[TIME_PERIOD]=false",
+  },
+  {
+    source: "Pacific Data Hub",
+    attribute: "Surface temperature & sea level",
+    href: "https://stats.pacificdata.org/vis?lc=en&df[ds]=SPC2&df[id]=DF_CLIMATE_CHANGE&df[ag]=SPC&df[vs]=1.0&av=true&dq=A.ST_ANOM.&pd=,&to[TIME_PERIOD]=false",
+  },
+  // {
+  //   source: "Google Maps scraping",
+  //   attribute: "Country positioning",
+  //   href: null,
+  // },
+  {
+    source: "Approximate data based on wikipedia",
+    attribute: "Island count data",
     href: null,
   },
 ];
 
-export default function InfoPanel() {
+export default function InfoPanel({ dark = false }) {
   const [open, setOpen] = useState(false);
+  const [canScrollMore, setCanScrollMore] = useState(false);
+  const bodyRef = useRef(null);
 
   useEffect(() => {
     if (!open) return;
@@ -55,11 +71,36 @@ export default function InfoPanel() {
     return () => document.removeEventListener("pointerdown", onPointerDown);
   }, [open]);
 
+  // Show a hint while there is content below the fold
+  useEffect(() => {
+    if (!open) {
+      setCanScrollMore(false);
+      return;
+    }
+
+    const el = bodyRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const remaining = el.scrollHeight - el.scrollTop - el.clientHeight;
+      setCanScrollMore(remaining > 12);
+    };
+
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", update);
+      ro.disconnect();
+    };
+  }, [open]);
+
   return (
     <>
       <motion.button
         type="button"
-        className="info-panel__toggle"
+        className={`info-panel__toggle${dark ? " info-panel__toggle--dark" : ""}`}
         aria-label={open ? "Close info" : "Open info"}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
@@ -83,7 +124,7 @@ export default function InfoPanel() {
           transition: { type: "spring", stiffness: 320, damping: 18 },
         }}
       >
-        <img src={infoIcon} alt="Info" />
+        <span className="info-panel__toggle-icon" aria-hidden="true" />
       </motion.button>
 
       <aside
@@ -101,7 +142,10 @@ export default function InfoPanel() {
           </button>
         </header>
 
-        <div className="info-panel__body">
+        <div
+          className={`info-panel__body${canScrollMore ? " info-panel__body--more" : ""}`}
+          ref={bodyRef}
+        >
           <section className="legend-light info-panel__section" aria-label="Socioeconomic map">
             <h2 className="info-panel__section-title">How to read the visuals</h2>
                 <svg
@@ -317,6 +361,16 @@ export default function InfoPanel() {
               ))}
             </ul>
           </section>
+        </div>
+
+        <div
+          className={`info-panel__scroll-hint${canScrollMore ? " info-panel__scroll-hint--visible" : ""}`}
+          aria-hidden={!canScrollMore}
+        >
+          <span className="info-panel__scroll-hint-label">Scroll for sources</span>
+          <span className="info-panel__scroll-hint-chevron" aria-hidden="true">
+            ⌄
+          </span>
         </div>
 
         <footer className="info-panel__credits">

@@ -92,3 +92,24 @@
   font-variant-numeric: tabular-nums;
   text-align: right;
 }
+
+.info-card__footnotes {
+  margin: 0.85rem 0 0;
+  padding-top: 0.65rem;
+  border-top: 1px solid color-mix(in srgb, var(--info-card-accent) 45%, transparent);
+  display: grid;
+  gap: 0.35rem;
+}
+
+.info-card__footnote {
+  margin: 0;
+  font-size: 0.7rem;
+  font-style: italic;
+  line-height: 1.35;
+  color: color-mix(in srgb, var(--color-navy) 65%, transparent);
+}
+
+.info-card__footnote-mark {
+  font-style: normal;
+  margin-right: 0.2rem;
+}

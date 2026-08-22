@@ -9,12 +9,25 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
+  color: var(--color-navy);
 }
 
-.info-panel__toggle img {
+.info-panel__toggle--dark {
+  color: var(--color-dark-red);
+}
+
+.info-panel__toggle--dark:focus-visible {
+  outline-color: var(--color-dark-red);
+}
+
+.info-panel__toggle-icon {
   display: block;
   width: 90%;
   height: 90%;
+  margin: 5%;
+  background-color: currentColor;
+  -webkit-mask: url("./assets/info-icon-svgrepo-com.svg") center / contain no-repeat;
+  mask: url("./assets/info-icon-svgrepo-com.svg") center / contain no-repeat;
 }
 
 .info-panel__toggle:focus-visible {
@@ -86,6 +99,54 @@
   padding: 0.25rem 1.1rem 1.1rem;
   overflow-y: auto;
   overscroll-behavior: contain;
+}
+
+.info-panel__body--more {
+  /* Soft fade at the bottom so cut-off content is obvious */
+  mask-image: linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 88%,
+    transparent 100%
+  );
+}
+
+.info-panel__scroll-hint {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.35rem 0 0.45rem;
+  font-family: var(--font-family-main);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: color-mix(in srgb, var(--color-navy) 55%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+.info-panel__scroll-hint--visible {
+  opacity: 1;
+}
+
+.info-panel__scroll-hint-chevron {
+  display: block;
+  font-size: 0.95rem;
+  line-height: 1;
+  animation: info-panel-scroll-bounce 1.4s ease-in-out infinite;
+}
+
+@keyframes info-panel-scroll-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
 }
 
 .legend-light__notes, .legend-dark__notes text {
