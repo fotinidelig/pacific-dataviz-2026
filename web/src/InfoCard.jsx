@@ -52,7 +52,7 @@ export const DARK_CARD_FOOTNOTES = [
   },
   {
     mark: "**",
-    text: "Difference between observed sea surface height and the 1993–2012 long-term reference baseline, expressed in metres (shown here in cm).",
+    text: "Difference between observed sea surface height and the 1993–2012 long-term reference baseline.",
   },
 ];
 
