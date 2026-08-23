@@ -67,8 +67,8 @@ main {
   top: 0;
   bottom: 0;
   z-index: 5;
-  /* Wide hit area so the nudged arrow is draggable too */
-  width: 44px;
+  /* Wide enough for arrow + “swipe” while nudged inward */
+  width: 7.5rem;
   transform: translateX(-50%);
   cursor: ew-resize;
   touch-action: none;
@@ -76,6 +76,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: visible;
 }
 
 /* Visible thin bar (centered in the hit area) */
@@ -100,9 +101,25 @@ main {
   outline: none;
 }
 
-.theme-wipe__arrow {
+.theme-wipe__control {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Label sits ahead of the arrow tip */
+.theme-wipe__control--left {
+  flex-direction: row; /* swipe then < */
+}
+
+.theme-wipe__control--right {
+  flex-direction: row-reverse; /* > then swipe (label on the right) */
+}
+
+.theme-wipe__arrow {
   overflow: visible;
   flex-shrink: 0;
   filter: drop-shadow(0 0 5px color-mix(in srgb, var(--color, #fff) 90%, transparent));
@@ -110,9 +127,37 @@ main {
 
 .theme-wipe__arrow polyline {
   stroke: var(--color);
-  stroke-width: 1.75;
+  stroke-width: 2.1;
   stroke-linecap: square;
   stroke-linejoin: miter;
+}
+
+.theme-wipe__swipe-hint {
+  font-family: var(--font-family-main);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: color-mix(in srgb, var(--color-navy) 70%, transparent);
+  text-shadow: 0 0 4px var(--color-sand);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 280ms ease;
+  white-space: nowrap;
+}
+
+.theme-wipe__swipe-hint--visible {
+  opacity: 1;
+  animation: theme-wipe-swipe-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes theme-wipe-swipe-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .bubbles .islands {

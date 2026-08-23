@@ -11,6 +11,7 @@ export default function ThemeWipe({ light, dark, onSplitChange }) {
   const containerRef = useRef(null);
   // 1 = light only (default). Drag left to reveal dark on the right.
   const [split, setSplit] = useState(1);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
   const draggingRef = useRef(false);
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export default function ThemeWipe({ light, dark, onSplitChange }) {
 
   const onPointerDown = (event) => {
     draggingRef.current = true;
+    setShowSwipeHint(false);
     event.currentTarget.setPointerCapture(event.pointerId);
     updateSplit(event.clientX);
   };
@@ -49,10 +51,11 @@ export default function ThemeWipe({ light, dark, onSplitChange }) {
   const pointsLeft = "14.5 9.5 10 14 14.5 18.5";
   const pointsRight = "13.5 9.5 18 14 13.5 18.5";
   const showLeftArrow = split >= 0.5;
-  // Negative = left, positive = right (overrides CSS default).
-  const nudge = showLeftArrow ? -11 : 11;
-  const breath = showLeftArrow ? -16 : 16; // a few px further out
-  
+  // Keep the control inside the frame: park + breathe toward the center
+  // (floating_content uses overflow:hidden, so outward motion gets clipped).
+  const inward = showLeftArrow ? -1 : 1;
+  const rest = inward * 36;
+  const peak = inward * 48;
 
   return (
     <div ref={containerRef} className="theme-wipe">
@@ -80,35 +83,49 @@ export default function ThemeWipe({ light, dark, onSplitChange }) {
         tabIndex={0}
         onKeyDown={(event) => {
           if (event.key === "ArrowLeft") {
+            setShowSwipeHint(false);
             setSplit((s) => Math.max(0, s - 0.05));
           } else if (event.key === "ArrowRight") {
+            setShowSwipeHint(false);
             setSplit((s) => Math.min(1, s + 0.05));
           } else if (event.key === "Home") {
+            setShowSwipeHint(false);
             setSplit(0);
           } else if (event.key === "End") {
+            setShowSwipeHint(false);
             setSplit(1);
           }
         }}
       >
-        <motion.svg
-          className="theme-wipe__arrow"
-          viewBox="0 0 28 28"
-          width="28"
-          height="28"
-          aria-hidden="true"
-          style={{"--color":"var(--color-navy)"}}
-          animate={{ x: [nudge, breath, nudge] }}
+        <motion.div
+          className={`theme-wipe__control${showLeftArrow ? " theme-wipe__control--left" : " theme-wipe__control--right"}`}
+          animate={{ x: [rest, peak, rest] }}
           transition={{
             duration: 1.6,
             repeat: Infinity,
             ease: "easeInOut",
           }}
         >
-          <polyline
-            points={showLeftArrow ? pointsLeft : pointsRight}
-            fill="none"
-          />
-        </motion.svg>
+          <span
+            className={`theme-wipe__swipe-hint${showSwipeHint ? " theme-wipe__swipe-hint--visible" : ""}`}
+            aria-hidden={!showSwipeHint}
+          >
+            swipe
+          </span>
+          <svg
+            className="theme-wipe__arrow"
+            viewBox="0 0 28 28"
+            width="40"
+            height="40"
+            aria-hidden="true"
+            style={{ "--color": "var(--color-navy)" }}
+          >
+            <polyline
+              points={showLeftArrow ? pointsLeft : pointsRight}
+              fill="none"
+            />
+          </svg>
+        </motion.div>
       </div>
     </div>
   );
