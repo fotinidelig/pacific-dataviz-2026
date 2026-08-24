@@ -20,7 +20,7 @@ function App() {
   const [selected, setSelected] = useState(null)
   /** 'light' | 'dark' — which map produced the current selection */
   const [selectedSource, setSelectedSource] = useState(null)
-  const [year, setYear] = useState(2022)
+  const [year, setYear] = useState(2017)
   const [pdhByArea, setPdhByArea] = useState(null)
   const [tempDomain, setTempDomain] = useState(null)
   const [darkMode, setDarkMode] = useState(false)
