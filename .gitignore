@@ -1,0 +1,28 @@
+# Python
+analysis/.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+*.egg-info/
+.eggs/
+
+# Node / Vite (web/ will be initialized with Vite)
+web/node_modules/
+web/dist/
+
+# Environment & secrets
+.env
+.env.*
+
+# OS
+.DS_Store
+
+# Data (if added later — prefer APIs for large sources)
+data/raw/
+data/interim/
+
+# Affinity Designer
+*.aff
+*.afdesign
+*.afpalette
