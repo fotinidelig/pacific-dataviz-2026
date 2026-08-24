@@ -27,3 +27,13 @@ export const MAX_BOATS = 6;
 export const MAX_ISLANDS = 7;
 
 export const LEGEND_NOTES_SPACE = 9;
+
+/**
+ * Resolve a path under `public/` with Vite's `base`
+ * (needed for GitHub Pages: `/pacific-dataviz-2026/...`).
+ * @param {string} path e.g. "data/foo.csv" or "/data/foo.csv"
+ */
+export function publicUrl(path) {
+  const base = import.meta.env.BASE_URL ?? "/";
+  return `${base}${String(path).replace(/^\//, "")}`;
+}

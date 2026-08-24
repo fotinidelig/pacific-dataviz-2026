@@ -23,6 +23,7 @@ import {
   EEZ_MAX_R,
   MAX_BOATS,
   MAX_ISLANDS,
+  publicUrl,
 } from "./config.js";
 
 const HIGHLIGHT_SPRING = { type: "spring", stiffness: 160, damping: 24, mass: 0.7 };
@@ -53,8 +54,8 @@ export default function LightIslandsSvg({
   };
   useEffect(() => {
     Promise.all([
-      fetch("/data/pacific_countries_2024.json").then((res) => res.json()),
-      fetch("/data/country_centroid_wgs84.csv")
+      fetch(publicUrl("data/pacific_countries_2024.json")).then((res) => res.json()),
+      fetch(publicUrl("data/country_centroid_wgs84.csv"))
         .then((res) => res.text())
         .then(csvParse),
     ]).then(([countries, centroids]) => {

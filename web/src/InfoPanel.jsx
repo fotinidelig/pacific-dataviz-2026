@@ -326,7 +326,7 @@ export default function InfoPanel({ dark = false }) {
                         {/* temperature circle */}
                         <circle cx="100" cy="60" r="22" fill="url(#temperature)" stroke={colors.darkRed} strokeWidth="0.1" />
                         {/* <line x1="100" y1="38" x2="100" y2="82" stroke={colors.navy} strokeWidth="0.8" /> */}
-                        <text textAnchor="end" x="110" y={38 - 3} stroke="none">1.1°C</text>
+                        <text textAnchor="end" x="110" y={38 - 3} stroke="none">1.2°C</text>
                         <text textAnchor="end" x="110" y={60} stroke="none">0°C</text>
                         <text textAnchor="end" x="110" y={82 + LEGEND_NOTES_SPACE} stroke="none">-1.1 °C</text>
                         <line x1="70" y1="100" x2="130" y2="100" stroke={colors.navy} strokeWidth="0.8" />

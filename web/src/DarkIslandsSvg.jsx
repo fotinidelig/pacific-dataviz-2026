@@ -15,6 +15,7 @@ import {
   EEZ_MAX_R,
   SLA_RING_GAP,
   MAX_ISLANDS,
+  publicUrl,
 } from "./config.js";
 import { islandsCoords } from "./islandsCoords.js";
 import CountryTooltip from "./CountryTooltip.jsx";
@@ -88,8 +89,8 @@ export default function DarkIslandsSvg({
 
   useEffect(() => {
     Promise.all([
-      fetch("/data/pacific_countries_2024.json").then((res) => res.json()),
-      fetch("/data/country_centroid_wgs84.csv")
+      fetch(publicUrl("data/pacific_countries_2024.json")).then((res) => res.json()),
+      fetch(publicUrl("data/country_centroid_wgs84.csv"))
         .then((res) => res.text())
         .then(csvParse),
     ]).then(([countries, centroids]) => {

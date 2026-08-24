@@ -10,12 +10,13 @@
 
 import { csvParse } from "d3-dsv";
 import { extent } from "d3-array";
+import { publicUrl } from "./config.js";
 
 /** App attribute → public CSV path (symlinked from data/processed/). */
 export const CLIMATE_CSV = {
-  sla: "/data/seal_level_anomaly.csv",
-  ssta: "/data/sea_surface_temperature_anomaly.csv",
-  st_anom: "/data/surface_temperature_anomaly.csv",
+  sla: publicUrl("data/seal_level_anomaly.csv"),
+  ssta: publicUrl("data/sea_surface_temperature_anomaly.csv"),
+  st_anom: publicUrl("data/surface_temperature_anomaly.csv"),
 };
 
 /** Cache full parsed tables so changing year does not re-fetch. */
