@@ -87,6 +87,7 @@
   /* Top-left matches .floating_content (10px); other corners stay softer */
   border-radius: 10px 14px 14px 14px;
   background-color: var(--color-sand);
+  opacity: .95;
   color: var(--color-navy);
   box-shadow: 0 0 20px 0 var(--color-teal-light);
 }
