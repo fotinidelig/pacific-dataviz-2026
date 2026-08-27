@@ -299,16 +299,29 @@ function DarkLegend() {
 }
 
 export default function InfoPanel({ dark = false }) {
-  // null | "legend" | "sources"
+  // null | "legend" | "sources" — what should be open (null = closing / closed)
   const [panel, setPanel] = useState(null);
+  // Keep last content mounted until the slide-out transition finishes
+  const [displayed, setDisplayed] = useState(null);
   // First auto-open uses a slower slide; user toggles keep the normal speed
   const [introOpen, setIntroOpen] = useState(false);
 
   const open = panel != null;
+
+  const closePanel = () => {
+    setIntroOpen(false);
+    setPanel(null);
+  };
+
   const togglePanel = (next) => {
     setIntroOpen(false);
     setPanel((current) => (current === next ? null : next));
   };
+
+  // Sync body content when opening / switching; keep it while closing
+  useEffect(() => {
+    if (panel != null) setDisplayed(panel);
+  }, [panel]);
 
   // After mount (maps/story have time to settle), slide the legend in slowly
   useEffect(() => {
@@ -325,8 +338,7 @@ export default function InfoPanel({ dark = false }) {
     const onPointerDown = (event) => {
       if (event.target.closest?.(".info-panel")) return;
       if (event.target.closest?.(".info-panel__toggles")) return;
-      setIntroOpen(false);
-      setPanel(null);
+      closePanel();
     };
 
     document.addEventListener("pointerdown", onPointerDown);
@@ -334,6 +346,8 @@ export default function InfoPanel({ dark = false }) {
   }, [open]);
 
   const darkToggle = dark ? " info-panel__toggle--dark" : "";
+  // While closing, panel is null but displayed still holds "legend" | "sources"
+  const contentKind = panel ?? displayed;
 
   return (
     <>
@@ -374,30 +388,33 @@ export default function InfoPanel({ dark = false }) {
           open ? "info-panel--open" : "",
           introOpen ? "info-panel--intro" : "",
           dark ? "info-panel--dark" : "",
-          panel === "legend" ? "info-panel--legend" : "",
-          panel === "sources" ? "info-panel--sources" : "",
+          contentKind === "legend" ? "info-panel--legend" : "",
+          contentKind === "sources" ? "info-panel--sources" : "",
         ]
           .filter(Boolean)
           .join(" ")}
         aria-hidden={!open}
+        onTransitionEnd={(event) => {
+          // Only clear content after the slide-out finishes
+          if (event.propertyName !== "transform") return;
+          if (event.target !== event.currentTarget) return;
+          if (!open) setDisplayed(null);
+        }}
       >
         <header className="info-panel__header">
           <button
             type="button"
             className="info-panel__close"
             aria-label="Close"
-            onClick={() => {
-              setIntroOpen(false);
-              setPanel(null);
-            }}
+            onClick={closePanel}
           >
             ×
           </button>
         </header>
 
         <div className="info-panel__body">
-          {panel === "legend" && (dark ? <DarkLegend /> : <LightLegend />)}
-          {panel === "sources" && (
+          {contentKind === "legend" && (dark ? <DarkLegend /> : <LightLegend />)}
+          {contentKind === "sources" && (
             <section className="info-panel__section" aria-label="Data sources">
               <h2 className="info-panel__section-title">Data Sources</h2>
               <ul className="info-panel__sources">
@@ -420,7 +437,7 @@ export default function InfoPanel({ dark = false }) {
           )}
         </div>
 
-        {panel === "sources" && (
+        {contentKind === "sources" && (
           <footer className="info-panel__credits">
             <p>© Fotini Deligiannaki. All rights reserved.</p>
             <p>
