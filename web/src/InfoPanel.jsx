@@ -269,7 +269,7 @@ export default function InfoPanel({ dark = false }) {
                     </g>
                 </svg>
                 <p className="legend-example">
-                  Papua New Guinea has 600 islands, almost $14B
+                 E.g. Papua New Guinea has 600 islands, almost $14B
                   exports, and is much larger than Pitcairn Islands in area as
                   well as population.
                 </p>
@@ -335,7 +335,7 @@ export default function InfoPanel({ dark = false }) {
                     </g>
                 </svg>
                 <p className="legend-example">
-                  Fiji Islands experienced 1.1 °C increased temperature on land
+                  E.g. Fiji Islands experienced 1.1 °C increased temperature on land
                   and sea compared to its baseline in 2022. Its sea level rose
                   2cm too.
                 </p>

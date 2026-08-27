@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
+import { animate, motion, useMotionValue } from "motion/react";
+import { useDimensions } from "./use-dimensions";
+
 
 /**
  * Live light/dark wipe (same idea as daisyUI Diff, without the dependency).
@@ -7,44 +9,30 @@ import { motion } from "motion/react";
  * `split` = 0 → fully dark (handle on the left)
  * Dark is underneath; dragging the handle left reveals dark on the right.
  */
+
+const HANDLE_WIDTH_PX = 90; // must match .theme-wipe__handle width
+const HANDLE_HALF = HANDLE_WIDTH_PX / 2;
+
 export default function ThemeWipe({ light, dark, onSplitChange }) {
   const containerRef = useRef(null);
+  const { width } = useDimensions(containerRef);
+  const startSplitRef = useRef(1);
+  const x = useMotionValue(0);
+
   // 1 = light only (default). Drag left to reveal dark on the right.
   const [split, setSplit] = useState(1);
   const [showSwipeHint, setShowSwipeHint] = useState(true);
-  const draggingRef = useRef(false);
 
   useEffect(() => {
     onSplitChange?.(split);
   }, [split, onSplitChange]);
 
-  const updateSplit = (clientX) => {
-    const el = containerRef.current;
-    if (!el) return;
-    const { left, width } = el.getBoundingClientRect();
+  // Keep x in sync when width first becomes known / on keyboard snaps
+  useEffect(() => {
     if (width <= 0) return;
-    const next = (clientX - left) / width;
-    setSplit(Math.min(1, Math.max(0, next)));
-  };
+    x.set(split * width - HANDLE_HALF);
+  }, [width]);
 
-  const onPointerDown = (event) => {
-    draggingRef.current = true;
-    setShowSwipeHint(false);
-    event.currentTarget.setPointerCapture(event.pointerId);
-    updateSplit(event.clientX);
-  };
-
-  const onPointerMove = (event) => {
-    if (!draggingRef.current) return;
-    updateSplit(event.clientX);
-  };
-
-  const onPointerUp = (event) => {
-    draggingRef.current = false;
-    if (event.currentTarget.hasPointerCapture?.(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    }
-  };
 
   const clipRight = `${(1 - split) * 100}%`;
   // Right side → pull left. Left side → pull right.
@@ -67,13 +55,35 @@ export default function ThemeWipe({ light, dark, onSplitChange }) {
         {light}
       </div>
 
-      <div
+      <motion.div
         className="theme-wipe__handle"
-        style={{ left: `${split * 100}%` }}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onPointerCancel={onPointerUp}
+        drag="x"
+        dragElastic={0}
+        dragMomentum={false}
+        dragConstraints={{ left: -HANDLE_HALF, right: width - HANDLE_HALF }}
+        onDrag={() => {
+          if (width <= 0) return;
+          const nextSplit = Math.min(1, Math.max(0, (x.get() + HANDLE_HALF) / width));
+          setSplit(nextSplit);
+        }}
+        onDragStart={() => {
+          startSplitRef.current = split;
+          setShowSwipeHint(false);
+        }}
+        onDragEnd={() => {
+          if (width <= 0) return;
+          const currentSplit = Math.min(1, Math.max(0, (x.get() + HANDLE_HALF) / width));
+          const start = startSplitRef.current;
+          const traveled = Math.abs(currentSplit - start);
+          const targetSplit = traveled >= 0.15 ? (start === 1 ? 0 : 1) : start;
+          setSplit(targetSplit);
+          animate(x, targetSplit * width - HANDLE_HALF, {
+            type: "spring",
+            stiffness: 300,
+            damping: 40,
+          });
+        }}
+        style={{ x }}
         role="slider"
         aria-label="Reveal dark theme"
         aria-valuemin={0}
@@ -126,7 +136,7 @@ export default function ThemeWipe({ light, dark, onSplitChange }) {
             />
           </svg>
         </motion.div>
-      </div>
+      </motion.div>
     </div>
   );
 }

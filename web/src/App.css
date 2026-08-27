@@ -68,8 +68,8 @@ main {
   bottom: 0;
   z-index: 5;
   /* Wide enough for arrow + “swipe” while nudged inward */
-  width: 7.5rem;
-  transform: translateX(-50%);
+  width: 90px;
+  /* transform: translateX(-50%); // commented out to use motion.div */
   cursor: ew-resize;
   touch-action: none;
   background-color: transparent;
