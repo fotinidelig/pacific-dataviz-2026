@@ -100,7 +100,7 @@ function App() {
       if (event.target.closest?.('.islands')) return
       if (event.target.closest?.('.theme-wipe__handle')) return
       if (event.target.closest?.('.info-panel')) return
-      if (event.target.closest?.('.info-panel__toggle')) return
+      if (event.target.closest?.('.info-panel__toggles')) return
       setSelected(null)
       setSelectedSource(null)
     }
