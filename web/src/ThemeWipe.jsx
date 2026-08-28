@@ -75,7 +75,7 @@ export default function ThemeWipe({ light, dark, onSplitChange }) {
           const currentSplit = Math.min(1, Math.max(0, (x.get() + HANDLE_HALF) / width));
           const start = startSplitRef.current;
           const traveled = Math.abs(currentSplit - start);
-          const targetSplit = traveled >= 0.15 ? (start === 1 ? 0 : 1) : start;
+          const targetSplit = traveled >= 0.1 ? (start === 1 ? 0 : 1) : start;
           setSplit(targetSplit);
           animate(x, targetSplit * width - HANDLE_HALF, {
             type: "spring",

@@ -134,7 +134,7 @@ main {
 
 .theme-wipe__swipe-hint {
   font-family: var(--font-family-main);
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   letter-spacing: 0.04em;
   text-transform: lowercase;
   color: color-mix(in srgb, var(--color-navy) 70%, transparent);

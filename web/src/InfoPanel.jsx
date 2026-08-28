@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
-import { motion } from "motion/react";
+import { useState, useEffect, useRef } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import "./InfoPanel.css";
 import { colors } from "./theme";
 import boat from "./assets/boat_blue.svg";
 import { LEGEND_NOTES_SPACE } from "./config";
+
+/** One Motion spring for open + close (AnimatePresence runs exit). */
+const PANEL_SLIDE = { type: "spring", stiffness: 70, damping: 20 };
 
 const SOURCE_ROWS = [
   {
@@ -299,42 +302,20 @@ function DarkLegend() {
 }
 
 export default function InfoPanel({ dark = false }) {
-  // null | "legend" | "sources" — what should be open (null = closing / closed)
+  // null | "legend" | "sources"
   const [panel, setPanel] = useState(null);
-  // Keep last content mounted until the slide-out transition finishes
-  const [displayed, setDisplayed] = useState(null);
-  // First auto-open uses a slower slide; user toggles keep the normal speed
-  const [introOpen, setIntroOpen] = useState(false);
-
-  const open = panel != null;
+  const [showGuideHint, setShowGuideHint] = useState(true);
 
   const closePanel = () => {
-    setIntroOpen(false);
     setPanel(null);
   };
 
   const togglePanel = (next) => {
-    setIntroOpen(false);
     setPanel((current) => (current === next ? null : next));
   };
 
-  // Sync body content when opening / switching; keep it while closing
   useEffect(() => {
-    if (panel != null) setDisplayed(panel);
-  }, [panel]);
-
-  // After mount (maps/story have time to settle), slide the legend in slowly
-  useEffect(() => {
-    const id = setTimeout(() => {
-      setIntroOpen(true);
-      setPanel("legend");
-    }, 2200);
-    return () => clearTimeout(id);
-  }, []);
-
-  useEffect(() => {
-    if (!open) return;
-
+    if (panel == null) return;
     const onPointerDown = (event) => {
       if (event.target.closest?.(".info-panel")) return;
       if (event.target.closest?.(".info-panel__toggles")) return;
@@ -343,28 +324,41 @@ export default function InfoPanel({ dark = false }) {
 
     document.addEventListener("pointerdown", onPointerDown);
     return () => document.removeEventListener("pointerdown", onPointerDown);
-  }, [open]);
+  }, [panel]);
 
   const darkToggle = dark ? " info-panel__toggle--dark" : "";
-  // While closing, panel is null but displayed still holds "legend" | "sources"
-  const contentKind = panel ?? displayed;
 
   return (
     <>
-      <div className="info-panel__toggles" style={{ zIndex: open ? 0 : 30 }}>
-        <motion.button
-          type="button"
-          className={`info-panel__toggle info-panel__toggle--legend${darkToggle}`}
-          aria-label={panel === "legend" ? "Close legend" : "How to read the visuals"}
-          aria-expanded={panel === "legend"}
-          onClick={() => togglePanel("legend")}
-          whileHover={{
-            scale: 1.08,
-            transition: { type: "spring", stiffness: 320, damping: 18 },
-          }}
-        >
-          guide
-        </motion.button>
+      <div className="info-panel__toggles" style={{ zIndex: panel ? 0 : 30 }}>
+        <div className="info-panel__guide-wrap">
+          <motion.button
+            type="button"
+            className={`info-panel__toggle info-panel__toggle--legend${darkToggle}`}
+            aria-label={panel === "legend" ? "Close legend" : "How to read the visuals"}
+            aria-expanded={panel === "legend"}
+            onClick={() => {
+              setShowGuideHint(false);
+              togglePanel("legend");
+            }}
+            whileHover={{
+              scale: 1.08,
+              transition: { type: "spring", stiffness: 320, damping: 18 },
+            }}
+          >
+            guide
+          </motion.button>
+          <motion.span
+            className={`info-panel__guide-hint${showGuideHint ? " info-panel__guide-hint--visible" : ""}`}
+            aria-hidden={!showGuideHint}
+            animate={showGuideHint ? { x: [0, -4, 0] } : { x: 0 }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+
+          >
+            <span className="info-panel__guide-hint-arrow" aria-hidden="true">←</span>
+            how to read the visual
+          </motion.span>
+        </div>
 
         <motion.button
           type="button"
@@ -382,76 +376,76 @@ export default function InfoPanel({ dark = false }) {
         </motion.button>
       </div>
 
-      <aside
-        className={[
-          "info-panel",
-          open ? "info-panel--open" : "",
-          introOpen ? "info-panel--intro" : "",
-          dark ? "info-panel--dark" : "",
-          contentKind === "legend" ? "info-panel--legend" : "",
-          contentKind === "sources" ? "info-panel--sources" : "",
-        ]
-          .filter(Boolean)
-          .join(" ")}
-        aria-hidden={!open}
-        onTransitionEnd={(event) => {
-          // Only clear content after the slide-out finishes
-          if (event.propertyName !== "transform") return;
-          if (event.target !== event.currentTarget) return;
-          if (!open) setDisplayed(null);
-        }}
-      >
-        <header className="info-panel__header">
-          <button
-            type="button"
-            className="info-panel__close"
-            aria-label="Close"
-            onClick={closePanel}
+      <AnimatePresence>
+        {panel && (
+          <motion.aside
+            key="info-panel"
+            className={[
+              "info-panel",
+              dark ? "info-panel--dark" : "",
+              panel === "legend" ? "info-panel--legend" : "",
+              panel === "sources" ? "info-panel--sources" : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            initial={{ x: "-110%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-110%" }}
+            transition={PANEL_SLIDE}
           >
-            ×
-          </button>
-        </header>
-
-        <div className="info-panel__body">
-          {contentKind === "legend" && (dark ? <DarkLegend /> : <LightLegend />)}
-          {contentKind === "sources" && (
-            <section className="info-panel__section" aria-label="Data sources">
-              <h2 className="info-panel__section-title">Data Sources</h2>
-              <ul className="info-panel__sources">
-                {SOURCE_ROWS.map(({ source, attribute, href }) => (
-                  <li key={attribute} className="info-panel__source-row">
-                    <span className="info-panel__source-attr">{attribute}</span>
-                    <span className="info-panel__source-name">
-                      {href ? (
-                        <a href={href} target="_blank" rel="noopener noreferrer">
-                          {source}
-                        </a>
-                      ) : (
-                        source
-                      )}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-        </div>
-
-        {contentKind === "sources" && (
-          <footer className="info-panel__credits">
-            <p>© Fotini Deligiannaki. All rights reserved.</p>
-            <p>
-              <a
-                href="https://github.com/fotinidelig/pacific-dataviz-2026"
-                target="_blank"
-                rel="noopener noreferrer"
+            <header className="info-panel__header">
+              <button
+                type="button"
+                className="info-panel__close"
+                aria-label="Close"
+                onClick={closePanel}
               >
-                Project repository
-              </a>
-            </p>
-          </footer>
+                ×
+              </button>
+            </header>
+
+            <div className="info-panel__body">
+              {panel === "legend" && (dark ? <DarkLegend /> : <LightLegend />)}
+              {panel === "sources" && (
+                <section className="info-panel__section" aria-label="Data sources">
+                  <h2 className="info-panel__section-title">Data Sources</h2>
+                  <ul className="info-panel__sources">
+                    {SOURCE_ROWS.map(({ source, attribute, href }) => (
+                      <li key={attribute} className="info-panel__source-row">
+                        <span className="info-panel__source-attr">{attribute}</span>
+                        <span className="info-panel__source-name">
+                          {href ? (
+                            <a href={href} target="_blank" rel="noopener noreferrer">
+                              {source}
+                            </a>
+                          ) : (
+                            source
+                          )}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+            </div>
+
+            {panel === "sources" && (
+              <footer className="info-panel__credits">
+                <p>© Fotini Deligiannaki. All rights reserved.</p>
+                <p>
+                  <a
+                    href="https://github.com/fotinidelig/pacific-dataviz-2026"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Project repository
+                  </a>
+                </p>
+              </footer>
+            )}
+          </motion.aside>
         )}
-      </aside>
+      </AnimatePresence>
     </>
   );
 }
