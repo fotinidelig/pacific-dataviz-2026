@@ -16,7 +16,42 @@ import './App.css'
 
 const STORY_MARKER_YEARS = storyPointsData.storyPoints.map((p) => p.year)
 
+/** Phones only — tablet & desktop get the full viz. */
+const MOBILE_QUERY = '(max-width: 767px)'
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia(MOBILE_QUERY).matches : false,
+  )
+
+  useEffect(() => {
+    const mql = window.matchMedia(MOBILE_QUERY)
+    const onChange = () => setIsMobile(mql.matches)
+    onChange()
+    mql.addEventListener('change', onChange)
+    return () => mql.removeEventListener('change', onChange)
+  }, [])
+
+  return isMobile
+}
+
+function MobileDesktopOnlyNotice() {
+  return (
+    <div className="mobile-only-notice">
+      <h1 className="mobile-only-notice__title text-subheader">
+        a picture of the pacific islands
+      </h1>
+      <p className="mobile-only-notice__message text-body">
+        This page is desktop-only.
+        <br />
+        Grab your laptop and come back.
+      </p>
+    </div>
+  )
+}
+
 function App() {
+  const isMobile = useIsMobile()
   const [selected, setSelected] = useState(null)
   /** 'light' | 'dark' — which map produced the current selection */
   const [selectedSource, setSelectedSource] = useState(null)
@@ -39,8 +74,9 @@ function App() {
     setSelectedSource(country ? 'dark' : null)
   }, [])
 
-  // Shared temp color domain — once (all years).
+  // Shared temp color domain — once (all years). Skip on mobile.
   useEffect(() => {
+    if (isMobile) return
     let cancelled = false
     loadTemperatureAnomalyDomain()
       .then((domain) => {
@@ -53,10 +89,11 @@ function App() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [isMobile])
 
-  // Climate values for the selected year.
+  // Climate values for the selected year. Skip on mobile.
   useEffect(() => {
+    if (isMobile) return
     let cancelled = false
     loadPdhClimateYear(year)
       .then((byArea) => {
@@ -69,10 +106,11 @@ function App() {
     return () => {
       cancelled = true
     }
-  }, [year])
+  }, [year, isMobile])
 
   // Keep dark card climate fields in sync when the year changes.
   useEffect(() => {
+    if (isMobile) return
     if (selectedSource !== 'dark' || !selected?.REF_AREA || !pdhByArea) return
     const climate = pdhByArea[selected.REF_AREA]
     if (!climate) return
@@ -87,7 +125,7 @@ function App() {
       }
       return { ...prev, ...climate }
     })
-  }, [year, pdhByArea, selectedSource, selected?.REF_AREA])
+  }, [year, pdhByArea, selectedSource, selected?.REF_AREA, isMobile])
 
   // Close the card when clicking outside it (island clicks still handled separately).
   useEffect(() => {
@@ -134,47 +172,58 @@ function App() {
     <main className="relative h-screen w-screen">
       <div
         className={
-          darkMode ? 'floating_content floating_content--dark' : 'floating_content'
+          !isMobile && darkMode
+            ? 'floating_content floating_content--dark'
+            : 'floating_content'
         }
       >
-        <ThemeWipe
-          onSplitChange={onSplitChange}
-          light={
-            <ResponsiveLightIslandsSvg
-              selectedId={
-                selectedSource === 'light' ? selected?.REF_AREA ?? null : null
+        {isMobile ? (
+          <MobileDesktopOnlyNotice />
+        ) : (
+          <>
+            <ThemeWipe
+              onSplitChange={onSplitChange}
+              light={
+                <ResponsiveLightIslandsSvg
+                  selectedId={
+                    selectedSource === 'light' ? selected?.REF_AREA ?? null : null
+                  }
+                  onSelectCountry={selectFromLight}
+                />
               }
-              onSelectCountry={selectFromLight}
+              dark={
+                <div className="relative h-full w-full">
+                  <ResponsiveDarkIslandsSvg
+                    year={year}
+                    pdhByArea={pdhByArea}
+                    tempDomain={tempDomain}
+                    selectedId={
+                      selectedSource === 'dark' ? selected?.REF_AREA ?? null : null
+                    }
+                    onSelectCountry={selectFromDark}
+                  />
+                  <YearSlider
+                    year={year}
+                    onChange={setYear}
+                    min={YEAR_MIN}
+                    max={YEAR_MAX}
+                    markerYears={STORY_MARKER_YEARS}
+                  />
+                </div>
+              }
             />
-          }
-          dark={
-            <div className="relative h-full w-full">
-              <ResponsiveDarkIslandsSvg
-                year={year}
-                pdhByArea={pdhByArea}
-                tempDomain={tempDomain}
-                selectedId={
-                  selectedSource === 'dark' ? selected?.REF_AREA ?? null : null
-                }
-                onSelectCountry={selectFromDark}
+            {cardProps && (
+              <InfoCard
+                {...cardProps}
+                onClose={() => {
+                  setSelected(null)
+                  setSelectedSource(null)
+                }}
               />
-              <YearSlider
-                year={year}
-                onChange={setYear}
-                min={YEAR_MIN}
-                max={YEAR_MAX}
-                markerYears={STORY_MARKER_YEARS}
-              />
-            </div>
-          }
-        />
-        {cardProps && (
-          <InfoCard {...cardProps} onClose={() => {
-            setSelected(null)
-            setSelectedSource(null)
-          }} />
+            )}
+            <InfoPanel dark={darkMode} />
+          </>
         )}
-        <InfoPanel dark={darkMode} />
       </div>
     </main>
   )

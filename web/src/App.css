@@ -17,6 +17,36 @@ main {
   box-shadow: 0 0 20px 0 var(--color-light-red);
 }
 
+/* Phone gate — tablet (768px+) and desktop keep the full viz */
+.mobile-only-notice {
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: var(--color-navy);
+}
+
+.mobile-only-notice__title {
+  margin: 0;
+  max-width: 18ch;
+  text-shadow: 0 5px 10px var(--color-teal-light);
+}
+
+.mobile-only-notice__message {
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--font-family-main);
+  font-weight: 400;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--color-navy) 85%, transparent);
+}
+
 .map-title-container {
   position: absolute;
   top: 10px;
