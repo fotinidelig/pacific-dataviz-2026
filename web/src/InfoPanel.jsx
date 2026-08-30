@@ -211,7 +211,7 @@ function DarkLegend() {
       <h2 className="info-panel__section-title">How to read the visuals</h2>
       <svg
         className="legend-dark__figure"
-        viewBox="-15 -19 300 150"
+        viewBox="-15 -10 300 140"
         width="100%"
         role="img"
         aria-label="Climate encodings: temperature and sea level"
@@ -237,6 +237,7 @@ function DarkLegend() {
           <circle cx="127" cy="80" r="2" fill={colors.sand} stroke="none" />
           <circle cx="113" cy="90" r="2" fill={colors.sand} stroke="none" />
           <line x1="90" y1="60" x2="52" y2="32" stroke={colors.navy} strokeWidth="0.8" />
+          <circle cx="75" cy="40" r="2" fill={colors.lightRed} stroke="none" />
           <line x1="75" y1="40" x2="52" y2="32" stroke={colors.navy} strokeWidth="0.8" />
           <line x1="52" y1="32" x2="-11" y2="32" stroke={colors.navy} strokeWidth="0.8" />
           <text className="bolds" textAnchor="start" x="-11" y={32 + LEGEND_NOTES_SPACE} stroke="none">
